@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { login, register, logout, getMe, refreshToken } from './authController';
-import { authenticate } from './authMiddleware';
+import { login, register, logout, getMe, refreshToken, getUsers, updateUser, deleteUser } from './authController';
+import { authenticate, authorize } from '../auth/authMiddleware';
 
 const router = Router();
 
@@ -20,5 +20,10 @@ router.get('/me', authenticate, getMe);
 
 // POST /api/auth/refresh : ต่ออายุ Token เมื่อหมดเวลา
 router.post('/refresh', refreshToken);
+
+// User Management (Admin Only)
+router.get('/users', authenticate, authorize(['Admin']), getUsers);
+router.put('/users/:id', authenticate, authorize(['Admin']), updateUser);
+router.delete('/users/:id', authenticate, authorize(['Admin']), deleteUser);
 
 export default router;

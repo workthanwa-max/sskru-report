@@ -1,22 +1,29 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import authRouter from './modules/auth/authRouter';
+import infrastructureRouter from './modules/infrastructure/infrastructureRouter';
+import dispatchRouter from './modules/dispatch/dispatchRouter';
+import technicianRouter from './modules/technician/technicianRouter';
+import reportsRouter from './modules/reports/reportsRouter';
+import ticketingRouter from './modules/ticketing/ticketingRouter';
+import auditlogRouter from './modules/auditlog/auditRouter';
 
 const app = express();
 
-const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-
 // Middleware
-app.use(cors({ 
-  origin: frontendUrl,
-  credentials: true 
-}));
+app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
 
-// Auth routes
+// Main API Routes
 app.use('/api/auth', authRouter);
+app.use('/api/infrastructure', infrastructureRouter);
+app.use('/api/dispatch', dispatchRouter);
+app.use('/api/technician', technicianRouter);
+app.use('/api/reports', reportsRouter);
+app.use('/api/tickets', ticketingRouter);
+app.use('/api/audit', auditlogRouter);
 
-// Routes
+// Health check
 app.get('/', (req: Request, res: Response) => {
   res.json({
     message: 'Welcome to SSKRU Backend API',

@@ -32,3 +32,35 @@ export function findUserById(id: number): Promise<any> {
     });
   });
 }
+
+export function findAllUsers(): Promise<any[]> {
+  return new Promise((resolve, reject) => {
+    db.all('SELECT id, username, full_name, role, department FROM Users', [], (err, rows) => {
+      if (err) return reject(err);
+      resolve(rows);
+    });
+  });
+}
+
+export function updateUserById(id: number, data: any): Promise<any> {
+  return new Promise((resolve, reject) => {
+    const { full_name, role, department } = data;
+    db.run(
+      'UPDATE Users SET full_name = ?, role = ?, department = ? WHERE id = ?',
+      [full_name, role, department, id],
+      function (err) {
+        if (err) return reject(err);
+        resolve({ changes: this.changes });
+      }
+    );
+  });
+}
+
+export function deleteUserById(id: number): Promise<any> {
+  return new Promise((resolve, reject) => {
+    db.run('DELETE FROM Users WHERE id = ?', [id], function (err) {
+      if (err) return reject(err);
+      resolve({ changes: this.changes });
+    });
+  });
+}

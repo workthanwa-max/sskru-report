@@ -75,6 +75,17 @@ db.serialize(() => {
     FOREIGN KEY (ticket_id) REFERENCES Tickets(id),
     FOREIGN KEY (action_by) REFERENCES Users(id)
   )`);
+
+  db.run(`CREATE TABLE IF NOT EXISTS AuditLogs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    action TEXT NOT NULL,
+    module TEXT,
+    details TEXT,
+    ip_address TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+  )`);
 });
 
 export default db;

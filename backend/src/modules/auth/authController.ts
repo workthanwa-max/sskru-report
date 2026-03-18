@@ -1,14 +1,13 @@
 import { Request, Response } from 'express';
-import { findUserByUsername, findUserById } from './authRepository';
-import { comparePassword, generateToken, generateRefreshToken } from './authService';
+import { findUserByUsername, findUserById, findAllUsers, updateUserById, deleteUserById, saveUser } from './authRepository';
+import { comparePassword, generateToken, generateRefreshToken, hashPassword } from './authService';
 import jwt from 'jsonwebtoken';
+import { logAction } from '../auditlog/auditController';
 
 export async function login(req: Request, res: Response): Promise<void> {
-  // ... existing code ...
   try {
     const { username, password } = req.body;
     
-    // EXPRESS-INPUT-001: Treat all user input as untrusted and validate it
     if (!username || !password || typeof username !== 'string' || typeof password !== 'string') {
       res.status(400).json({ error: 'Invalid input' });
       return;
@@ -16,7 +15,6 @@ export async function login(req: Request, res: Response): Promise<void> {
 
     const user = await findUserByUsername(username);
     if (!user) {
-       // Using generic message for invalid credentials to avoid username enumeration
        res.status(401).json({ error: 'Invalid credentials' });
        return;
     }
@@ -47,6 +45,8 @@ export async function login(req: Request, res: Response): Promise<void> {
         department: user.department
       }
     });
+
+    logAction(req, 'LOGIN_SUCCESS', 'AUTH', { username: user.username, role: user.role });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -68,10 +68,8 @@ export async function register(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    const { hashPassword } = await import('./authService');
     const hashedPassword = await hashPassword(password);
     
-    const { saveUser } = await import('./authRepository');
     const newUser = await saveUser({
       username,
       password: hashedPassword,
@@ -81,6 +79,7 @@ export async function register(req: Request, res: Response): Promise<void> {
     });
 
     res.status(201).json({ message: 'User registered successfully', userId: newUser.id });
+    logAction(req, 'USER_REGISTERED', 'AUTH', { username, role: role || 'Student' });
   } catch (error) {
     console.error('Register error:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -88,8 +87,8 @@ export async function register(req: Request, res: Response): Promise<void> {
 }
 
 export function logout(req: Request, res: Response): void {
-  // In a stateless JWT approach, the client handles logout by destroying the token
   res.json({ message: 'Logged out successfully' });
+  logAction(req, 'LOGOUT', 'AUTH');
 }
 
 export async function getMe(req: Request, res: Response): Promise<void> {
@@ -141,5 +140,37 @@ export function refreshToken(req: Request, res: Response): void {
      res.json({ access_token });
   } catch (error) {
      res.status(401).json({ error: 'Invalid refresh token' });
+  }
+}
+
+export async function getUsers(req: Request, res: Response): Promise<void> {
+  try {
+    const users = await findAllUsers();
+    res.json({ data: users });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+export async function updateUser(req: Request, res: Response): Promise<void> {
+  try {
+    const { id } = req.params;
+    const { full_name, role, department } = req.body;
+    await updateUserById(Number(id), { full_name, role, department });
+    res.json({ message: 'User updated successfully' });
+    logAction(req, 'USER_UPDATED', 'AUTH', { target_id: id, role, department });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+export async function deleteUser(req: Request, res: Response): Promise<void> {
+  try {
+    const { id } = req.params;
+    await deleteUserById(Number(id));
+    res.json({ message: 'User deleted successfully' });
+    logAction(req, 'USER_DELETED', 'AUTH', { target_id: id });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
   }
 }
