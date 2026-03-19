@@ -1,0 +1,60 @@
+import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
+import { motion, AnimatePresence } from 'framer-motion';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
+
+export const AuthLayout = () => {
+  const { t } = useTranslation();
+  const { isAuthenticated, user } = useAuth();
+
+  // Redirect to dashboard if already logged in
+  if (isAuthenticated && user) {
+    return <Navigate to={`/dashboard/${user.role.toLowerCase()}`} replace />;
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden font-sans">
+      {/* Absolute positioned Language Switcher - Top Right */}
+      <div className="absolute top-6 right-6 z-50">
+        <LanguageSwitcher className="shadow-lg backdrop-blur-md bg-background/50 border-input" />
+      </div>
+      {/* Decorative background elements - SSKRU White & Gold aesthetic */}
+      <div 
+         className="absolute -top-24 -left-20 w-[30rem] h-[30rem] rounded-full mix-blend-soft-light filter blur-[80px] opacity-20 dark:opacity-30 animate-pulse"
+         style={{ backgroundColor: 'oklch(0.70 0.12 85)' }}
+      ></div>
+      <div 
+         className="absolute top-1/4 -right-20 w-[25rem] h-[25rem] rounded-full mix-blend-soft-light filter blur-[100px] opacity-15 dark:opacity-20 animate-pulse animation-delay-2000"
+         style={{ backgroundColor: 'oklch(0.85 0.10 90)' }}
+      ></div>
+      <div 
+         className="absolute -bottom-24 right-1/4 w-[28rem] h-[28rem] rounded-full mix-blend-soft-light filter blur-[90px] opacity-10 dark:opacity-15 animate-pulse animation-delay-4000"
+         style={{ backgroundColor: 'oklch(0.60 0.08 85)' }}
+      ></div>
+
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-md z-10 glass-card p-10 border border-border dark:border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] dark:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] bg-card/80 dark:bg-black/40"
+      >
+        <div className="mb-8 text-center flex flex-col items-center">
+          {/* Logo Placeholder */}
+          <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 border border-primary/20 shadow-inner overflow-hidden p-2">
+             <img src="/sskru-logo.png" alt="SSKRU Logo" className="w-full h-full object-contain drop-shadow-md" onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.innerHTML = '<span class="text-primary font-bold text-3xl tracking-tighter">SS</span>'; }} />
+          </div>
+          <h1 className="text-4xl font-headline font-black tracking-tight text-foreground mb-2 uppercase italic bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
+             {t('auth.portal_title')}
+          </h1>
+          <div className="h-0.5 w-12 bg-primary mb-4 rounded-full shadow-[0_0_15px_rgba(var(--primary),0.5)]" />
+          <p className="text-sm font-medium text-muted-foreground max-w-[240px] leading-relaxed italic">{t('auth.portal_desc')}</p>
+        </div>
+
+        <AnimatePresence mode="wait">
+          <Outlet />
+        </AnimatePresence>
+      </motion.div>
+    </div>
+  );
+};

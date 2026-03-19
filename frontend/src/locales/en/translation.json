@@ -1,0 +1,88 @@
+{
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "username": "Username",
+    "password": "Password",
+    "full_name": "Full Name",
+    "department": "Department",
+    "login_button": "Log In",
+    "register_button": "Create Account",
+    "no_account": "Don't have an account?",
+    "has_account": "Already have an account?",
+    "logging_in": "Logging in...",
+    "registering": "Registering...",
+    "portal_title": "SSKRU Portal",
+    "portal_desc": "Sign in to manage your activities",
+    "login_failed": "Failed to login",
+    "register_failed": "Failed to register account"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "loading": "Loading...",
+    "status": "Status",
+    "actions": "Actions",
+    "language": "Language",
+    "no_department": "No Department"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "infrastructure": "Infrastructure",
+    "dispatch": "Dispatch",
+    "technician": "Job List",
+    "reports": "Reports",
+    "audit": "Audit Logs",
+    "logout": "Sign Out",
+    "portal": "Portal",
+    "profile": "Profile",
+    "facilities": "Facilities",
+    "members": "Technicians"
+  },
+  "admin": {
+    "users": "Users",
+    "audit_logs": "Audit Logs",
+    "total_users": "Total Users",
+    "system_health": "System Health",
+    "operational": "OPERATIONAL"
+  },
+  "tickets": {
+    "no_desc": "No Description",
+    "location": "Location",
+    "category": "Category",
+    "unassigned": "Unassigned",
+    "maintenance_summary": "Maintenance Summary",
+    "technician_notes": "Technician's Notes",
+    "completion_photo": "Completion Photo",
+    "completed_at": "Completed at",
+    "view_details": "View Details",
+    "history": "History"
+  },
+  "infrastructure": {
+    "floor": "Floor",
+    "room": "Room"
+  },
+  "technician": {
+    "portal_title": "Technician Portal",
+    "portal_desc": "View your assigned maintenance tasks and submit reports.",
+    "active_jobs": "Active Jobs",
+    "history": "History",
+    "no_active": "You have no active assignments right now.",
+    "no_history": "No completed jobs to show yet.",
+    "submit_report": "Submit Completion Report",
+    "submit_desc": "Mark task \"{{description}}\" as complete for Review.",
+    "notes_label": "Completion Notes *",
+    "notes_placeholder": "Describe what was fixed or replaced...",
+    "image_label": "Image URL (Optional)",
+    "start_work": "Start Work",
+    "complete_job": "Complete Job",
+    "submit_to_admin": "Submit to Admin",
+    "available": "Available",
+    "busy": "Busy (Has Active Task)",
+    "rejected": "Rejected",
+    "reason_label": "Rejection Reason"
+  }
+}

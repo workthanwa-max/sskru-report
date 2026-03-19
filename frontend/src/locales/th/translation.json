@@ -1,0 +1,88 @@
+{
+  "auth": {
+    "login": "เข้าสู่ระบบ",
+    "register": "ลงทะเบียน",
+    "username": "ชื่อผู้ใช้งาน",
+    "password": "รหัสผ่าน",
+    "full_name": "ชื่อ-นามสกุล",
+    "department": "แผนก/หน่วยงาน",
+    "login_button": "เข้าสู่ระบบ",
+    "register_button": "สร้างบัญชีใหม่",
+    "no_account": "ยังไม่มีบัญชีผู้ใช้?",
+    "has_account": "มีบัญชีอยู่แล้ว?",
+    "logging_in": "กำลังเข้าสู่ระบบ...",
+    "registering": "กำลังลงทะเบียน...",
+    "portal_title": "ระบบบริการ SSKRU",
+    "portal_desc": "เข้าสู่ระบบเพื่อจัดการกิจกรรมของคุณ",
+    "login_failed": "เข้าสู่ระบบล้มเหลว",
+    "register_failed": "ลงทะเบียนล้มเหลว"
+  },
+  "common": {
+    "save": "บันทึก",
+    "cancel": "ยกเลิก",
+    "delete": "ลบ",
+    "edit": "แก้ไข",
+    "search": "ค้นหา",
+    "loading": "กำลังโหลด...",
+    "status": "สถานะ",
+    "actions": "การจัดการ",
+    "language": "เลือกภาษา",
+    "no_department": "ไม่ได้สังกัดหน่วยงาน"
+  },
+  "nav": {
+    "dashboard": "แดชบอร์ด",
+    "infrastructure": "จัดการโครงสร้าง",
+    "dispatch": "จ่ายงานซ่อม",
+    "technician": "รายการงานซ่อม",
+    "reports": "รายงานสรุป",
+    "audit": "ประวัติการใช้งาน",
+    "logout": "ออกจากระบบ",
+    "portal": "พอร์ทัล",
+    "profile": "ข้อมูลส่วนตัว",
+    "facilities": "ค้นหาสถานที่",
+    "members": "จัดการช่าง"
+  },
+  "admin": {
+    "users": "จัดการผู้ใช้งาน",
+    "audit_logs": "บันทึกกิจกรรม",
+    "total_users": "ผู้ใช้งานทั้งหมด",
+    "system_health": "สถานะระบบ",
+    "operational": "ปกติ"
+  },
+  "tickets": {
+    "no_desc": "ไม่มีรายละเอียด",
+    "location": "สถานที่",
+    "category": "ประเภท",
+    "unassigned": "ยังไม่ได้มอบหมาย",
+    "maintenance_summary": "สรุปผลการซ่อมบำรุง",
+    "technician_notes": "บันทึกจากช่าง",
+    "completion_photo": "รูปภาพหลังการซ่อม",
+    "completed_at": "เสร็จสิ้นเมื่อ",
+    "view_details": "ดูรายละเอียด",
+    "history": "ประวัติการซ่อม"
+  },
+  "infrastructure": {
+    "floor": "ชั้น",
+    "room": "ห้อง"
+  },
+  "technician": {
+    "portal_title": "พอร์ทัลช่างเทคนิค",
+    "portal_desc": "ดูงานซ่อมที่ได้รับมอบหมายและส่งรายงานการทำงาน",
+    "active_jobs": "งานที่กำลังทำ",
+    "history": "ประวัติงานซ่อม",
+    "no_active": "ขณะนี้ยังไม่มีงานที่คุณต้องจัดการ",
+    "no_history": "ยังไม่มีประวัติงานซ่อมที่เสร็จสิ้น",
+    "submit_report": "ส่งรายงานการซ่อม",
+    "submit_desc": "ทำเครื่องหมายงาน \"{{description}}\" ว่าซ่อมเสร็จสิ้นแล้ว",
+    "notes_label": "รายละเอียดการซ่อม *",
+    "notes_placeholder": "ระบุสิ่งที่ได้ดำเนินการแก้ไข...",
+    "image_label": "URL รูปภาพหลักฐาน (ถ้ามี)",
+    "start_work": "เริ่มงาน",
+    "complete_job": "บันทึกและส่งงาน",
+    "submit_to_admin": "ส่งให้ผู้ดูแลระบบ",
+    "available": "ว่าง",
+    "busy": "ไม่ว่าง (มีงานอยู่)",
+    "rejected": "ถูกตีกลับ",
+    "reason_label": "เหตุผลที่ตีกลับ"
+  }
+}
