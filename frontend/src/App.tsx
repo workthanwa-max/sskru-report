@@ -16,6 +16,7 @@ import { InfrastructureManagement } from '@/pages/Manager/InfrastructureManageme
 import { TicketDispatch } from '@/pages/Manager/TicketDispatch';
 import { TechnicianManagement } from '@/pages/Manager/TechnicianManagement';
 import { FacilityExplorer } from '@/pages/Student/FacilityExplorer';
+import { LandingPage } from '@/pages/LandingPage';
 
 export function App() {
   return (
@@ -87,8 +88,8 @@ export function App() {
           </Route>
 
           {/* Default Route Redirect */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
           
         </Routes>
       </BrowserRouter>

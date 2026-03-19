@@ -1,56 +1,73 @@
 import { motion } from 'framer-motion';
-import { Building2, ClipboardList, ChevronRight, Activity, Users } from 'lucide-react';
+import { Building2, ClipboardList, ChevronRight, Activity, Users, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 export const ManagerDashboard = () => {
   const { user } = useAuth();
+  const { t } = useTranslation();
 
   const menuItems = [
     {
-      title: 'Infrastructure Management',
-      description: 'Configure buildings, floors, rooms, and maintenance categories.',
+      title: t('nav.infrastructure'),
+      description: 'Configure buildings, levels, sectors, and maintenance categories.',
       icon: Building2,
       path: '/dashboard/infrastructure',
-      color: 'bg-blue-500/10 text-blue-400',
+      color: 'text-blue-500',
+      bgColor: 'bg-blue-500/10',
       borderColor: 'border-blue-500/20'
     },
     {
-      title: 'Ticket Dispatch',
-      description: 'Review new requests and assign them to available technicians.',
+      title: t('nav.dispatch'),
+      description: 'Review incoming requests and coordinate available specialized units.',
       icon: ClipboardList,
       path: '/dashboard/dispatch',
-      color: 'bg-amber-500/10 text-amber-400',
+      color: 'text-amber-500',
+      bgColor: 'bg-amber-500/10',
       borderColor: 'border-amber-500/20'
+    },
+    {
+      title: t('nav.members'),
+      description: 'Monitor specialized personnel and performance matrices.',
+      icon: Users,
+      path: '/dashboard/technicians',
+      color: 'text-emerald-500',
+      bgColor: 'bg-emerald-500/10',
+      borderColor: 'border-emerald-500/20'
     }
   ];
 
   return (
-    <div className="space-y-8 pb-12 w-full max-w-5xl mx-auto">
-      {/* Header */}
+    <div className="space-y-10 pb-16 w-full max-w-6xl mx-auto">
+      {/* Header Container */}
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden rounded-3xl p-8 shadow-2xl"
-        style={{
-          background: 'linear-gradient(135deg, rgba(23,23,23,0.9) 0%, rgba(30,30,30,0.95) 100%)',
-          border: '1px solid rgba(255, 215, 0, 0.15)'
-        }}
+        className="relative overflow-hidden rounded-[2.5rem] p-10 md:p-14 border border-border dark:border-white/10 shadow-2xl bg-card dark:bg-black/40 backdrop-blur-md"
       >
-        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-primary/20 blur-3xl rounded-full pointer-events-none" />
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-primary/10 blur-[130px] rounded-full pointer-events-none" />
         
         <div className="relative z-10">
-          <h1 className="text-4xl font-black tracking-tight text-white drop-shadow-sm mb-2">
-            Management Portal
-          </h1>
-          <p className="text-lg text-white/60 ml-1">
-            Welcome back, {user?.full_name || 'Manager'}. Oversee facilities and maintenance workflow.
+          <div className="flex items-center gap-4 mb-6">
+            <div className="p-3.5 bg-primary/20 text-primary rounded-2xl backdrop-blur-md border border-primary/20 shadow-inner">
+              <ShieldCheck className="w-9 h-9" />
+            </div>
+            <div>
+              <h1 className="text-4xl md:text-6xl font-headline font-black tracking-tighter text-foreground dark:text-white leading-none">
+                Management Portal
+              </h1>
+              <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary/60 mt-2 ml-1">SSKRU CORE OPERATIONS</p>
+            </div>
+          </div>
+          <p className="text-xl text-muted-foreground max-w-2xl ml-1 font-medium leading-relaxed italic">
+            Greetings, {user?.full_name || 'Coordinator'}. Oversee structural integrity and coordinate the deployment of maintenance protocols.
           </p>
         </div>
       </motion.div>
 
       {/* Grid Menu */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {menuItems.map((item, i) => (
           <motion.div
             key={item.title}
@@ -60,52 +77,52 @@ export const ManagerDashboard = () => {
           >
             <Link 
               to={item.path}
-              className={`group relative flex flex-col p-8 rounded-3xl border ${item.borderColor} bg-black/40 backdrop-blur-xl hover:bg-black/60 transition-all hover:-translate-y-1 hover:shadow-2xl overflow-hidden`}
+              className={`group relative flex flex-col p-8 rounded-[2rem] border border-border/50 dark:border-white/5 bg-card/50 dark:bg-black/40 backdrop-blur-xl hover:bg-card dark:hover:bg-black/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl overflow-hidden`}
             >
-              <div className="absolute top-0 right-0 p-6 text-white/5 group-hover:text-white/10 transition-colors">
-                <item.icon className="w-32 h-32 rotate-12" />
+              <div className="absolute top-0 right-0 p-8 text-foreground/5 dark:text-white/5 group-hover:text-primary/10 transition-colors duration-500">
+                <item.icon className="w-32 h-32 rotate-12 transition-transform duration-700 group-hover:scale-125" />
               </div>
               
-              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${item.color} border border-white/5`}>
-                <item.icon className="w-7 h-7" />
+              <div className={`w-16 h-16 rounded-[1.25rem] flex items-center justify-center mb-8 ${item.bgColor} ${item.color} border border-border dark:border-white/5 shadow-inner`}>
+                <item.icon className="w-8 h-8" />
               </div>
               
-              <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-primary transition-colors">
+              <h3 className="text-2xl font-headline font-black text-foreground dark:text-white mb-4 group-hover:text-primary transition-colors duration-300">
                 {item.title}
               </h3>
-              <p className="text-white/50 leading-relaxed mb-6">
+              <p className="text-muted-foreground text-sm leading-relaxed mb-8 font-medium">
                 {item.description}
               </p>
               
-              <div className="mt-auto flex items-center text-sm font-bold text-primary gap-2">
-                Get Started
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <div className="mt-auto flex items-center text-[10px] font-black tracking-[0.2em] text-primary uppercase group-hover:translate-x-2 transition-transform duration-300">
+                Execute Protocol
+                <ChevronRight className="w-4 h-4 ml-2" />
               </div>
             </Link>
           </motion.div>
         ))}
       </div>
 
-      {/* Quick Stats Mockup */}
+      {/* Quick Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
          {[
-           { label: 'Pending Dispatch', value: '5', icon: ClipboardList },
-           { label: 'Active Repairs', value: '12', icon: Activity },
-           { label: 'Staff Online', value: '8', icon: Users },
+           { label: 'Pending Dispatch', value: '14', icon: ClipboardList, color: 'text-amber-500' },
+           { label: 'Active Repairs', value: '28', icon: Activity, color: 'text-blue-500' },
+           { label: 'Staff Online', value: '12', icon: Users, color: 'text-emerald-500' },
          ].map((stat, i) => (
            <motion.div
              key={stat.label}
-             initial={{ opacity: 0 }}
-             animate={{ opacity: 1 }}
-             transition={{ delay: 0.3 + (i * 0.1) }}
-             className="glass-card p-6 border border-white/5 flex items-center gap-4"
+             initial={{ opacity: 0, scale: 0.95 }}
+             animate={{ opacity: 1, scale: 1 }}
+             transition={{ delay: 0.4 + (i * 0.1) }}
+             className="glass-card p-6 border border-border/50 dark:border-white/5 bg-card/30 dark:bg-black/20 flex items-center gap-5 shadow-inner"
            >
-              <div className="p-3 bg-white/5 rounded-xl text-white/40">
+              <div className={`p-3.5 bg-muted dark:bg-black/40 rounded-2xl ${stat.color} border border-border dark:border-white/5 shadow-sm`}>
                 <stat.icon className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-xs text-white/40 uppercase tracking-widest font-black">{stat.label}</p>
-                <h4 className="text-2xl font-bold text-white">{stat.value}</h4>
+                <p className="text-[10px] text-muted-foreground/60 uppercase tracking-[0.3em] font-black mb-1">{stat.label}</p>
+                <h4 className="text-3xl font-headline font-black text-foreground dark:text-white leading-none">{stat.value}</h4>
               </div>
            </motion.div>
          ))}

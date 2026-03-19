@@ -27,7 +27,20 @@
     "status": "Status",
     "actions": "Actions",
     "language": "Language",
-    "no_department": "No Department"
+    "no_department": "No Department",
+    "pending": "Waiting",
+    "active": "Active",
+    "review": "Review",
+    "closed": "Completed",
+    "no_desc": "No Description Provided",
+    "logout_title": "Terminate Session?",
+    "logout_desc": "Confirm the decoupling of your current credentials from the spatial registry portal.",
+    "logout_confirm": "Confirm Permanent Out",
+    "logout_remain": "Remain Authenticated",
+    "registry_nav": "Registry Navigation",
+    "registry_portal": "Registry Portal",
+    "global_sector": "Global Sector",
+    "protocol_control": "Sector Protocol Control"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -68,10 +81,10 @@
   "technician": {
     "portal_title": "Technician Portal",
     "portal_desc": "View your assigned maintenance tasks and submit reports.",
-    "active_jobs": "Active Jobs",
-    "history": "History",
+    "active_jobs": "Active Technical Units",
+    "history": "Execution Archive",
     "no_active": "You have no active assignments right now.",
-    "no_history": "No completed jobs to show yet.",
+    "no_history": "No archived executions detected.",
     "submit_report": "Submit Completion Report",
     "submit_desc": "Mark task \"{{description}}\" as complete for Review.",
     "notes_label": "Completion Notes *",
@@ -84,5 +97,58 @@
     "busy": "Busy (Has Active Task)",
     "rejected": "Rejected",
     "reason_label": "Rejection Reason"
+  },
+  "student": {
+    "hello": "Hello,",
+    "portal_desc": "Overview of your maintenance requests and structural feedback across the campus perimeter.",
+    "initiate_request": "Initiate Request",
+    "active_reports": "Active Reports",
+    "in_verification": "In Verification",
+    "protocol_resolved": "Protocol Resolved",
+    "service_logs": "Active Service Logs",
+    "view_directory": "View Spatial Directory",
+    "zero_active": "Zero Active Protocols",
+    "zero_desc": "Your reported anomalies will materialize here."
+  },
+  "manager": {
+    "dispatch_title": "Service Dispatch Center",
+    "members_title": "Personnel Registry",
+    "infra_title": "Infrastructure Grid",
+    "stats_total": "Total Anomalies",
+    "stats_pending": "Awaiting Guard",
+    "stats_active": "Active Repairs",
+    "stats_resolved": "Resolved Cycles",
+    "analytics_desc": "Analyze technical performance matrices and manage specialized personnel across the organizational grid."
+  },
+  "facility": {
+    "explorer_title": "Spatial Directory",
+    "explorer_desc": "Navigate the institutional perimeter to identify and report structural anomalies.",
+    "select_building": "Select Sector Unit",
+    "select_floor": "Select Level",
+    "select_room": "Identify Room Module",
+    "report_issue": "Initiate Protocol",
+    "no_rooms": "No room modules detected in this level."
+  },
+  "safety": {
+    "title": "Global Safety Protocol",
+    "desc": "In case of critical structural failure or life-threatening environmental hazards, please contact the spatial emergency line immediately.",
+    "contact": "Emergency Contact"
+  },
+  "landing": {
+    "title": "SSKRU Maintenance Management",
+    "desc": "A unified platform for reporting repairs, tracking task status, and managing institutional resources with maximum efficiency.",
+    "start_button": "Access Portal",
+    "features_title": "Core Services",
+    "feature_1_title": "Quick Reporting",
+    "feature_1_desc": "File repair requests instantly with photo evidence for faster institutional response.",
+    "feature_2_title": "Real-time Tracking",
+    "feature_2_desc": "Monitor maintenance progress in real-time and get notified upon task completion.",
+    "feature_3_title": "Full Accountability",
+    "feature_3_desc": "Every modification and repair is systematically archived to ensure complete transparency.",
+    "stats_resolved": "Resolved Tasks",
+    "stats_active": "Tasks in Progress",
+    "credits_title": "Project Team",
+    "inspiration_note": "This system was developed by 1st-year Software Engineering and AI students as an innovative solution for university resource management:",
+    "all_rights": "SSKRU Institutional Report System © All Rights Reserved"
   }
 }

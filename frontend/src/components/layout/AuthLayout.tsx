@@ -1,4 +1,5 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, Link } from 'react-router-dom';
+import { Home } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
@@ -54,6 +55,27 @@ export const AuthLayout = () => {
         <AnimatePresence mode="wait">
           <Outlet />
         </AnimatePresence>
+      </motion.div>
+
+      {/* Floating Preview Button - Bottom Left */}
+      <motion.div 
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1 }}
+        className="fixed bottom-10 left-10 z-50 group"
+      >
+        <Link 
+          to="/" 
+          className="flex items-center gap-4 bg-white/5 border border-white/10 hover:bg-primary/10 hover:border-primary/40 backdrop-blur-md px-6 py-4 rounded-[1.5rem] shadow-2xl transition-all duration-500 group-hover:-translate-y-1"
+        >
+          <div className="p-2 bg-primary/20 text-primary rounded-xl border border-primary/20 group-hover:rotate-12 transition-transform">
+             <Home className="w-4 h-4" />
+          </div>
+          <div>
+             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-foreground dark:text-white/80">Preview</span>
+             <p className="text-[7px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 mt-0.5">Back_to_Gateway</p>
+          </div>
+        </Link>
       </motion.div>
     </div>
   );

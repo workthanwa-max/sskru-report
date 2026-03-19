@@ -131,25 +131,25 @@ export const Profile = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="group glass-card p-8 border border-white/5 hover:border-primary/20 transition-colors"
+            className="group glass-card p-8 border border-border dark:border-white/5 hover:border-primary/20 transition-colors"
          >
             <div className="flex items-center gap-3 mb-6">
-               <div className="p-2 bg-white/5 rounded-xl border border-white/10 text-white/40 group-hover:text-primary transition-colors">
+               <div className="p-2 bg-muted rounded-xl border border-border dark:border-white/10 text-muted-foreground group-hover:text-primary transition-colors">
                   <Building2 className="w-5 h-5" />
                </div>
-               <h3 className="text-xs font-black text-white/30 uppercase tracking-[0.3em]">Organizational Sector</h3>
+               <h3 className="text-xs font-black text-muted-foreground/40 dark:text-white/30 uppercase tracking-[0.3em]">Organizational Sector</h3>
             </div>
             <div className="space-y-6">
               <div className="space-y-1.5">
-                <p className="text-[10px] uppercase font-black text-white/20 ml-1">Primary Department</p>
-                <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 font-bold text-white/80 flex items-center gap-3">
+                <p className="text-[10px] uppercase font-black text-muted-foreground/40 dark:text-white/20 ml-1">Primary Department</p>
+                <div className="p-4 rounded-2xl bg-muted/30 dark:bg-white/[0.02] border border-border dark:border-white/5 font-bold text-foreground dark:text-white/80 flex items-center gap-3">
                    <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
                    {profile.department || 'Unassigned Sector'}
                 </div>
               </div>
               <div className="space-y-1.5">
-                <p className="text-[10px] uppercase font-black text-white/20 ml-1">Member Since</p>
-                <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 font-medium text-white/40 flex items-center gap-2 text-sm italic">
+                <p className="text-[10px] uppercase font-black text-muted-foreground/40 dark:text-white/20 ml-1">Member Since</p>
+                <div className="p-4 rounded-2xl bg-muted/30 dark:bg-white/[0.02] border border-border dark:border-white/5 font-medium text-muted-foreground dark:text-white/40 flex items-center gap-2 text-sm italic">
                    <Calendar className="w-3.5 h-3.5" />
                    Operationalized in March 2026
                 </div>

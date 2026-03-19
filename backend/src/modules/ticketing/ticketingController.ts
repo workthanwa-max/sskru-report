@@ -44,3 +44,13 @@ export const createTicket = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+export const getMyTickets = async (req: Request, res: Response) => {
+  try {
+    const reporter_id = (req as any).user?.id;
+    const tickets = await repo.getTicketsByReporter(reporter_id);
+    res.json({ status: 'success', data: { data: tickets } });
+  } catch (error) {
+    console.error('Error in getMyTickets:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};

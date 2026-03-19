@@ -35,3 +35,25 @@ export const insertTicket = (data: {
     });
   });
 };
+export const getTicketsByReporter = (reporterId: number) => {
+  return new Promise<any[]>((resolve, reject) => {
+    const query = `
+      SELECT t.*, 
+             r.room_name, r.room_number,
+             f.floor_number,
+             b.name as building_name,
+             c.category_name
+      FROM Tickets t
+      LEFT JOIN Rooms r ON t.room_id = r.id
+      LEFT JOIN Floors f ON r.floor_id = f.id
+      LEFT JOIN Buildings b ON f.building_id = b.id
+      LEFT JOIN Categories c ON t.category_id = c.id
+      WHERE t.reporter_id = ?
+      ORDER BY t.created_at DESC
+    `;
+    db.all(query, [reporterId], (err, rows) => {
+      if (err) reject(err);
+      else resolve(rows || []);
+    });
+  });
+};
