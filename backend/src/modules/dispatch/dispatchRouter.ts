@@ -5,7 +5,10 @@ import {
   assignTicketToTechnician,
   getReviewTickets,
   approveTicket,
-  rejectTicket
+  rejectTicket,
+  getTicketHistory,
+  getTechnicianDetails,
+  getTechnicianWorkHistory
 } from './dispatchController';
 import { authenticate, authorize } from '../auth/authMiddleware';
 
@@ -38,5 +41,17 @@ router.route('/tickets/:id/approve')
 // PATCH /api/admin/tickets/:id/reject
 router.route('/tickets/:id/reject')
   .patch(rejectTicket);
+
+// GET /api/dispatch/tickets/history
+router.route('/tickets/history')
+  .get(getTicketHistory);
+
+// GET /api/dispatch/technicians/:id/details
+router.route('/technicians/:id/details')
+  .get(getTechnicianDetails);
+
+// GET /api/dispatch/technicians/:id/history
+router.route('/technicians/:id/history')
+  .get(getTechnicianWorkHistory);
 
 export default router;

@@ -4,7 +4,9 @@ import { logAction } from '../auditlog/auditController';
 
 export const getAssignedTickets = async (req: Request, res: Response) => {
   try {
-    const technicianId = (req as any).user?.id;
+    const technicianId = parseInt((req as any).user?.id);
+    console.log(`[API] Fetching assigned tickets for Technician ID: ${technicianId}`);
+    
     if (!technicianId) return res.status(401).json({ status: 'error', message: 'Unauthorized' });
 
     const tickets = await repo.getAssignedTickets(technicianId);
@@ -14,7 +16,8 @@ export const getAssignedTickets = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error('Error in getAssignedTickets:', error);
-    res.status(500).json({ status: 'error', message: 'Internal server error' });
+    logAction(req, 'FETCH_ASSIGNED_ERROR', 'TECHNICIAN', error);
+    res.status(500).json({ status: 'error', message: error instanceof Error ? error.message : 'Internal server error' });
   }
 };
 
@@ -30,7 +33,8 @@ export const getTicketHistory = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error('Error in getTicketHistory:', error);
-    res.status(500).json({ status: 'error', message: 'Internal server error' });
+    logAction(req, 'FETCH_HISTORY_ERROR', 'TECHNICIAN', error);
+    res.status(500).json({ status: 'error', message: error instanceof Error ? error.message : 'Internal server error' });
   }
 };
 
@@ -49,6 +53,7 @@ export const startTicketHandler = async (req: Request, res: Response) => {
       return res.status(400).json({ status: 'error', message: error.message });
     }
     console.error('Error in startTicketHandler:', error);
+    logAction(req, 'START_WORK_ERROR', 'TECHNICIAN', error);
     res.status(500).json({ status: 'error', message: 'Internal server error' });
   }
 };
@@ -71,6 +76,7 @@ export const submitTicketHandler = async (req: Request, res: Response) => {
       return res.status(400).json({ status: 'error', message: error.message });
     }
     console.error('Error in submitTicketHandler:', error);
+    logAction(req, 'SUBMIT_WORK_ERROR', 'TECHNICIAN', error);
     res.status(500).json({ status: 'error', message: 'Internal server error' });
   }
 };

@@ -8,8 +8,9 @@ const seedUsers = [
   { username: 'student', role: 'Student', full_name: 'Test Student', department: 'SE' }
 ];
 
-async function runSeed() {
-  console.log('Seeding database with default users...');
+export async function seedDatabase() {
+  console.log('--- Initializing & Seeding Database ---');
+  console.log('Seeding default users...');
 
   for (const user of seedUsers) {
     try {
@@ -36,8 +37,6 @@ async function runSeed() {
           );
         });
         console.log(`✅ Seeded user: ${user.username} (Role: ${user.role})`);
-      } else {
-        console.log(`⏭️  User ${user.username} already exists. Skipping.`);
       }
     } catch (error) {
       console.error(`❌ Error seeding user ${user.username}:`, error);
@@ -47,9 +46,7 @@ async function runSeed() {
   await seedInfrastructure();
   await seedTickets();
 
-  console.log('Seeding completed.');
-  // Give it a moment to complete any pending writes then exit
-  setTimeout(() => process.exit(0), 1000);
+  console.log('--- Seeding completed. ---');
 }
 
 async function seedInfrastructure() {
@@ -104,18 +101,14 @@ async function seedTickets() {
   };
 
   try {
-    // We assume 4 (student) is reporter_id, room_id = 1, category_id = 1
-    // Ticket 1: New
     await insert(
       'INSERT OR IGNORE INTO Tickets (id, reporter_id, room_id, category_id, description, status) VALUES (1, 4, 1, 1, "AC in Lecture Hall A is leaking water.", "New")',
       []
     );
-    // Ticket 2: New
     await insert(
       'INSERT OR IGNORE INTO Tickets (id, reporter_id, room_id, category_id, description, status) VALUES (2, 4, 3, 5, "No internet connection in Server Room.", "New")',
       []
     );
-    // Ticket 3: Assigned to Technician (id: 3)
     await insert(
       'INSERT OR IGNORE INTO Tickets (id, reporter_id, room_id, category_id, description, status, technician_id, admin_id) VALUES (3, 4, 2, 2, "Sink is broken.", "Assigned", 3, 2)',
       []
@@ -126,5 +119,3 @@ async function seedTickets() {
     console.error('❌ Error seeding tickets:', error);
   }
 }
-
-runSeed();

@@ -28,9 +28,12 @@ export const getPendingTickets = () => {
 export const getTechnicians = () => {
   return new Promise<any[]>((resolve, reject) => {
     const query = `
-      SELECT id, username, full_name, role, department
-      FROM Users
-      WHERE role = 'Technician'
+      SELECT u.id, u.username, u.full_name, u.role, u.department,
+             (SELECT COUNT(*) FROM Tickets t 
+              WHERE t.technician_id = u.id 
+              AND t.status IN ('Assigned', 'In_Progress', 'Review')) as active_tickets_count
+      FROM Users u
+      WHERE u.role = 'Technician'
     `;
     db.all(query, [], (err, rows) => {
       if (err) reject(err);
@@ -41,15 +44,26 @@ export const getTechnicians = () => {
 
 export const assignTicket = (ticketId: number, technicianId: number, adminId: number) => {
   return new Promise<void>((resolve, reject) => {
-    const query = `
-      UPDATE Tickets 
-      SET technician_id = ?, admin_id = ?, status = 'Assigned'
-      WHERE id = ? AND status = 'New'
+    // Check if technician already has active tasks
+    const checkQuery = `
+      SELECT COUNT(*) as count FROM Tickets 
+      WHERE technician_id = ? AND status IN ('Assigned', 'In_Progress', 'Review')
     `;
-    db.run(query, [technicianId, adminId, ticketId], function (err) {
-      if (err) reject(err);
-      else if (this.changes === 0) reject(new Error('Ticket not found or already assigned'));
-      else resolve();
+    
+    db.get(checkQuery, [technicianId], (checkErr, row: any) => {
+      if (checkErr) return reject(checkErr);
+      if (row.count > 0) return reject(new Error('Technician already has an active task. Each technician can only handle one task at a time.'));
+
+      const query = `
+        UPDATE Tickets 
+        SET technician_id = ?, admin_id = ?, status = 'Assigned', updated_at = CURRENT_TIMESTAMP
+        WHERE id = ? AND status = 'New'
+      `;
+      db.run(query, [technicianId, adminId, ticketId], function (err) {
+        if (err) reject(err);
+        else if (this.changes === 0) reject(new Error('Ticket not found or already assigned'));
+        else resolve();
+      });
     });
   });
 };
@@ -85,7 +99,7 @@ export const approveTicket = (ticketId: number, adminId: number) => {
   return new Promise<void>((resolve, reject) => {
     const query = `
       UPDATE Tickets 
-      SET status = 'Closed', admin_id = ?
+      SET status = 'Closed', admin_id = ?, is_rejected = 0, updated_at = CURRENT_TIMESTAMP
       WHERE id = ? AND status = 'Review'
     `;
     db.run(query, [adminId, ticketId], function (err) {
@@ -103,7 +117,7 @@ export const rejectTicket = (ticketId: number, adminId: number, reason: string) 
 
       const updateQuery = `
         UPDATE Tickets 
-        SET status = 'In_Progress', admin_id = ?
+        SET status = 'In_Progress', admin_id = ?, is_rejected = 1, updated_at = CURRENT_TIMESTAMP
         WHERE id = ? AND status = 'Review'
       `;
       
@@ -132,6 +146,99 @@ export const rejectTicket = (ticketId: number, adminId: number, reason: string) 
           resolve();
         });
       });
+    });
+  });
+};
+export const getTicketHistory = () => {
+  return new Promise<any[]>((resolve, reject) => {
+    const query = `
+      SELECT t.*, 
+             u.full_name as reporter_name,
+             r.room_number, r.room_name,
+             f.floor_number,
+             b.name as building_name,
+             c.category_name,
+             tech.full_name as technician_name,
+             ml.notes as maintenance_notes,
+             ml.image_after as maintenance_photo,
+             ml.created_at as completion_date
+      FROM Tickets t
+      LEFT JOIN Users u ON t.reporter_id = u.id
+      LEFT JOIN Rooms r ON t.room_id = r.id
+      LEFT JOIN Floors f ON r.floor_id = f.id
+      LEFT JOIN Buildings b ON f.building_id = b.id
+      LEFT JOIN Categories c ON t.category_id = c.id
+      LEFT JOIN Users tech ON t.technician_id = tech.id
+      LEFT JOIN Maintenance_Logs ml ON t.id = ml.ticket_id
+      WHERE t.status = 'Closed'
+      ORDER BY t.updated_at DESC
+    `;
+    db.all(query, [], (err, rows) => {
+      if (err) reject(err);
+      else resolve(rows);
+    });
+  });
+};
+
+export const getTechnicianDetails = (technicianId: number) => {
+  return new Promise<any>((resolve, reject) => {
+    // Get technician info and active tasks
+    const infoQuery = `
+      SELECT u.id, u.username, u.full_name, u.role, u.department,
+             (SELECT COUNT(*) FROM Tickets WHERE technician_id = u.id AND status IN ('Assigned', 'In_Progress', 'Review')) as active_count,
+             (SELECT COUNT(*) FROM Tickets WHERE technician_id = u.id AND status = 'Closed') as completed_count
+      FROM Users u
+      WHERE u.id = ? AND u.role = 'Technician'
+    `;
+    
+    db.get(infoQuery, [technicianId], (err, info: any) => {
+      if (err) return reject(err);
+      if (!info) return resolve(null);
+
+      const activeTasksQuery = `
+        SELECT t.*, c.category_name, r.room_number, b.name as building_name
+        FROM Tickets t
+        LEFT JOIN Categories c ON t.category_id = c.id
+        LEFT JOIN Rooms r ON t.room_id = r.id
+        LEFT JOIN Floors f ON r.floor_id = f.id
+        LEFT JOIN Buildings b ON f.building_id = b.id
+        WHERE t.technician_id = ? AND t.status IN ('Assigned', 'In_Progress', 'Review')
+        ORDER BY t.created_at DESC
+      `;
+      
+      db.all(activeTasksQuery, [technicianId], (errTasks, tasks) => {
+        if (errTasks) return reject(errTasks);
+        resolve({ ...info, active_tasks: tasks });
+      });
+    });
+  });
+};
+
+export const getTechnicianWorkHistory = (technicianId: number) => {
+  return new Promise<any[]>((resolve, reject) => {
+    const query = `
+      SELECT t.*, 
+             u.full_name as reporter_name,
+             r.room_number, r.room_name,
+             f.floor_number,
+             b.name as building_name,
+             c.category_name,
+             ml.notes as maintenance_notes,
+             ml.image_after as maintenance_photo,
+             ml.created_at as completion_date
+      FROM Tickets t
+      LEFT JOIN Users u ON t.reporter_id = u.id
+      LEFT JOIN Rooms r ON t.room_id = r.id
+      LEFT JOIN Floors f ON r.floor_id = f.id
+      LEFT JOIN Buildings b ON f.building_id = b.id
+      LEFT JOIN Categories c ON t.category_id = c.id
+      LEFT JOIN Maintenance_Logs ml ON t.id = ml.ticket_id
+      WHERE t.technician_id = ? AND t.status = 'Closed'
+      ORDER BY t.updated_at DESC
+    `;
+    db.all(query, [technicianId], (err, rows) => {
+      if (err) reject(err);
+      else resolve(rows);
     });
   });
 };

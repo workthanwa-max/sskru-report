@@ -57,7 +57,9 @@ db.serialize(() => {
     status TEXT CHECK(status IN ('New', 'Assigned', 'In_Progress', 'Review', 'Closed')) DEFAULT 'New',
     technician_id INTEGER,
     admin_id INTEGER,
+    is_rejected INTEGER DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (reporter_id) REFERENCES Users(id),
     FOREIGN KEY (room_id) REFERENCES Rooms(id),
     FOREIGN KEY (category_id) REFERENCES Categories(id),
@@ -86,6 +88,77 @@ db.serialize(() => {
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES Users(id)
   )`);
+
+  // Migration: Add columns if they don't exist
+  db.run("ALTER TABLE Tickets ADD COLUMN is_rejected INTEGER DEFAULT 0", (err) => {
+    if (err) {
+      if (!err.message.includes('duplicate column name')) {
+        console.error('Error adding is_rejected column:', err.message);
+      }
+    } else {
+      console.log('Migration: Added is_rejected column to Tickets table.');
+    }
+  });
+  
+  db.run(`ALTER TABLE Tickets ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP`, (err) => {
+    if (err) {
+      if (!err.message.includes('duplicate column name')) {
+        console.error('Error adding updated_at column:', err.message);
+      }
+    } else {
+      console.log('Migration: Added updated_at column to Tickets table.');
+    }
+  });
+
+  db.run("ALTER TABLE Tickets ADD COLUMN technician_id INTEGER", (err) => {
+    if (err && !err.message.includes('duplicate column name')) {}
+  });
+
+  db.run("ALTER TABLE Tickets ADD COLUMN admin_id INTEGER", (err) => {
+    if (err && !err.message.includes('duplicate column name')) {}
+  });
+
+  // Maintenance_Logs Migrations
+  db.run("ALTER TABLE Maintenance_Logs ADD COLUMN notes TEXT", (err) => {
+    if (err) {
+      if (!err.message.includes('duplicate column name')) {
+        console.error('Error adding notes to Maintenance_Logs:', err.message);
+      }
+    } else {
+      console.log('Migration: Added notes column to Maintenance_Logs table.');
+    }
+  });
+  
+  db.run("ALTER TABLE Maintenance_Logs ADD COLUMN image_after TEXT", (err) => {
+    if (err) {
+      if (!err.message.includes('duplicate column name')) {
+        console.error('Error adding image_after to Maintenance_Logs:', err.message);
+      }
+    } else {
+      console.log('Migration: Added image_after column to Maintenance_Logs table.');
+    }
+  });
+
+  // Users Migrations
+  db.run("ALTER TABLE Users ADD COLUMN full_name TEXT", (err) => {
+    if (err) {
+      if (!err.message.includes('duplicate column name')) {
+        console.error('Error adding full_name to Users:', err.message);
+      }
+    } else {
+      console.log('Migration: Added full_name column to Users table.');
+    }
+  });
+
+  db.run("ALTER TABLE Users ADD COLUMN department TEXT", (err) => {
+    if (err) {
+      if (!err.message.includes('duplicate column name')) {
+        console.error('Error adding department to Users:', err.message);
+      }
+    } else {
+      console.log('Migration: Added department column to Users table.');
+    }
+  });
 });
 
 export default db;

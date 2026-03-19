@@ -1,16 +1,17 @@
 import { Router } from 'express';
 import { login, register, logout, getMe, refreshToken, getUsers, updateUser, deleteUser } from './authController';
 import { authenticate, authorize } from '../auth/authMiddleware';
+import { authLimiter } from '../../middleware/securityMiddleware';
 
 const router = Router();
 
 // Auth router: กำหนด route เช่น /login /logout /register
 
 // POST /api/auth/register : สร้างบัญชีใหม่
-router.post('/register', register);
+router.post('/register', authLimiter, register);
 
 // POST /api/auth/login : ตรวจสอบ Username/Password และคืนค่า Token (JWT) พร้อม Role
-router.post('/login', login);
+router.post('/login', authLimiter, login);
 
 // POST /api/auth/logout : ยกเลิก Token
 router.post('/logout', authenticate, logout);

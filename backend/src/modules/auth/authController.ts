@@ -15,12 +15,14 @@ export async function login(req: Request, res: Response): Promise<void> {
 
     const user = await findUserByUsername(username);
     if (!user) {
+       logAction(req, 'LOGIN_FAILED', 'AUTH', { username, reason: 'User not found' });
        res.status(401).json({ error: 'Invalid credentials' });
        return;
     }
 
     const isMatch = await comparePassword(password, user.password);
     if (!isMatch) {
+       logAction(req, 'LOGIN_FAILED', 'AUTH', { username, reason: 'Invalid password' });
        res.status(401).json({ error: 'Invalid credentials' });
        return;
     }
@@ -49,6 +51,7 @@ export async function login(req: Request, res: Response): Promise<void> {
     logAction(req, 'LOGIN_SUCCESS', 'AUTH', { username: user.username, role: user.role });
   } catch (error) {
     console.error('Login error:', error);
+    logAction(req, 'LOGIN_ERROR', 'AUTH', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 }
@@ -82,6 +85,7 @@ export async function register(req: Request, res: Response): Promise<void> {
     logAction(req, 'USER_REGISTERED', 'AUTH', { username, role: role || 'Student' });
   } catch (error) {
     console.error('Register error:', error);
+    logAction(req, 'REGISTER_ERROR', 'AUTH', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 }
@@ -128,7 +132,8 @@ export function refreshToken(req: Request, res: Response): void {
   }
   
   try {
-     const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_please_change_in_production';
+     const JWT_SECRET = process.env.JWT_SECRET;
+     if (!JWT_SECRET) throw new Error('JWT_SECRET missing');
      const decoded: any = jwt.verify(refresh_token, JWT_SECRET);
      
      const payload = {

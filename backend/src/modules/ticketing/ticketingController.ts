@@ -12,6 +12,18 @@ export const createTicket = async (req: Request, res: Response) => {
       return;
     }
 
+    // Check for duplicate active ticket
+    const activeTicket = await repo.checkActiveTicket(room_id, category_id);
+    if (activeTicket) {
+      res.status(409).json({ 
+        status: 'error',
+        code: 'DUPLICATE_TICKET',
+        message: 'There is already an active report for this category in this room.',
+        data: activeTicket
+      });
+      return;
+    }
+
     const ticketId = await repo.insertTicket({
       reporter_id,
       room_id,

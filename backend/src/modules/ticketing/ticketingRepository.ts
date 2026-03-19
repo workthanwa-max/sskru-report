@@ -1,5 +1,21 @@
 import db from '../../../config/db';
 
+export const checkActiveTicket = (roomId: number, categoryId: number) => {
+  return new Promise<any | null>((resolve, reject) => {
+    const query = `
+      SELECT t.*, u.full_name as reporter_name 
+      FROM Tickets t
+      LEFT JOIN Users u ON t.reporter_id = u.id
+      WHERE t.room_id = ? AND t.category_id = ? AND t.status NOT IN ('Closed')
+      LIMIT 1
+    `;
+    db.get(query, [roomId, categoryId], (err, row) => {
+      if (err) reject(err);
+      else resolve(row || null);
+    });
+  });
+};
+
 export const insertTicket = (data: {
   reporter_id: number;
   room_id: number;
