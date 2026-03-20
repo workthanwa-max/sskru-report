@@ -72,3 +72,17 @@ export const getMonthlyStats = () => {
     });
   });
 };
+export const getDashboardSummary = () => {
+  return new Promise<any>((resolve, reject) => {
+    const query = `
+      SELECT 
+        (SELECT COUNT(*) FROM Tickets WHERE status = 'New') as pending_dispatch,
+        (SELECT COUNT(*) FROM Tickets WHERE status = 'In_Progress') as active_repairs,
+        (SELECT COUNT(*) FROM Users WHERE role = 'Technician') as staff_total
+    `;
+    db.get(query, [], (err, row) => {
+      if (err) reject(err);
+      else resolve(row);
+    });
+  });
+};

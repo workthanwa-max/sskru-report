@@ -5,10 +5,8 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import * as api from '@/services/ticketingService';
-import { useTranslation } from 'react-i18next';
 
 export const StudentDashboard = () => {
-  const { t } = useTranslation();
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [recentTickets, setRecentTickets] = useState<any[]>([]);
@@ -28,9 +26,9 @@ export const StudentDashboard = () => {
   }, []);
   
   const stats = [
-    { title: t('student.active_reports'), value: recentTickets.filter(t => t.status !== 'Resolved').length.toString(), icon: Activity, color: 'text-primary', bg: 'bg-primary/10', border: 'border-primary/20' },
-    { title: t('student.in_verification'), value: recentTickets.filter(t => t.status === 'Verification').length.toString(), icon: ShieldCheck, color: 'text-blue-500', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
-    { title: t('student.protocol_resolved'), value: recentTickets.filter(t => t.status === 'Resolved').length.toString(), icon: CheckCircle2, color: 'text-emerald-500', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
+    { title: "รายการที่กำลังดำเนินการ", value: recentTickets.filter(t => t.status !== 'Resolved').length.toString(), icon: Activity, color: 'text-primary', bg: 'bg-primary/10', border: 'border-primary/20' },
+    { title: "อยู่ระหว่างตรวจสอบ", value: recentTickets.filter(t => t.status === 'Verification').length.toString(), icon: ShieldCheck, color: 'text-blue-500', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
+    { title: "ดำเนินการเสร็จสิ้น", value: recentTickets.filter(t => t.status === 'Resolved').length.toString(), icon: CheckCircle2, color: 'text-emerald-500', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
   ];
 
   return (
@@ -51,20 +49,20 @@ export const StudentDashboard = () => {
               </div>
               <div>
                 <h1 className="text-4xl md:text-5xl font-headline font-black tracking-tighter text-foreground dark:text-white leading-none">
-                  {t('student.hello')} {user?.full_name?.split(' ')[0] || user?.username}
+                  สวัสดีคุณ {user?.full_name?.split(' ')[0] || user?.username}
                 </h1>
-                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary/60 mt-2 ml-1">{t('auth.portal_title')}</p>
+                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary/60 mt-2 ml-1">ศูนย์รับรองและแจ้งซ่อม</p>
               </div>
             </div>
             <p className="text-lg text-muted-foreground max-w-xl ml-1 font-medium leading-relaxed italic">
-               {t('student.portal_desc')}
+               ภาพรวมการแจ้งซ่อมและข้อเสนอแนะเกี่ยวกับโครงสร้างพื้นฐานของคุณทั่วมหาวิทยาลัย
             </p>
           </div>
  
           <Button asChild className="h-16 px-10 rounded-2xl bg-primary text-primary-foreground font-black text-[10px] uppercase tracking-[0.3em] hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-primary/20 group">
              <Link to="/dashboard/facilities" className="flex items-center gap-3">
                 <Zap className="w-5 h-5 group-hover:fill-current transition-all" />
-                {t('student.initiate_request')}
+                แจ้งซ่อมใหม่
              </Link>
           </Button>
         </div>
@@ -107,9 +105,9 @@ export const StudentDashboard = () => {
               <div className="p-2 bg-muted dark:bg-white/5 rounded-lg border border-border dark:border-white/5 text-muted-foreground">
                  <History className="w-5 h-5" />
               </div>
-              <h3 className="text-xl font-headline font-black text-foreground dark:text-white uppercase tracking-widest underline decoration-primary/30 underline-offset-8">{t('student.service_logs')}</h3>
+               <h3 className="text-xl font-headline font-black text-foreground dark:text-white uppercase tracking-widest underline decoration-primary/30 underline-offset-8">ประวัติการแจ้งซ่อม</h3>
            </div>
-           <Link to="/dashboard/facilities" className="text-[10px] font-black uppercase tracking-widest text-primary/60 hover:text-primary transition-colors">{t('student.view_directory')}</Link>
+           <Link to="/dashboard/facilities" className="text-[10px] font-black uppercase tracking-widest text-primary/60 hover:text-primary transition-colors">ดูทั้งหมด</Link>
         </div>
 
         {loading ? (
@@ -125,8 +123,8 @@ export const StudentDashboard = () => {
             <div className="mx-auto w-24 h-24 bg-muted dark:bg-white/5 rounded-3xl flex items-center justify-center mb-8 text-muted-foreground/20 border border-border dark:border-white/5 shadow-inner">
               <Compass className="w-12 h-12" />
             </div>
-            <p className="text-2xl font-headline font-black text-foreground/40 dark:text-white/20 uppercase tracking-[0.2em]">{t('student.zero_active')}</p>
-            <p className="text-sm mt-3 opacity-60 font-medium">{t('student.zero_desc')}</p>
+            <p className="text-2xl font-headline font-black text-foreground/40 dark:text-white/20 uppercase tracking-[0.2em]">ยังไม่มีรายการแจ้งซ่อม</p>
+            <p className="text-sm mt-3 opacity-60 font-medium">รายการที่คุณแจ้งไปจะปรากฏที่นี่</p>
           </motion.div>
         ) : (
           <div className="grid gap-6">
@@ -187,13 +185,13 @@ export const StudentDashboard = () => {
            <AlertCircle className="w-8 h-8" />
         </div>
         <div className="flex-1 text-center md:text-left space-y-2">
-           <h4 className="text-xl font-headline font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest">{t('safety.title')}</h4>
+           <h4 className="text-xl font-headline font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest">มาตรการความปลอดภัยส่วนกลาง</h4>
            <p className="text-muted-foreground font-medium italic opacity-60 leading-relaxed">
-             {t('safety.desc')}
+             ในกรณีที่เกิดเหตุฉุกเฉินหรืออันตรายร้ายแรงต่ออาคารสถานที่ โปรดติดต่อสายด่วนแจ้งเหตุฉุกเฉินทันที
            </p>
         </div>
         <Button className="bg-amber-500 text-black font-black text-[10px] uppercase tracking-[0.2em] h-12 rounded-xl px-8 hover:bg-white transition-all shadow-lg active:scale-95">
-           {t('safety.contact')}
+            ติดต่อแจ้งเหตุฉุกเฉิน
         </Button>
       </motion.div>
     </div>

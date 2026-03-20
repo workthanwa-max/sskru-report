@@ -4,7 +4,6 @@ import { Building2, MapPin, Tag, Plus, Trash2, Settings, Loader2, ChevronRight, 
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/AuthContext';
 import * as api from '@/services/infrastructureService';
-import { useTranslation } from 'react-i18next';
 import { 
   Dialog, 
   DialogContent, 
@@ -20,7 +19,6 @@ type Room = { id: number; floor_id: number; room_number: string; room_name: stri
 type Category = { id: number; category_name: string };
 
 export const InfrastructureManagement = () => {
-  useTranslation();
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<'facilities' | 'categories'>('facilities');
   
@@ -163,9 +161,9 @@ export const InfrastructureManagement = () => {
               </div>
               <div>
                 <h1 className="text-3xl font-headline font-black tracking-tight text-foreground uppercase italic leading-none">
-                  Infra_Council
+                   จัดการโครงสร้างพื้นฐาน
                 </h1>
-                <p className="text-[8px] font-black text-primary uppercase tracking-[0.4em] mt-2 opacity-60">Control_Protocol_v2.0</p>
+                <p className="text-[8px] font-black text-primary uppercase tracking-[0.4em] mt-2 opacity-60">ระบบควบคุม v2.0</p>
               </div>
             </div>
           </div>
@@ -176,14 +174,14 @@ export const InfrastructureManagement = () => {
               className={`px-6 py-2.5 rounded-lg text-[9px] font-black uppercase tracking-[0.2em] transition-all duration-500 flex items-center gap-2.5 ${activeTab === 'facilities' ? 'bg-primary text-primary-foreground shadow-lg' : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'}`}
             >
               <Building2 className="w-3.5 h-3.5" />
-              Facilities
+               สถานที่
             </button>
             <button
               onClick={() => setActiveTab('categories')}
               className={`px-6 py-2.5 rounded-lg text-[9px] font-black uppercase tracking-[0.2em] transition-all duration-500 flex items-center gap-2.5 ${activeTab === 'categories' ? 'bg-primary text-primary-foreground shadow-lg' : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'}`}
             >
               <Tag className="w-3.5 h-3.5" />
-              Taxonomy
+               หมวดหมู่
             </button>
           </div>
         </div>
@@ -192,7 +190,7 @@ export const InfrastructureManagement = () => {
       {loading ? (
         <div className="flex flex-col justify-center items-center h-64 gap-4">
           <Loader2 className="w-8 h-8 animate-spin text-primary opacity-30" />
-          <p className="text-[8px] font-black uppercase tracking-[0.4em] text-muted-foreground opacity-40">Syncing_Registry...</p>
+           <p className="text-[8px] font-black uppercase tracking-[0.4em] text-muted-foreground opacity-40">กำลังซิงค์ข้อมูล...</p>
         </div>
       ) : (
         <AnimatePresence mode="wait">
@@ -209,9 +207,9 @@ export const InfrastructureManagement = () => {
                 <div className="flex justify-between items-center mb-6 px-1">
                   <div className="space-y-0.5">
                     <h3 className="text-xl font-headline font-black flex items-center gap-2.5 text-foreground uppercase tracking-tight italic">
-                       Buildings
+                       อาคาร
                     </h3>
-                    <p className="text-[8px] font-black text-primary/40 uppercase tracking-widest">Foundation</p>
+                    <p className="text-[8px] font-black text-primary/40 uppercase tracking-widest">ฐานข้อมูลอาคาร</p>
                   </div>
                   <Button onClick={() => openDialog('building')} className="w-10 h-10 rounded-xl bg-primary text-primary-foreground font-black shadow-lg hover:scale-110 transition-all">
                     <Plus className="w-5 h-5" />
@@ -226,7 +224,7 @@ export const InfrastructureManagement = () => {
                          >
                             <div className="relative z-10">
                                <h4 className={`text-sm font-headline font-black uppercase tracking-tight leading-none mb-1.5 ${selectedBuilding?.id === b.id ? 'text-primary-foreground' : 'text-foreground'}`}>{b.name}</h4>
-                               <p className={`text-[8px] font-black uppercase tracking-widest opacity-60 ${selectedBuilding?.id === b.id ? 'text-primary-foreground/60' : 'text-primary'}`}>Code: {b.code}</p>
+                               <p className={`text-[8px] font-black uppercase tracking-widest opacity-60 ${selectedBuilding?.id === b.id ? 'text-primary-foreground/60' : 'text-primary'}`}>รหัส: {b.code}</p>
                             </div>
                             <ChevronRight className={`w-4 h-4 transition-all duration-500 ${selectedBuilding?.id === b.id ? 'text-primary-foreground translate-x-1' : 'text-primary group-hover/item:translate-x-1'}`} />
                          </button>
@@ -245,9 +243,9 @@ export const InfrastructureManagement = () => {
                 <div className="flex justify-between items-center mb-6 px-1">
                   <div className="space-y-0.5">
                     <h3 className="text-xl font-headline font-black flex items-center gap-2.5 text-foreground uppercase tracking-tight italic">
-                       Floors
+                       ชั้น
                     </h3>
-                    <p className="text-[8px] font-black text-primary/40 uppercase tracking-widest">Vertical</p>
+                    <p className="text-[8px] font-black text-primary/40 uppercase tracking-widest">ระดับชั้น</p>
                   </div>
                   {selectedBuilding && (
                     <Button onClick={() => openDialog('floor')} className="w-10 h-10 rounded-xl bg-primary text-primary-foreground font-black shadow-lg hover:scale-110 transition-all">
@@ -257,7 +255,7 @@ export const InfrastructureManagement = () => {
                 </div>
                 <div className="flex-1 flex flex-col gap-3 overflow-y-auto pr-2 custom-scrollbar">
                    {!selectedBuilding ? (
-                     <div className="flex-1 flex flex-col items-center justify-center border-4 border-dashed border-border rounded-[1.5rem] p-8 text-center text-muted-foreground/30 font-black uppercase text-[8px] tracking-widest gap-2">Select_Target</div>
+                     <div className="flex-1 flex flex-col items-center justify-center border-4 border-dashed border-border rounded-[1.5rem] p-8 text-center text-muted-foreground/30 font-black uppercase text-[8px] tracking-widest gap-2">เลือกอาคาร</div>
                    ) : (
                      buildingFloors.map((f) => (
                         <button
@@ -266,7 +264,7 @@ export const InfrastructureManagement = () => {
                           className={`w-full text-left p-4 rounded-[1.5rem] border transition-all duration-500 flex justify-between items-center relative overflow-hidden ${selectedFloor?.id === f.id ? 'bg-primary border-primary shadow-xl shadow-primary/20' : 'bg-muted/30 border-border hover:border-primary/20'}`}
                         >
                            <div className="relative z-10">
-                              <h4 className={`text-sm font-headline font-black uppercase tracking-tight leading-none mb-1.5 ${selectedFloor?.id === f.id ? 'text-primary-foreground' : 'text-foreground'}`}>Floor {f.floor_number}</h4>
+                              <h4 className={`text-sm font-headline font-black uppercase tracking-tight leading-none mb-1.5 ${selectedFloor?.id === f.id ? 'text-primary-foreground' : 'text-foreground'}`}>ชั้นที่ {f.floor_number}</h4>
                               <p className={`text-[8px] font-black uppercase tracking-widest opacity-60 ${selectedFloor?.id === f.id ? 'text-primary-foreground/60' : 'text-primary'}`}>{selectedBuilding.name}</p>
                            </div>
                            <ChevronRight className={`w-4 h-4 transition-all duration-500 ${selectedFloor?.id === f.id ? 'text-primary-foreground translate-x-1' : 'text-primary group-hover:translate-x-1'}`} />
@@ -281,9 +279,9 @@ export const InfrastructureManagement = () => {
                 <div className="flex justify-between items-center mb-6 px-1">
                   <div className="space-y-0.5">
                     <h3 className="text-xl font-headline font-black flex items-center gap-2.5 text-foreground uppercase tracking-tight italic">
-                       Rooms
+                       ห้อง
                     </h3>
-                    <p className="text-[8px] font-black text-primary/40 uppercase tracking-widest">Units</p>
+                    <p className="text-[8px] font-black text-primary/40 uppercase tracking-widest">หน่วยพื้นที่</p>
                   </div>
                   {selectedFloor && (
                     <Button onClick={() => openDialog('room')} className="w-10 h-10 rounded-xl bg-primary text-primary-foreground font-black shadow-lg hover:scale-110 transition-all">
@@ -293,7 +291,7 @@ export const InfrastructureManagement = () => {
                 </div>
                 <div className="flex-1 flex flex-col gap-3 overflow-y-auto pr-2 custom-scrollbar">
                    {!selectedFloor ? (
-                     <div className="flex-1 flex flex-col items-center justify-center border-4 border-dashed border-border rounded-[1.5rem] p-8 text-center text-muted-foreground/30 font-black uppercase text-[8px] tracking-widest gap-2">Select_Level</div>
+                     <div className="flex-1 flex flex-col items-center justify-center border-4 border-dashed border-border rounded-[1.5rem] p-8 text-center text-muted-foreground/30 font-black uppercase text-[8px] tracking-widest gap-2">เลือกชั้น</div>
                    ) : (
                      floorRooms.map((r) => (
                         <div key={r.id} className="p-4 rounded-[1.5rem] border border-border bg-muted/40 backdrop-blur-md group hover:border-primary/40 transition-all duration-500 relative overflow-hidden shadow-inner">
@@ -324,15 +322,15 @@ export const InfrastructureManagement = () => {
             >
               <div className="flex justify-between items-center px-2">
                 <div className="space-y-1">
-                   <h3 className="text-3xl font-headline font-black uppercase tracking-tighter text-foreground italic">Taxonomy</h3>
-                   <p className="text-[8px] font-black text-primary uppercase tracking-[0.4em]">Classification_Protocol</p>
+                   <h3 className="text-3xl font-headline font-black uppercase tracking-tighter text-foreground italic">หมวดหมู่การซ่อม</h3>
+                   <p className="text-[8px] font-black text-primary uppercase tracking-[0.4em]">การจำแนกประเภท</p>
                 </div>
                 <Button 
                    onClick={() => openDialog('category')} 
                    className="h-14 px-8 rounded-xl bg-slate-900 text-white font-black text-[9px] uppercase tracking-[0.3em] hover:bg-primary transition-all shadow-xl"
                 >
                   <Plus className="w-4 h-4 mr-3" />
-                   Archetype
+                   เพิ่มหมวดหมู่
                 </Button>
               </div>
 
@@ -367,11 +365,11 @@ export const InfrastructureManagement = () => {
                </div>
                <div>
                   <DialogTitle className="text-xl font-headline font-black text-foreground uppercase tracking-tight italic leading-none">
-                    {dialogOpen.type === 'building' ? 'New_Bldg' : 
-                     dialogOpen.type === 'floor' ? 'Add_Floor' : 
-                     dialogOpen.type === 'room' ? 'Map_Room' : 'Define_Sec'}
+                    {dialogOpen.type === 'building' ? 'เพิ่มอาคารใหม่' : 
+                     dialogOpen.type === 'floor' ? 'เพิ่มชั้นใหม่' : 
+                     dialogOpen.type === 'room' ? 'เพิ่มห้องใหม่' : 'กำหนดหมวดหมู่'}
                   </DialogTitle>
-                  <p className="text-[8px] font-black text-primary uppercase tracking-[0.3em] mt-1.5 opacity-60">Update_Protocol</p>
+                  <p className="text-[8px] font-black text-primary uppercase tracking-[0.3em] mt-1.5 opacity-60">อัปเดตข้อมูล</p>
                </div>
             </div>
           </DialogHeader>
@@ -379,21 +377,21 @@ export const InfrastructureManagement = () => {
           <form onSubmit={handleSubmit} className="p-8 pt-6 space-y-6">
             <div className="space-y-4">
                {(dialogOpen.type === 'building' || dialogOpen.type === 'room' || dialogOpen.type === 'category') && (
-                 <InputField label="Name/Designation" name="name" value={formData.name} placeholder="E.g. Engineering" />
+                  <InputField label="ชื่อ/การกำหนด" name="name" value={formData.name} placeholder="เช่น วิศวกรรม" />
                )}
                {dialogOpen.type === 'building' && (
-                 <InputField label="System_Code" name="code" value={formData.code} placeholder="E.g. BLD_A1" />
+                  <InputField label="รหัสวิชาการ" name="code" value={formData.code} placeholder="เช่น BLD_A1" />
                )}
                {(dialogOpen.type === 'floor' || dialogOpen.type === 'room') && (
-                 <InputField label="Reference_No" name="number" value={formData.number} placeholder="E.g. 01" />
+                  <InputField label="หมายเลขอ้างอิง" name="number" value={formData.number} placeholder="เช่น 01" />
                )}
             </div>
             <DialogFooter className="pt-4 sm:flex-col gap-2">
               <Button type="submit" disabled={isSubmitting} className="w-full h-12 bg-primary text-primary-foreground font-black text-[10px] uppercase tracking-[0.3em] rounded-xl shadow-lg border-none">
-                {isSubmitting ? 'Syncing...' : 'Confirm_Registry'}
+                {isSubmitting ? 'กำลังบันทึก...' : 'ยืนยันการบันทึก'}
               </Button>
               <Button type="button" variant="ghost" onClick={() => setDialogOpen({ type: null, open: false })} className="w-full h-10 text-muted-foreground font-black text-[9px] uppercase tracking-[0.2em]">
-                Dismiss
+                ยกเลิก
               </Button>
             </DialogFooter>
           </form>
@@ -410,20 +408,20 @@ export const InfrastructureManagement = () => {
              <div className="space-y-2.5">
                 <DialogHeader className="text-center p-0">
                   <DialogTitle className="text-xl font-headline font-black text-foreground uppercase tracking-tight italic leading-none text-center">
-                    Erase_Protocol
+                    ลบข้อมูล
                   </DialogTitle>
-                  <p className="text-[8px] font-black text-red-500 uppercase tracking-[0.4em] mt-2 opacity-60">Purge_Confirmation</p>
+                  <p className="text-[8px] font-black text-red-500 uppercase tracking-[0.4em] mt-2 opacity-60">ยืนยันการลบ</p>
                 </DialogHeader>
                 <DialogDescription className="text-xs text-muted-foreground font-medium italic opacity-60 leading-relaxed px-4 text-center">
-                   Permanently erase <span className="text-red-500 font-bold underline">{itemToDelete?.name}</span>? This action is irreversible.
+                   คุณแน่ใจหรือไม่ว่าต้องการลบ <span className="text-red-500 font-bold underline">{itemToDelete?.name}</span>? การดำเนินการนี้ไม่สามารถย้อนกลับได้
                 </DialogDescription>
              </div>
              <div className="pt-2 flex flex-col gap-2">
                 <Button onClick={handleExecuteDelete} disabled={isSubmitting} className="w-full h-12 bg-red-500 hover:bg-black text-white font-black text-[10px] uppercase tracking-[0.3em] rounded-xl shadow-lg border-none">
-                   {isSubmitting ? 'Purging...' : 'Confirm_Erase'}
+                   {isSubmitting ? 'กำลังลบ...' : 'ยืนยันการลบ'}
                 </Button>
                 <Button variant="ghost" onClick={() => setDeleteConfirmOpen(false)} className="w-full h-10 text-muted-foreground font-black text-[9px] uppercase tracking-[0.2em]">
-                   Abort
+                   ยกเลิก
                 </Button>
              </div>
           </div>

@@ -11,13 +11,11 @@ import {
   Zap,
   Activity
 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
 import * as api from '@/services/dispatchService';
 import { TicketDetailDialog } from '@/components/tickets/TicketDetailDialog';
 
 export const TechnicianManagement = () => {
-  const { t } = useTranslation();
   const [technicians, setTechnicians] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedTech, setSelectedTech] = useState<any | null>(null);
@@ -102,13 +100,13 @@ export const TechnicianManagement = () => {
                   </div>
                   <div>
                     <h1 className="text-4xl md:text-5xl font-headline font-black tracking-tighter text-foreground dark:text-white leading-none">
-                      {t('manager.members_title')}
+                       รายชื่อช่างเทคนิค
                     </h1>
-                    <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary/60 mt-2 ml-1">Personnel_Registry</p>
+                    <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary/60 mt-2 ml-1">ทะเบียนบุคลากร</p>
                   </div>
                 </div>
                 <p className="text-lg text-muted-foreground max-w-2xl ml-1 font-medium leading-relaxed italic">
-                   {t('manager.analytics_desc')}
+                   วิเคราะห์ดัชนีชี้วัดประสิทธิภาพทางเทคนิคและบริหารจัดการบุคลากรเฉพาะทางทั่วมหาวิทยาลัย
                 </p>
               </div>
             </motion.div>
@@ -134,26 +132,26 @@ export const TechnicianManagement = () => {
                           {tech.full_name}
                         </h4>
                         <p className="text-[10px] text-muted-foreground font-black uppercase tracking-[0.2em] opacity-60">
-                          {tech.department || 'GENERAL_SECTOR'}
+                          {tech.department || 'หน่วยงานส่วนกลาง'}
                         </p>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-muted dark:bg-black/60 p-4 rounded-2xl border border-border dark:border-white/5 shadow-inner grow flex flex-col justify-center">
-                        <p className="text-[9px] text-muted-foreground/50 uppercase font-black tracking-widest mb-2">OPERATIONAL_STATUS</p>
+                        <p className="text-[9px] text-muted-foreground/50 uppercase font-black tracking-widest mb-2">สถานะการปฏิบัติงาน</p>
                         <div className="flex items-center gap-2">
                            <div className={`w-2 h-2 rounded-full ${tech.active_tickets_count > 0 ? 'bg-amber-500 animate-pulse' : 'bg-emerald-500'}`} />
                            <span className={`text-[10px] font-black uppercase tracking-widest ${tech.active_tickets_count > 0 ? 'text-amber-600 dark:text-amber-500' : 'text-emerald-600 dark:text-emerald-500'}`}>
-                             {tech.active_tickets_count > 0 ? t('technician.busy') : t('technician.available')}
+                             {tech.active_tickets_count > 0 ? "ไม่ว่าง" : "ว่าง"}
                            </span>
                         </div>
                       </div>
                       <div className="bg-muted dark:bg-black/60 p-4 rounded-2xl border border-border dark:border-white/5 shadow-inner grow">
-                        <p className="text-[9px] text-muted-foreground/50 uppercase font-black tracking-widest mb-1.5">ACTIVE_LOAD</p>
+                        <p className="text-[9px] text-muted-foreground/50 uppercase font-black tracking-widest mb-1.5">ภาระงานปัจจุบัน</p>
                         <div className="flex items-baseline gap-1">
                           <p className="text-2xl font-headline font-black text-foreground dark:text-white">{tech.active_tickets_count}</p>
-                          <p className="text-[8px] font-black text-muted-foreground/40 uppercase tracking-widest">Units</p>
+                          <p className="text-[8px] font-black text-muted-foreground/40 uppercase tracking-widest">รายการ</p>
                         </div>
                       </div>
                     </div>
@@ -181,12 +179,12 @@ export const TechnicianManagement = () => {
                 <div className="w-8 h-8 rounded-full border border-border flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-all">
                   <ArrowLeft className="w-4 h-4" />
                 </div>
-                {t('common.cancel')}
+                ย้อนกลับ
               </button>
               
               <div className="flex items-center gap-2 text-[10px] font-black text-muted-foreground/40 uppercase tracking-[0.2em]">
                 <ShieldCheck className="w-4 h-4" />
-                Personnel_Terminal_Protocol
+                โปรโตคอลการจัดการบุคลากร
               </div>
             </div>
 
@@ -209,11 +207,11 @@ export const TechnicianManagement = () => {
                     <div className="flex flex-wrap justify-center md:justify-start gap-6">
                        <span className="flex items-center gap-3 text-muted-foreground text-[10px] font-black uppercase tracking-[0.2em] bg-muted/50 dark:bg-black/20 px-4 py-2 rounded-full border border-border dark:border-white/5 shadow-sm">
                           <Briefcase className="w-4 h-4 text-primary" />
-                          {selectedTech.department || 'GLOBAL_OPERATIONS'}
+                          {selectedTech.department || 'ปฏิบัติการส่วนกลาง'}
                        </span>
                        <span className="flex items-center gap-3 text-muted-foreground text-[10px] font-black uppercase tracking-[0.2em] bg-muted/50 dark:bg-black/20 px-4 py-2 rounded-full border border-border dark:border-white/5 shadow-sm">
                           <Clock className="w-4 h-4 text-primary" />
-                          ENROLLED_YEAR_{new Date().getFullYear()}
+                          ปีที่ขึ้นทะเบียน {new Date().getFullYear()}
                        </span>
                     </div>
                   </div>
@@ -222,12 +220,12 @@ export const TechnicianManagement = () => {
                      <div className="text-center bg-card dark:bg-black/60 px-10 py-6 rounded-[2rem] border border-border dark:border-white/5 shadow-2xl relative group overflow-hidden">
                         <div className="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                         <p className="text-4xl md:text-5xl font-headline font-black text-foreground dark:text-white relative z-10">{techDetails?.completed_count || 0}</p>
-                        <p className="text-[10px] text-emerald-600 dark:text-emerald-500 font-black uppercase tracking-[0.3em] mt-1 relative z-10">{t('common.closed')}</p>
+                        <p className="text-[10px] text-emerald-600 dark:text-emerald-500 font-black uppercase tracking-[0.3em] mt-1 relative z-10">เสร็จสิ้น</p>
                      </div>
                      <div className="text-center bg-card dark:bg-black/60 px-10 py-6 rounded-[2rem] border border-border dark:border-white/5 shadow-2xl relative group overflow-hidden">
                         <div className="absolute inset-0 bg-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                         <p className="text-4xl md:text-5xl font-headline font-black text-foreground dark:text-white relative z-10">{techDetails?.active_count || 0}</p>
-                        <p className="text-[10px] text-amber-600 dark:text-amber-500 font-black uppercase tracking-[0.3em] mt-1 relative z-10">{t('common.active')}</p>
+                        <p className="text-[10px] text-amber-600 dark:text-amber-500 font-black uppercase tracking-[0.3em] mt-1 relative z-10">กำลังซ่อม</p>
                      </div>
                   </div>
                </div>
@@ -245,13 +243,13 @@ export const TechnicianManagement = () => {
                     <div className="p-2 bg-amber-500/10 text-amber-500 rounded-lg">
                        <Zap className="w-5 h-5" />
                     </div>
-                    <h3 className="text-lg font-headline font-black text-foreground dark:text-white uppercase tracking-widest underline decoration-amber-500/30 underline-offset-8">{t('technician.active_jobs')}</h3>
+                    <h3 className="text-lg font-headline font-black text-foreground dark:text-white uppercase tracking-widest underline decoration-amber-500/30 underline-offset-8">งานที่กำลังดำเนินการ</h3>
                   </div>
                   
                   <div className="space-y-6">
                     {techDetails?.active_tasks?.length === 0 ? (
                       <div className="p-14 text-center border-2 border-dashed border-border dark:border-white/10 rounded-[2rem] bg-muted/30 dark:bg-black/10">
-                        <p className="text-muted-foreground/30 text-[10px] font-black uppercase tracking-[0.2em]">{t('student.zero_active')}</p>
+                        <p className="text-muted-foreground/30 text-[10px] font-black uppercase tracking-[0.2em]">ไม่มีงานที่ค้างอยู่</p>
                       </div>
                     ) : (
                       techDetails?.active_tasks?.map((task: any) => (
@@ -272,7 +270,7 @@ export const TechnicianManagement = () => {
                           <div className="flex items-center gap-2 pt-4 border-t border-border dark:border-white/5">
                             <Clock className="w-3.5 h-3.5 text-muted-foreground/30" />
                             <p className="text-[10px] text-muted-foreground/40 font-black uppercase tracking-widest">
-                               Initiated_{new Date(task.created_at).toLocaleDateString()}
+                               เริ่มเมื่อ {new Date(task.created_at).toLocaleDateString()}
                             </p>
                           </div>
                         </motion.div>
@@ -287,14 +285,14 @@ export const TechnicianManagement = () => {
                     <div className="p-2 bg-emerald-500/10 text-emerald-500 rounded-lg">
                        <Activity className="w-5 h-5" />
                     </div>
-                    <h3 className="text-lg font-headline font-black text-foreground dark:text-white uppercase tracking-widest underline decoration-emerald-500/30 underline-offset-8">{t('technician.history')}</h3>
+                    <h3 className="text-lg font-headline font-black text-foreground dark:text-white uppercase tracking-widest underline decoration-emerald-500/30 underline-offset-8">ประวัติการทำงาน</h3>
                   </div>
 
                   <div className="space-y-6">
                     {techHistory.length === 0 ? (
                       <div className="p-24 text-center border-2 border-dashed border-border dark:border-white/10 rounded-[2.5rem] bg-muted/30 dark:bg-black/10">
                         <CheckCircle2 className="w-16 h-16 text-muted-foreground/10 mx-auto mb-6" />
-                        <p className="text-muted-foreground/40 font-black text-[10px] uppercase tracking-[0.2em] italic">{t('technician.no_history')}</p>
+                        <p className="text-muted-foreground/40 font-black text-[10px] uppercase tracking-[0.2em] italic">ไม่มีประวัติการทำงาน</p>
                       </div>
                     ) : (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -308,7 +306,7 @@ export const TechnicianManagement = () => {
                             className="glass-card p-6 rounded-[2rem] border border-border/50 dark:border-white/5 border-l-4 border-l-emerald-500/30 bg-card/60 dark:bg-black/40 hover:bg-card dark:hover:bg-black transition-all cursor-pointer shadow-xl group"
                           >
                              <div className="flex justify-between items-center mb-4">
-                                <span className="text-[10px] font-black text-muted-foreground/30 uppercase tracking-[0.2em]">UNIT_#{history.id}</span>
+                                <span className="text-[10px] font-black text-muted-foreground/30 uppercase tracking-[0.2em]">รหัสงาน #{history.id}</span>
                                 <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-500/60 flex items-center gap-1.5 uppercase tracking-widest">
                                   <Clock className="w-3.5 h-3.5" />
                                   {new Date(history.updated_at).toLocaleDateString()}
@@ -319,7 +317,7 @@ export const TechnicianManagement = () => {
                                 <Badge variant="outline" className="bg-muted dark:bg-white/5 text-[9px] h-6 px-3 border-border dark:border-white/5 font-black uppercase tracking-widest">
                                   {history.category_name}
                                 </Badge>
-                                <span className="text-[9px] font-black text-emerald-600 dark:text-emerald-500 uppercase tracking-widest opacity-60">Verified_Execution</span>
+                                <span className="text-[9px] font-black text-emerald-600 dark:text-emerald-500 uppercase tracking-widest opacity-60">ตรวจสอบแล้ว</span>
                              </div>
                           </motion.div>
                         ))}

@@ -15,10 +15,11 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onUploadSuccess, label, 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (uploading) return;
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       if (selectedFile.size > 5 * 1024 * 1024) {
-        setError('File size too large (max 5MB)');
+        setError('ขนาดไฟล์ใหญ่เกินไป (สูงสุด 5MB)');
         return;
       }
       setPreview(URL.createObjectURL(selectedFile));
@@ -48,11 +49,11 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onUploadSuccess, label, 
       if (response.data.status === 'success') {
         onUploadSuccess(response.data.data.url);
       } else {
-        setError('Upload failed');
+        setError('การอัปโหลดล้มเหลว');
       }
     } catch (err: any) {
       console.error('Upload error:', err);
-      setError(err.response?.data?.message || 'Upload failed');
+      setError(err.response?.data?.message || 'การอัปโหลดล้มเหลว');
     } finally {
       setUploading(false);
     }
@@ -82,7 +83,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onUploadSuccess, label, 
               className="absolute inset-0 opacity-0 cursor-pointer"
             />
             <Upload className="w-8 h-8 text-white/20 mb-2" />
-            <p className="text-xs text-white/40">Click or drag to upload (Max 5MB)</p>
+            <p className="text-xs text-white/40">คลิกหรือลากไฟล์เพื่ออัปโหลด (สูงสุด 5MB)</p>
           </>
         ) : (
           <div className="relative w-full aspect-video rounded-lg overflow-hidden group">
@@ -98,7 +99,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onUploadSuccess, label, 
             {uploading && (
               <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-2">
                 <Loader2 className="w-6 h-6 text-primary animate-spin" />
-                <span className="text-xs text-white font-medium">Uploading...</span>
+                <span className="text-xs text-white font-medium">กำลังอัปโหลด...</span>
               </div>
             )}
             {!uploading && !error && (

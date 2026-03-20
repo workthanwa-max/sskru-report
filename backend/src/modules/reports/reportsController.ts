@@ -24,3 +24,15 @@ export const getStats = async (req: Request, res: Response) => {
     res.status(500).json({ status: 'error', message: 'Internal server error' });
   }
 };
+export const getDashboardSummary = async (req: Request, res: Response) => {
+  try {
+    const summary = await repo.getDashboardSummary();
+    res.json({
+      status: 'success',
+      data: summary
+    });
+  } catch (error) {
+    console.error('Error in getDashboardSummary:', error);
+    res.status(500).json({ status: 'error', message: 'Internal server error' });
+  }
+};

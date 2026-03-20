@@ -5,10 +5,8 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Loader2, User, Lock, ArrowRight } from 'lucide-react';
 import { authService } from '@/services/authService';
-import { useTranslation } from 'react-i18next';
 
 export const LoginForm = () => {
-  const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -31,7 +29,7 @@ export const LoginForm = () => {
       login(access_token, user);
       navigate(`/dashboard/${user.role.toLowerCase()}`, { replace: true });
     } catch (err: any) {
-      setError(err.response?.data?.error || t('auth.login_failed'));
+      setError(err.response?.data?.error || "ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง");
     } finally {
       setLoading(false);
     }
@@ -54,7 +52,7 @@ export const LoginForm = () => {
         <div className="space-y-4">
           <div className="space-y-2 group">
             <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60 ml-1 group-focus-within:text-primary transition-colors">
-               {t('auth.username')}
+               ชื่อผู้ใช้งาน
             </label>
             <div className="relative">
               <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/40 group-focus-within:text-primary/60 transition-colors" />
@@ -62,7 +60,7 @@ export const LoginForm = () => {
                 type="text"
                 required
                 className="flex h-12 w-full rounded-2xl border border-input bg-muted/20 pl-10 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground/40 focus:bg-background focus:border-primary/50 focus:ring-4 focus:ring-primary/10 outline-none transition-all dark:bg-white/[0.03] dark:border-white/10 dark:text-white dark:placeholder:text-white/30"
-                placeholder={t('auth.username')}
+                placeholder="ชื่อผู้ใช้งาน"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -71,7 +69,7 @@ export const LoginForm = () => {
 
           <div className="space-y-2 group">
             <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60 ml-1 group-focus-within:text-primary transition-colors">
-               {t('auth.password')}
+               รหัสผ่าน
             </label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/40 group-focus-within:text-primary/60 transition-colors" />
@@ -96,7 +94,7 @@ export const LoginForm = () => {
              <Loader2 className="w-5 h-5 animate-spin" />
           ) : (
             <>
-              {t('auth.login_button').toUpperCase()}
+              เข้าสู่ระบบ
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </>
           )}
@@ -106,14 +104,14 @@ export const LoginForm = () => {
       <div className="flex flex-col items-center gap-4 text-xs font-bold uppercase tracking-wider">
         <div className="flex items-center gap-4 w-full opacity-50">
            <div className="h-px bg-border flex-1" />
-           <span className="text-muted-foreground">{t('auth.no_account')}</span>
+           <span className="text-muted-foreground">ยังไม่มีบัญชีผู้ใช้งาน?</span>
            <div className="h-px bg-border flex-1" />
         </div>
         <Link 
           to="/register" 
           className="text-foreground hover:text-primary transition-all py-2 px-6 rounded-full border border-border hover:border-primary/30 bg-muted/10 hover:bg-muted/30"
         >
-          {t('auth.register')}
+          ลงทะเบียนใหม่
         </Link>
       </div>
     </div>

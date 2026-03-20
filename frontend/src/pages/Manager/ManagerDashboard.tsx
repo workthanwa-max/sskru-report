@@ -1,17 +1,33 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Building2, ClipboardList, ChevronRight, Activity, Users, ShieldCheck } from 'lucide-react';
+import { Building2, ClipboardList, ChevronRight, Activity, Users, ShieldCheck, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import { useTranslation } from 'react-i18next';
+import * as reportService from '@/services/reportService';
 
 export const ManagerDashboard = () => {
   const { user } = useAuth();
-  const { t } = useTranslation();
+  const [summary, setSummary] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSummary = async () => {
+      try {
+        const res = await reportService.getDashboardSummary();
+        setSummary(res.data);
+      } catch (error) {
+        console.error("Error fetching dashboard summary:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSummary();
+  }, []);
 
   const menuItems = [
     {
-      title: t('nav.infrastructure'),
-      description: 'Configure buildings, levels, sectors, and maintenance categories.',
+      title: "จัดการโครงสร้างพื้นฐาน",
+      description: "จัดการอาคาร ชั้น ห้อง และประเภทของงานซ่อมบำรุง",
       icon: Building2,
       path: '/dashboard/infrastructure',
       color: 'text-blue-500',
@@ -19,8 +35,8 @@ export const ManagerDashboard = () => {
       borderColor: 'border-blue-500/20'
     },
     {
-      title: t('nav.dispatch'),
-      description: 'Review incoming requests and coordinate available specialized units.',
+      title: "จ่ายหน้าที่งานซ่อม",
+      description: "ตรวจสอบรายการแจ้งซ่อมและมอบหมายหน้าที่ให้กับช่างเทคนิค",
       icon: ClipboardList,
       path: '/dashboard/dispatch',
       color: 'text-amber-500',
@@ -28,8 +44,8 @@ export const ManagerDashboard = () => {
       borderColor: 'border-amber-500/20'
     },
     {
-      title: t('nav.members'),
-      description: 'Monitor specialized personnel and performance matrices.',
+      title: "จัดการช่างเทคนิค",
+      description: "จัดการข้อมูลช่างเทคนิคและติดตามผลการปฏิบัติงาน",
       icon: Users,
       path: '/dashboard/technicians',
       color: 'text-emerald-500',
@@ -55,13 +71,13 @@ export const ManagerDashboard = () => {
             </div>
             <div>
               <h1 className="text-4xl md:text-6xl font-headline font-black tracking-tighter text-foreground dark:text-white leading-none">
-                Management Portal
+                พอร์ทัลการจัดการ
               </h1>
-              <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary/60 mt-2 ml-1">SSKRU CORE OPERATIONS</p>
+              <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary/60 mt-2 ml-1">ศูนย์ปฏิบัติการกลาง SSKRU</p>
             </div>
           </div>
           <p className="text-xl text-muted-foreground max-w-2xl ml-1 font-medium leading-relaxed italic">
-            Greetings, {user?.full_name || 'Coordinator'}. Oversee structural integrity and coordinate the deployment of maintenance protocols.
+            สวัสดีคุณ {user?.full_name || 'ผู้ดูแลระบบ'}, ยินดีต้อนรับสู่ระบบบริหารจัดการและติดตามการซ่อมบำรุงภายในสถาบัน
           </p>
         </div>
       </motion.div>
@@ -95,7 +111,7 @@ export const ManagerDashboard = () => {
               </p>
               
               <div className="mt-auto flex items-center text-[10px] font-black tracking-[0.2em] text-primary uppercase group-hover:translate-x-2 transition-transform duration-300">
-                Execute Protocol
+                เข้าสู่ระบบจัดการ
                 <ChevronRight className="w-4 h-4 ml-2" />
               </div>
             </Link>
@@ -106,9 +122,9 @@ export const ManagerDashboard = () => {
       {/* Quick Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
          {[
-           { label: 'Pending Dispatch', value: '14', icon: ClipboardList, color: 'text-amber-500' },
-           { label: 'Active Repairs', value: '28', icon: Activity, color: 'text-blue-500' },
-           { label: 'Staff Online', value: '12', icon: Users, color: 'text-emerald-500' },
+           { label: 'รอการจ่ายงาน', value: summary?.pending_dispatch ?? '0', icon: ClipboardList, color: 'text-amber-500' },
+           { label: 'กำลังดำเนินการ', value: summary?.active_repairs ?? '0', icon: Activity, color: 'text-blue-500' },
+           { label: 'ช่างเทคนิคทั้งหมด', value: summary?.staff_total ?? '0', icon: Users, color: 'text-emerald-500' },
          ].map((stat, i) => (
            <motion.div
              key={stat.label}
@@ -122,7 +138,11 @@ export const ManagerDashboard = () => {
               </div>
               <div>
                 <p className="text-[10px] text-muted-foreground/60 uppercase tracking-[0.3em] font-black mb-1">{stat.label}</p>
-                <h4 className="text-3xl font-headline font-black text-foreground dark:text-white leading-none">{stat.value}</h4>
+                {loading ? (
+                  <Loader2 className="w-6 h-6 animate-spin text-primary opacity-20" />
+                ) : (
+                  <h4 className="text-3xl font-headline font-black text-foreground dark:text-white leading-none">{stat.value}</h4>
+                )}
               </div>
            </motion.div>
          ))}

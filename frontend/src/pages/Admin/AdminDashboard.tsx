@@ -25,13 +25,13 @@ export const AdminDashboard = () => {
               </div>
               <div>
                 <h1 className="text-4xl md:text-5xl font-headline font-black tracking-tighter text-foreground dark:text-white leading-none">
-                  Admin Console
+                  คอนโซลควบคุมดูแลระบบ
                 </h1>
-                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary/60 mt-2 ml-1">Central Intelligence Hub</p>
+                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary/60 mt-2 ml-1">ศูนย์กลางการจัดการระบบ</p>
               </div>
             </div>
             <p className="text-lg text-muted-foreground max-w-xl ml-1 font-medium leading-relaxed italic">
-              System governance, identity matrix management, and deep activity audit sequences.
+              การกำกับดูแลระบบ การจัดการบัญชีผู้ใช้งาน และการตรวจสอบประวัติกิจกรรมเชิงลึก
             </p>
           </div>
           
@@ -43,7 +43,7 @@ export const AdminDashboard = () => {
               }`}
             >
               <Users className="w-4 h-4" />
-              Users
+              ผู้ใช้งาน
             </button>
             <button 
               onClick={() => setActiveTab('logs')}
@@ -52,7 +52,7 @@ export const AdminDashboard = () => {
               }`}
             >
               <History className="w-4 h-4" />
-              Audit
+              บันทึกกิจกรรม
             </button>
           </div>
         </div>

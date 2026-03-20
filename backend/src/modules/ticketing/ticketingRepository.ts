@@ -42,12 +42,16 @@ export const getTicketsByReporter = (reporterId: number) => {
              r.room_name, r.room_number,
              f.floor_number,
              b.name as building_name,
-             c.category_name
+             c.category_name,
+             ml.notes as maintenance_notes,
+             ml.image_after as maintenance_photo,
+             ml.created_at as completion_date
       FROM Tickets t
       LEFT JOIN Rooms r ON t.room_id = r.id
       LEFT JOIN Floors f ON r.floor_id = f.id
       LEFT JOIN Buildings b ON f.building_id = b.id
       LEFT JOIN Categories c ON t.category_id = c.id
+      LEFT JOIN Maintenance_Logs ml ON t.id = ml.ticket_id
       WHERE t.reporter_id = ?
       ORDER BY t.created_at DESC
     `;

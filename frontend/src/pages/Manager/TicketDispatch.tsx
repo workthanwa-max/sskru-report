@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ClipboardList, UserCheck, AlertCircle, Loader2, Clock, MapPin, CheckCircle2, XCircle, Eye, History, ShieldCheck, ChevronRight } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import * as api from '@/services/dispatchService';
 import { TicketDetailDialog } from '@/components/tickets/TicketDetailDialog';
@@ -9,7 +8,6 @@ import { TicketDetailDialog } from '@/components/tickets/TicketDetailDialog';
 type Tab = 'pending' | 'review' | 'history';
 
 export const TicketDispatch = () => {
-  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<Tab>('pending');
   const [tickets, setTickets] = useState<any[]>([]);
   const [technicians, setTechnicians] = useState<any[]>([]);
@@ -78,7 +76,7 @@ export const TicketDispatch = () => {
   };
 
   const handleReject = async (ticketId: number) => {
-    const note = prompt(t('technician.reason_label') + ":");
+    const note = prompt("เหตุผลที่ตีกลับ" + ":");
     if (note === null) return;
     
     setActionLoading(ticketId);
@@ -111,21 +109,21 @@ export const TicketDispatch = () => {
               </div>
               <div>
                 <h1 className="text-4xl md:text-5xl font-headline font-black tracking-tighter text-foreground dark:text-white leading-none">
-                  {t('manager.dispatch_title')}
+                   ศูนย์จ่ายงานซ่อมบำรุง
                 </h1>
-                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary/60 mt-2 ml-1">Dispatch_Coordination</p>
+                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary/60 mt-2 ml-1">การประสานงานงานซ่อม</p>
               </div>
             </div>
             <p className="text-lg text-muted-foreground max-w-xl ml-1 font-medium leading-relaxed italic">
-               {t('manager.analytics_desc')}
+               วิเคราะห์ดัชนีชี้วัดประสิทธิภาพทางเทคนิคและบริหารจัดการบุคลากรเฉพาะทางทั่วมหาวิทยาลัย
             </p>
           </div>
 
           <div className="flex bg-muted/50 dark:bg-black/40 p-1.5 rounded-2xl border border-border dark:border-white/5 backdrop-blur-md shadow-inner self-stretch md:self-auto overflow-x-auto no-scrollbar">
             {[
-              { id: 'pending', icon: AlertCircle, label: t('technician.active_jobs'), count: activeTab === 'pending' ? tickets.length : null },
-              { id: 'review', icon: CheckCircle2, label: t('common.status'), count: activeTab === 'review' ? tickets.length : null },
-              { id: 'history', icon: History, label: t('technician.history'), count: activeTab === 'history' ? tickets.length : null }
+              { id: 'pending', icon: AlertCircle, label: "งานที่มอบหมาย", count: activeTab === 'pending' ? tickets.length : null },
+              { id: 'review', icon: CheckCircle2, label: "รอตรวจสอบ", count: activeTab === 'review' ? tickets.length : null },
+              { id: 'history', icon: History, label: "ประวัติการทำงาน", count: activeTab === 'history' ? tickets.length : null }
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -159,8 +157,8 @@ export const TicketDispatch = () => {
                 <div className="mx-auto w-24 h-24 bg-muted dark:bg-white/5 rounded-3xl flex items-center justify-center mb-8 text-muted-foreground/20 border border-border dark:border-white/5 shadow-inner">
                   <ShieldCheck className="w-12 h-12" />
                 </div>
-                <p className="text-2xl font-headline font-black text-foreground/40 dark:text-white/20 uppercase tracking-[0.2em]">{t('student.zero_active')}</p>
-                <p className="text-sm mt-2 opacity-60">System equilibrium established.</p>
+                <p className="text-2xl font-headline font-black text-foreground/40 dark:text-white/20 uppercase tracking-[0.2em]">ไม่มีรายการแจ้งซ่อม</p>
+                <p className="text-sm mt-2 opacity-60">ระบบอยู่ในสภาวะปกติ</p>
               </motion.div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -190,7 +188,7 @@ export const TicketDispatch = () => {
                             {ticket.description}
                           </h4>
                           <p className="text-sm text-muted-foreground font-medium italic opacity-60">
-                            Source: <span className="font-bold uppercase tracking-widest">{ticket.reporter_name}</span>
+                            ผู้แจ้ง: <span className="font-bold uppercase tracking-widest">{ticket.reporter_name}</span>
                           </p>
                         </div>
                         
@@ -215,7 +213,7 @@ export const TicketDispatch = () => {
                         </div>
                         <div className="text-sm leading-relaxed overflow-hidden">
                           <p className="font-black text-foreground dark:text-white uppercase tracking-widest truncate">{ticket.building_name}</p>
-                          <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60 mt-1">{t('infrastructure.floor')} {ticket.floor_number} • {ticket.room_name} <span className="opacity-40">({t('infrastructure.room')} {ticket.room_number})</span></p>
+                          <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60 mt-1">ชั้น {ticket.floor_number} • {ticket.room_name} <span className="opacity-40">(ห้อง {ticket.room_number})</span></p>
                         </div>
                       </div>
 
@@ -231,7 +229,7 @@ export const TicketDispatch = () => {
                                  value={assignments[ticket.id] || ''}
                                  onChange={(e) => setAssignments({ ...assignments, [ticket.id]: e.target.value })}
                                >
-                                 <option value="" disabled>{t('tickets.unassigned').toUpperCase()}</option>
+                                 <option value="" disabled>ยังไม่ได้มอบหมาย</option>
                                  {technicians.map(tech => (
                                    <option 
                                      key={tech.id} 
@@ -239,7 +237,7 @@ export const TicketDispatch = () => {
                                      disabled={tech.active_tickets_count > 0}
                                      className={`${tech.active_tickets_count > 0 ? 'text-muted-foreground/40' : 'text-foreground'} bg-card dark:bg-[#1a1a1a]`}
                                    >
-                                     {tech.full_name} • {tech.department || t('common.no_department')} {tech.active_tickets_count > 0 ? `[${t('technician.busy').toUpperCase()}]` : `[${t('technician.available').toUpperCase()}]`}
+                                     {tech.full_name} • {tech.department || "ไม่มีต้นสังกัด"} {tech.active_tickets_count > 0 ? `[ไม่ว่าง]` : `[ว่าง]`}
                                    </option>
                                  ))}
                                </select>
@@ -253,14 +251,14 @@ export const TicketDispatch = () => {
                               className="w-full bg-primary text-primary-foreground font-black text-xs uppercase tracking-[0.2em] hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-primary/20 h-14 rounded-[1.25rem] group/btn"
                             >
                               {actionLoading === ticket.id ? <Loader2 className="w-5 h-5 animate-spin" /> : (
-                                <span className="flex items-center gap-2">{t('technician.start_work')} <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" /></span>
+                                <span className="flex items-center gap-2">มอบหมายงาน <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" /></span>
                               )}
                             </Button>
                           </div>
                         ) : activeTab === 'review' ? (
                           <div className="flex flex-col gap-6">
                              <div>
-                                <p className="text-[10px] text-muted-foreground/40 uppercase tracking-[0.3em] font-black mb-2 px-1">{t('nav.technician')}</p>
+                                <p className="text-[10px] text-muted-foreground/40 uppercase tracking-[0.3em] font-black mb-2 px-1">ช่างเทคนิค</p>
                                 <div className="p-4 bg-muted dark:bg-black/40 rounded-2xl border border-border dark:border-white/5 font-black text-foreground dark:text-white text-sm tracking-widest shadow-inner">
                                   {ticket.technician_name}
                                 </div>
@@ -271,20 +269,20 @@ export const TicketDispatch = () => {
                                   disabled={actionLoading === ticket.id}
                                   className="bg-card dark:bg-white/5 border border-border dark:border-white/10 text-red-500 hover:bg-red-500/10 hover:border-red-500/50 font-black text-[10px] uppercase tracking-widest h-12 rounded-2xl transition-all"
                                 >
-                                  {actionLoading === ticket.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <><XCircle className="w-4 h-4 mr-2" /> {t('technician.rejected')}</>}
+                                  {actionLoading === ticket.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <><XCircle className="w-4 h-4 mr-2" /> ตีกลับงาน</>}
                                </Button>
                                <Button 
                                   onClick={() => handleApprove(ticket.id)}
                                   disabled={actionLoading === ticket.id}
                                   className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500 dark:hover:bg-emerald-500 hover:text-white dark:hover:text-black font-black text-[10px] uppercase tracking-widest h-12 rounded-2xl transition-all shadow-lg shadow-emerald-500/10"
                                 >
-                                  {actionLoading === ticket.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <><CheckCircle2 className="w-4 h-4 mr-2" /> {t('common.status')}</>}
+                                  {actionLoading === ticket.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <><CheckCircle2 className="w-4 h-4 mr-2" /> อนุมัติและเสร็จสิ้น</>}
                                </Button>
                              </div>
                           </div>
                         ) : (
                           <div className="p-4 bg-muted dark:bg-black/40 rounded-2xl border border-border dark:border-white/5 shadow-inner">
-                             <p className="text-[10px] text-muted-foreground/40 uppercase tracking-[0.3em] font-black mb-1">{t('nav.technician')}</p>
+                             <p className="text-[10px] text-muted-foreground/40 uppercase tracking-[0.3em] font-black mb-1">ช่างเทคนิค</p>
                              <p className="text-sm font-black text-foreground dark:text-white tracking-widest">{ticket.technician_name}</p>
                           </div>
                         )}

@@ -5,7 +5,6 @@ import * as api from '@/services/infrastructureService';
 import { ticketingService } from '@/services/ticketingService';
 import { Button } from '@/components/ui/button';
 import { FileUpload } from '@/components/ui/FileUpload';
-import { useTranslation } from 'react-i18next';
 
 type Building = { id: number; name: string; code: string };
 type Floor = { id: number; building_id: number; floor_number: string | number };
@@ -13,7 +12,6 @@ type Room = { id: number; floor_id: number; room_number: string; room_name: stri
 type Category = { id: number; category_name: string };
 
 export const FacilityExplorer = () => {
-  const { t } = useTranslation();
   const [buildings, setBuildings] = useState<Building[]>([]);
   const [floors, setFloors] = useState<Floor[]>([]);
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -114,13 +112,13 @@ export const FacilityExplorer = () => {
             </div>
             <div>
               <h1 className="text-4xl md:text-5xl font-headline font-black tracking-tighter text-foreground dark:text-white leading-none">
-                {t('facility.explorer_title')}
+                ศูนย์สำรวจและแจ้งซ่อมสถานที่
               </h1>
-              <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary/60 mt-2 ml-1">Spatial_Sector_Resource</p>
+              <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary/60 mt-2 ml-1">การจัดการพื้นที่และทรัพยากร</p>
             </div>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl ml-1 font-medium leading-relaxed italic mt-4">
-             {t('facility.explorer_desc')}
+             ระบบสำรวจโครงสร้างและแจ้งซ่อมบำรุงเชิงรุก เพื่อรักษามาตรฐานความปลอดภัยและสภาพแวดล้อมทั่วทั้งสถาบัน
           </p>
         </div>
       </motion.div>
@@ -134,7 +132,7 @@ export const FacilityExplorer = () => {
              <div className="p-2 bg-primary/10 text-primary rounded-lg border border-primary/20">
                 <Building2 className="w-5 h-5" />
              </div>
-             <h3 className="text-lg font-headline font-black text-foreground dark:text-white uppercase tracking-widest underline decoration-primary/30 underline-offset-8">{t('nav.infrastructure')}</h3>
+             <h3 className="text-lg font-headline font-black text-foreground dark:text-white uppercase tracking-widest underline decoration-primary/30 underline-offset-8">โครงสร้างพื้นฐาน</h3>
           </div>
           <div className="flex flex-col gap-4">
             {buildings.map((b, i) => (
@@ -156,7 +154,7 @@ export const FacilityExplorer = () => {
                 <div className="relative z-10 flex justify-between items-center">
                   <div>
                     <h4 className={`text-xl font-headline font-black tracking-tight ${selectedBuilding?.id === b.id ? 'text-primary' : 'text-foreground dark:text-white'}`}>{b.name}</h4>
-                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/60 mt-2">Code: {b.code}</p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/60 mt-2">รหัสอาคาร: {b.code}</p>
                   </div>
                   <ChevronRight className={`w-5 h-5 transition-all duration-500 ${selectedBuilding?.id === b.id ? 'text-primary translate-x-1 scale-110' : 'text-muted-foreground/30 group-hover:text-primary/60'}`} />
                 </div>
@@ -172,7 +170,7 @@ export const FacilityExplorer = () => {
              <div className="p-2 bg-muted text-muted-foreground rounded-lg border border-border">
                 <Layers className="w-5 h-5" />
              </div>
-             <h3 className="text-lg font-headline font-black text-foreground/40 dark:text-white/40 uppercase tracking-widest">{t('infrastructure.floor')}s</h3>
+             <h3 className="text-lg font-headline font-black text-foreground/40 dark:text-white/40 uppercase tracking-widest">ชั้น</h3>
           </div>
           <AnimatePresence mode="wait">
             {!selectedBuilding ? (
@@ -184,7 +182,7 @@ export const FacilityExplorer = () => {
                 className="h-full min-h-[300px] border-2 border-dashed border-border dark:border-white/10 rounded-[2.5rem] flex flex-col items-center justify-center text-muted-foreground/30 p-10 text-center bg-card/20 dark:bg-black/10"
               >
                 <Activity className="w-10 h-10 mb-4 opacity-20" />
-                <p className="text-sm font-black uppercase tracking-widest leading-relaxed">{t('facility.select_building')}</p>
+                <p className="text-sm font-black uppercase tracking-widest leading-relaxed">กรุณาเลือกอาคารเพื่อดูรายละเอียดชั้น</p>
               </motion.div>
             ) : (
               <motion.div
@@ -208,7 +206,7 @@ export const FacilityExplorer = () => {
                     }`}
                   >
                     <div>
-                      <h4 className={`text-lg font-black uppercase tracking-[0.2em] ${selectedFloor?.id === f.id ? 'text-primary' : 'text-foreground dark:text-white'}`}>{t('infrastructure.floor')} {f.floor_number}</h4>
+                      <h4 className={`text-lg font-black uppercase tracking-[0.2em] ${selectedFloor?.id === f.id ? 'text-primary' : 'text-foreground dark:text-white'}`}>ชั้น {f.floor_number}</h4>
                     </div>
                     <ChevronRight className={`w-5 h-5 transition-all duration-500 ${selectedFloor?.id === f.id ? 'text-primary translate-x-1' : 'text-muted-foreground/30'}`} />
                   </motion.button>
@@ -225,7 +223,7 @@ export const FacilityExplorer = () => {
              <div className="p-2 bg-muted text-muted-foreground rounded-lg border border-border">
                 <MapPin className="w-5 h-5" />
              </div>
-             <h3 className="text-lg font-headline font-black text-foreground/40 dark:text-white/40 uppercase tracking-widest">{t('infrastructure.room')}s</h3>
+             <h3 className="text-lg font-headline font-black text-foreground/40 dark:text-white/40 uppercase tracking-widest">ห้อง</h3>
           </div>
           <AnimatePresence mode="wait">
             {!selectedFloor ? (
@@ -237,7 +235,7 @@ export const FacilityExplorer = () => {
                 className="h-full min-h-[300px] border-2 border-dashed border-border dark:border-white/10 rounded-[2.5rem] flex flex-col items-center justify-center text-muted-foreground/30 p-10 text-center bg-card/20 dark:bg-black/10"
               >
                 <Zap className="w-10 h-10 mb-4 opacity-20" />
-                <p className="text-sm font-black uppercase tracking-widest leading-relaxed">{t('facility.select_floor')}</p>
+                <p className="text-sm font-black uppercase tracking-widest leading-relaxed">กรุณาเลือกชั้นเพื่อดูรายการห้อง</p>
               </motion.div>
             ) : (
               <motion.div
@@ -261,7 +259,7 @@ export const FacilityExplorer = () => {
                           <MapPin className="w-5 h-5" />
                         </div>
                         <div>
-                          <h4 className="text-lg font-black text-foreground dark:text-white group-hover:text-primary transition-colors">{t('infrastructure.room')} {r.room_number}</h4>
+                          <h4 className="text-lg font-black text-foreground dark:text-white group-hover:text-primary transition-colors">ห้อง {r.room_number}</h4>
                           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 mt-1 italic">{r.room_name}</p>
                         </div>
                       </div>
@@ -271,11 +269,11 @@ export const FacilityExplorer = () => {
                       size="sm" 
                       className="bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground font-black text-[10px] uppercase tracking-widest h-11 rounded-xl transition-all shadow-lg shadow-primary/5 border border-primary/20"
                     >
-                      {t('facility.report_issue')}
+                      แจ้งซ่อมพื้นที่นี้
                     </Button>
                   </motion.div>
                 ))}
-                {floorRooms.length === 0 && <p className="text-muted-foreground italic p-6 text-center opacity-40">{t('facility.no_rooms')}</p>}
+                {floorRooms.length === 0 && <p className="text-muted-foreground italic p-6 text-center opacity-40">ไม่พบข้อมูลห้องในชั้นนี้</p>}
               </motion.div>
             )}
           </AnimatePresence>
@@ -304,8 +302,8 @@ export const FacilityExplorer = () => {
                   <div className="w-24 h-24 bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center mb-10 border border-emerald-500/30 shadow-2xl">
                     <CheckCircle2 className="w-12 h-12" />
                   </div>
-                  <h3 className="text-3xl font-headline font-black text-foreground dark:text-white uppercase tracking-tight">Report Logged</h3>
-                  <p className="text-lg text-muted-foreground font-medium italic mt-4">Structural anomaly registered. Protocol sequence initiated.</p>
+                  <h3 className="text-3xl font-headline font-black text-foreground dark:text-white uppercase tracking-tight">ศูนย์ลงบันทึกรายงานแล้ว</h3>
+                  <p className="text-lg text-muted-foreground font-medium italic mt-4">บันทึกข้อมูลปัญหาเรียบร้อยแล้ว ทีมงานจะดำเนินการตรวจสอบตามขั้นตอนมาตรฐาน</p>
                 </div>
               ) : duplicateTicket ? (
                 <div className="py-12 flex flex-col items-center text-center space-y-8">
@@ -313,9 +311,9 @@ export const FacilityExplorer = () => {
                     <ShieldAlert className="w-10 h-10" />
                   </div>
                   <div className="space-y-4">
-                     <h3 className="text-3xl font-headline font-black text-foreground dark:text-white uppercase tracking-tight">Active Operation Found</h3>
+                     <h3 className="text-3xl font-headline font-black text-foreground dark:text-white uppercase tracking-tight">พบรายการที่อยู่ระหว่างดำเนินการ</h3>
                      <p className="text-lg text-muted-foreground font-medium italic max-w-md leading-relaxed">
-                       A maintenance sequence is already active for <span className="text-primary font-black not-italic uppercase tracking-widest">{categories.find(c => c.id === parseInt(reportForm.category_id))?.category_name}</span> at this coordinates. Duplicate protocol aborted.
+                       มีรายการซ่อมบำรุงสำหรับหมวด <span className="text-primary font-black not-italic uppercase tracking-widest">{categories.find(c => c.id === parseInt(reportForm.category_id))?.category_name}</span> ในพื้นที่นี้อยู่แล้ว ระบบงดรับแจ้งซ้ำเพื่อป้องกันการสับสน
                      </p>
                   </div>
                   <Button 
@@ -325,7 +323,7 @@ export const FacilityExplorer = () => {
                     }}
                     className="bg-muted dark:bg-white/5 border border-border dark:border-white/10 text-foreground dark:text-white hover:bg-muted/80 dark:hover:bg-white/10 w-full rounded-2xl h-14 font-black text-[10px] uppercase tracking-[0.3em]"
                   >
-                    Acknowledge & Close
+                    รับทราบและปิดหน้าต่าง
                   </Button>
                 </div>
               ) : (
@@ -343,26 +341,26 @@ export const FacilityExplorer = () => {
                           <AlertCircle className="w-8 h-8" />
                        </div>
                        <div>
-                          <h3 className="text-3xl font-headline font-black text-foreground dark:text-white uppercase tracking-tight leading-none">{t('facility.report_issue')}</h3>
-                          <p className="text-[10px] font-black text-primary/60 uppercase tracking-[0.3em] mt-2 ml-1">Reporting Structural Anomaly</p>
+                          <h3 className="text-3xl font-headline font-black text-foreground dark:text-white uppercase tracking-tight leading-none">แจ้งซ่อมพื้นที่นี้</h3>
+                          <p className="text-[10px] font-black text-primary/60 uppercase tracking-[0.3em] mt-2 ml-1">กำลังรายงานความผิดปกติของโครงสร้าง</p>
                        </div>
                     </div>
                     <p className="text-lg text-muted-foreground font-medium italic leading-relaxed opacity-60 pt-6 border-t border-border dark:border-white/5">
-                       Coordinates: <span className="text-foreground dark:text-white font-black not-italic uppercase tracking-widest">{t('infrastructure.room')} {reportingRoom.room_number}</span> • <span className="text-foreground dark:text-white font-black not-italic uppercase tracking-widest">{selectedBuilding?.name}</span>
+                       ตำแหน่งอ้างอิง: <span className="text-foreground dark:text-white font-black not-italic uppercase tracking-widest">ห้อง {reportingRoom.room_number}</span> • <span className="text-foreground dark:text-white font-black not-italic uppercase tracking-widest">{selectedBuilding?.name}</span>
                     </p>
                   </div>
 
                   <form onSubmit={handleReportSubmit} className="space-y-10">
                     <div className="space-y-10">
                        <div className="group/select">
-                          <label className="block text-[10px] font-black text-muted-foreground/40 uppercase tracking-[0.3em] mb-3 px-2">Sector Classification</label>
+                          <label className="block text-[10px] font-black text-muted-foreground/40 uppercase tracking-[0.3em] mb-3 px-2">ประเภทของปัญหา</label>
                           <select 
                             required
                             value={reportForm.category_id}
                             onChange={(e) => setReportForm({...reportForm, category_id: e.target.value})}
                             className="w-full bg-muted dark:bg-black/60 border border-border dark:border-white/10 rounded-[2rem] p-6 text-foreground dark:text-white appearance-none focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all group-hover/select:border-primary/30"
                           >
-                            <option value="" disabled>Classify structural anomaly...</option>
+                             <option value="" disabled>ระบุประเภทความผิดปกติที่พบ...</option>
                             {categories.map(c => (
                               <option key={c.id} value={c.id} className="bg-card dark:bg-black">{c.category_name}</option>
                             ))}
@@ -370,10 +368,10 @@ export const FacilityExplorer = () => {
                        </div>
 
                        <div className="group/textarea">
-                          <label className="block text-[10px] font-black text-muted-foreground/40 uppercase tracking-[0.3em] mb-3 px-2">Anomaly Description</label>
+                          <label className="block text-[10px] font-black text-muted-foreground/40 uppercase tracking-[0.3em] mb-3 px-2">รายละเอียดของปัญหา</label>
                           <textarea 
                             required
-                            placeholder="Describe the structural variance or environmental failure..."
+                            placeholder="ระบุความเสียหายหรือปัญหาที่พบโดยสังเขป..."
                             rows={4}
                             value={reportForm.description}
                             onChange={(e) => setReportForm({...reportForm, description: e.target.value})}
@@ -382,30 +380,11 @@ export const FacilityExplorer = () => {
                        </div>
 
                        <div className="space-y-4">
-                         <label className="block text-[10px] font-black text-muted-foreground/40 uppercase tracking-[0.3em] mb-3 px-2">Telemetry Capture (Image)</label>
+                         <label className="block text-[10px] font-black text-muted-foreground/40 uppercase tracking-[0.3em] mb-3 px-2">หลักฐานภาพถ่ายความเสียหาย</label>
                           <FileUpload 
-                            label="Capture Structural Evidence"
+                            label="แนบรูปถ่ายปัญหาที่พบ"
                             onUploadSuccess={(url) => setReportForm({...reportForm, image_before: url})}
                           />
-                          {reportForm.image_before && (
-                            <motion.div 
-                              initial={{ opacity: 0, scale: 0.9 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              className="mt-4 relative aspect-video rounded-[2.5rem] overflow-hidden border border-border dark:border-white/10 group shadow-2xl"
-                            >
-                              <img src={reportForm.image_before} alt="Evidence Preview" className="w-full h-full object-cover" />
-                              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center backdrop-blur-md">
-                                <Button 
-                                  variant="destructive" 
-                                  size="sm" 
-                                  onClick={() => setReportForm({...reportForm, image_before: ''})}
-                                  className="h-11 px-8 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-xl"
-                                >
-                                  Discard Documentation
-                                </Button>
-                              </div>
-                            </motion.div>
-                          )}
                        </div>
                     </div>
 
@@ -419,7 +398,7 @@ export const FacilityExplorer = () => {
                           <Loader2 className="w-6 h-6 animate-spin" />
                         ) : (
                           <div className="flex items-center gap-3">
-                            Execute Protocol Sequence
+                            ส่งรายงานผลเข้าสู่ระบบ
                             <Send className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform duration-500" />
                           </div>
                         )}

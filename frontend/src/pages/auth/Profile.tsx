@@ -75,12 +75,12 @@ export const Profile = () => {
                  {profile.full_name || profile.username}
                </h1>
                <span className={`w-fit md:mt-2 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${currentRole.bg} ${currentRole.color} ${currentRole.border} dark:brightness-110`}>
-                 {profile.role} Level
+                  ระดับ {profile.role === 'Admin' ? 'ผู้ดูแลระบบสูงสุด' : profile.role === 'Manager' ? 'ผู้ดูแลระบบ' : profile.role === 'Technician' ? 'ช่างเทคนิค' : profile.role === 'Student' ? 'นักศึกษา' : profile.role}
                </span>
             </div>
             <p className="text-lg text-muted-foreground dark:text-white/40 flex items-center justify-center md:justify-start gap-2 font-medium italic">
                <Fingerprint className="w-4 h-4" />
-               System Identity: {profile.username}
+               ชื่อผู้ใช้งานในระบบ: {profile.username}
             </p>
             
             <div className="pt-6 flex flex-wrap justify-center md:justify-start gap-3">
@@ -89,7 +89,7 @@ export const Profile = () => {
                  className="flex items-center gap-2 px-6 py-2.5 rounded-2xl bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 transition-all font-bold text-sm group"
                >
                  <LogOut className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                 Sign Out Permanent
+                 ออกจากระบบ
                </button>
             </div>
           </div>
@@ -108,17 +108,17 @@ export const Profile = () => {
                <div className="p-2 bg-muted rounded-xl border border-border dark:border-white/10 text-muted-foreground group-hover:text-primary transition-colors">
                   <UserIcon className="w-5 h-5" />
                </div>
-               <h3 className="text-xs font-black text-muted-foreground/40 dark:text-white/30 uppercase tracking-[0.3em]">Personal Matrix</h3>
+               <h3 className="text-xs font-black text-muted-foreground/40 dark:text-white/30 uppercase tracking-[0.3em]">ข้อมูลส่วนตัว</h3>
             </div>
             <div className="space-y-6">
               <div className="space-y-1.5">
-                <p className="text-[10px] uppercase font-black text-muted-foreground/40 dark:text-white/20 ml-1">Full Identity</p>
+                <p className="text-[10px] uppercase font-black text-muted-foreground/40 dark:text-white/20 ml-1">ชื่อ-นามสกุลจริง</p>
                 <div className="p-4 rounded-2xl bg-muted/30 dark:bg-white/[0.02] border border-border dark:border-white/5 font-bold text-foreground dark:text-white/80">
-                   {profile.full_name || 'Anonymous User'}
+                   {profile.full_name || 'ไม่ระบุชื่อ'}
                 </div>
               </div>
               <div className="space-y-1.5">
-                <p className="text-[10px] uppercase font-black text-muted-foreground/40 dark:text-white/20 ml-1">Access Credential</p>
+                <p className="text-[10px] uppercase font-black text-muted-foreground/40 dark:text-white/20 ml-1">รหัสพนักงาน/นักศึกษา</p>
                 <div className="p-4 rounded-2xl bg-muted/30 dark:bg-white/[0.02] border border-border dark:border-white/5 font-mono text-xs text-primary dark:text-primary/60 flex items-center gap-2">
                    <Lock className="w-3 h-3" />
                    SSKRU_ID_{profile.id.toString().padStart(5, '0')}
@@ -137,21 +137,21 @@ export const Profile = () => {
                <div className="p-2 bg-muted rounded-xl border border-border dark:border-white/10 text-muted-foreground group-hover:text-primary transition-colors">
                   <Building2 className="w-5 h-5" />
                </div>
-               <h3 className="text-xs font-black text-muted-foreground/40 dark:text-white/30 uppercase tracking-[0.3em]">Organizational Sector</h3>
+               <h3 className="text-xs font-black text-muted-foreground/40 dark:text-white/30 uppercase tracking-[0.3em]">หน่วยงานที่สังกัด</h3>
             </div>
             <div className="space-y-6">
               <div className="space-y-1.5">
-                <p className="text-[10px] uppercase font-black text-muted-foreground/40 dark:text-white/20 ml-1">Primary Department</p>
+                <p className="text-[10px] uppercase font-black text-muted-foreground/40 dark:text-white/20 ml-1">แผนก/สาขาวิชาหลัก</p>
                 <div className="p-4 rounded-2xl bg-muted/30 dark:bg-white/[0.02] border border-border dark:border-white/5 font-bold text-foreground dark:text-white/80 flex items-center gap-3">
                    <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
-                   {profile.department || 'Unassigned Sector'}
+                   {profile.department || 'ไม่พบข้อมูลหน่วยงาน'}
                 </div>
               </div>
               <div className="space-y-1.5">
-                <p className="text-[10px] uppercase font-black text-muted-foreground/40 dark:text-white/20 ml-1">Member Since</p>
+                <p className="text-[10px] uppercase font-black text-muted-foreground/40 dark:text-white/20 ml-1">เป็นสมาชิกตั้งแต่</p>
                 <div className="p-4 rounded-2xl bg-muted/30 dark:bg-white/[0.02] border border-border dark:border-white/5 font-medium text-muted-foreground dark:text-white/40 flex items-center gap-2 text-sm italic">
                    <Calendar className="w-3.5 h-3.5" />
-                   Operationalized in March 2026
+                   เริ่มใช้งานเมื่อ เดือนมีนาคม 2569
                 </div>
               </div>
             </div>

@@ -4,10 +4,8 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Loader2, User, Lock, Mail, Briefcase, ChevronLeft } from 'lucide-react';
 import { authService } from '@/services/authService';
-import { useTranslation } from 'react-i18next';
 
 export const RegisterForm = () => {
-  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -30,7 +28,7 @@ export const RegisterForm = () => {
       });
       navigate('/login', { replace: true });
     } catch (err: any) {
-      setError(err.response?.data?.error || t('auth.register_failed'));
+      setError(err.response?.data?.error || "การลงทะเบียนไม่สำเร็จ กรุณาลองใหม่อีกครั้ง");
     } finally {
       setLoading(false);
     }
@@ -58,21 +56,21 @@ export const RegisterForm = () => {
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2 group">
             <label className="text-[10px] font-black uppercase tracking-wider text-muted-foreground/60 ml-1 group-focus-within:text-primary transition-colors">
-               {t('auth.username')} *
+               ชื่อผู้ใช้งาน *
             </label>
             <div className="relative">
               <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/40 transition-colors" />
               <input
                 type="text" name="username" required
                 className="flex h-11 w-full rounded-xl border border-input bg-muted/20 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground/40 focus:bg-background focus:border-primary/50 outline-none transition-all dark:bg-white/[0.03] dark:border-white/5 dark:text-white dark:placeholder:text-white/30"
-                placeholder={t('auth.username')}
+                placeholder="ชื่อผู้ใช้งาน"
                 value={formData.username} onChange={handleInputChange}
               />
             </div>
           </div>
           <div className="space-y-2 group">
             <label className="text-[10px] font-black uppercase tracking-wider text-muted-foreground/60 ml-1 group-focus-within:text-primary transition-colors">
-               {t('auth.password')} *
+               รหัสผ่าน *
             </label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/40 transition-colors" />
@@ -88,14 +86,14 @@ export const RegisterForm = () => {
 
         <div className="space-y-2 group">
           <label className="text-[10px] font-black uppercase tracking-wider text-muted-foreground/60 ml-1 group-focus-within:text-primary transition-colors">
-             {t('auth.full_name')}
+             ชื่อ-นามสกุล
           </label>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/40 transition-colors" />
             <input
                type="text" name="full_name"
                className="flex h-11 w-full rounded-xl border border-input bg-muted/20 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground/40 focus:bg-background focus:border-primary/50 outline-none transition-all dark:bg-white/[0.03] dark:border-white/5 dark:text-white dark:placeholder:text-white/30"
-               placeholder="Full Name"
+               placeholder="ชื่อ-นามสกุล"
                value={formData.full_name} onChange={handleInputChange}
             />
           </div>
@@ -103,14 +101,14 @@ export const RegisterForm = () => {
 
         <div className="space-y-2 group">
           <label className="text-[10px] font-black uppercase tracking-wider text-muted-foreground/60 ml-1 group-focus-within:text-primary transition-colors">
-             {t('auth.department')}
+             แผนก/สาขาวิชา
           </label>
           <div className="relative">
             <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/40 transition-colors" />
             <input
                type="text" name="department"
                className="flex h-11 w-full rounded-xl border border-input bg-muted/20 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground/40 focus:bg-background focus:border-primary/50 outline-none transition-all dark:bg-white/[0.03] dark:border-white/5 dark:text-white dark:placeholder:text-white/30"
-               placeholder={t('auth.department')}
+               placeholder="แผนก/สาขาวิชา"
                value={formData.department} onChange={handleInputChange}
             />
           </div>
@@ -121,7 +119,7 @@ export const RegisterForm = () => {
           disabled={loading}
           className="w-full h-12 bg-primary text-primary-foreground font-black rounded-xl shadow-lg mt-4 active:scale-95 transition-all"
         >
-          {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : t('auth.register_button').toUpperCase()}
+          {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "ลงทะเบียน"}
         </Button>
       </form>
 
@@ -131,7 +129,7 @@ export const RegisterForm = () => {
           className="text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-foreground transition-all flex items-center justify-center gap-2 group"
         >
           <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          {t('auth.login')}
+          เข้าสู่ระบบ
         </Link>
       </div>
     </div>

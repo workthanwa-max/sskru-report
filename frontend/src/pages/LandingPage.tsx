@@ -1,13 +1,10 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { Shield, Zap, Lock, Award, Sparkles, Github, Globe, Users, ArrowRight, MousePointer2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useRef } from 'react';
 
 export const LandingPage = () => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
@@ -15,7 +12,13 @@ export const LandingPage = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
 
-  const architects = t('landing.architects', { returnObjects: true }) as string[];
+  const architects = [
+    "นาย เจษฎา แก้วละมุล",
+    "นาย ณัฏฐชัย โมคศิริ",
+    "นาย ประมุข สีหะวงษ์",
+    "นางสาว วริศรา ถาวร",
+    "นางสาว วิมลนาฎ พรมด้วง"
+  ];
 
   return (
     <div ref={containerRef} className="min-h-screen bg-[#fdfcfb] text-[#1a1a1a] selection:bg-primary/30 selection:text-primary overflow-x-hidden font-sans antialiased">
@@ -42,10 +45,10 @@ export const LandingPage = () => {
              </div>
           </div>
           <div className="flex flex-col">
-             <h1 className="font-headline font-black text-xl md:text-2xl uppercase tracking-[-0.03em] leading-none text-[#1a1a1a]">{t('landing.title')}</h1>
+             <h1 className="font-headline font-black text-xl md:text-2xl uppercase tracking-[-0.03em] leading-none text-[#1a1a1a]">ระบบแจ้งซ่อมและรายงานผล SSKRU</h1>
              <div className="flex items-center gap-2 mt-1">
                 <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                <p className="text-[9px] font-black text-primary uppercase tracking-[0.5em] italic opacity-70">REGISTRY_PROTOCOL_ACTIVE</p>
+                <p className="text-[9px] font-black text-primary uppercase tracking-[0.5em] italic opacity-70">ระบบฐานข้อมูลทำงานปกติ</p>
              </div>
           </div>
         </motion.div>
@@ -56,17 +59,16 @@ export const LandingPage = () => {
           className="flex items-center gap-8"
         >
           <div className="hidden lg:flex gap-10">
-             {['Platform', 'Sectors', 'Architecture', 'Integrations'].map((link) => (
+             {['แพลตฟอร์ม', 'หน่วยงาน', 'โครงสร้างระบบ', 'การเชื่อมต่อ'].map((link) => (
                 <a key={link} href="#" className="text-[10px] font-black uppercase tracking-[0.3em] text-[#1a1a1a]/40 hover:text-primary transition-colors">{link}</a>
              ))}
           </div>
           <div className="flex items-center gap-6 pl-6 border-l border-primary/10">
-             <LanguageSwitcher />
              <Button 
                onClick={() => navigate('/login')}
                className="bg-[#1a1a1a] text-white hover:bg-primary font-black text-[10px] uppercase tracking-[0.3em] px-8 rounded-xl h-12 transition-all shadow-2xl hover:-translate-y-1 active:scale-95 border border-white/10"
              >
-               {t('landing.start_button')}
+               เข้าสู่ระบบเพื่อใช้งาน
              </Button>
           </div>
         </motion.div>
@@ -85,7 +87,7 @@ export const LandingPage = () => {
                 className="px-8 py-3 bg-white border border-primary/20 rounded-full shadow-lg flex items-center gap-4 group hover:border-primary transition-all duration-500 cursor-default"
               >
                  <Sparkles className="w-4 h-4 text-primary animate-pulse" />
-                 <span className="text-[10px] font-black text-primary uppercase tracking-[0.5em] group-hover:tracking-[0.6em] transition-all">SYSTEM_READY_FOR_DISPATCH</span>
+                 <span className="text-[10px] font-black text-primary uppercase tracking-[0.5em] group-hover:tracking-[0.6em] transition-all">ระบบพร้อมสำหรับการประสานงาน</span>
               </motion.div>
 
               <div className="relative space-y-4">
@@ -95,9 +97,9 @@ export const LandingPage = () => {
                     transition={{ delay: 0.2, duration: 1 }}
                     className="text-[4.5rem] md:text-[11rem] font-headline font-black text-[#1a1a1a] tracking-[-0.05em] leading-[0.85] uppercase italic"
                  >
-                    Unified<br/>
+                    ศูนย์กลาง<br/>
                     <span className="text-primary not-italic relative">
-                       Support.
+                       การแจ้งซ่อม
                        <motion.div 
                          initial={{ width: 0 }}
                          animate={{ width: '100%' }}
@@ -114,7 +116,7 @@ export const LandingPage = () => {
                 transition={{ delay: 0.4 }}
                 className="text-xl md:text-3xl text-[#1a1a1a]/60 max-w-4xl leading-tight font-medium italic border-l-4 border-primary/20 pl-10 text-left md:text-center mt-12 bg-white/30 backdrop-blur-sm p-6 rounded-3xl"
               >
-                 {t('landing.desc')}
+                 ระบบศูนย์กลางสำหรับการแจ้งซ่อมบำรุง ติดตามสถานะงาน และจัดการทรัพยากรภายในมหาวิทยาลัยอย่างมีประสิทธิภาพ
               </motion.p>
 
               <motion.div 
@@ -127,7 +129,7 @@ export const LandingPage = () => {
                    onClick={() => navigate('/login')}
                    className="h-20 px-14 rounded-2xl bg-[#1a1a1a] text-white font-black text-xs uppercase tracking-[0.4em] hover:bg-primary shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] hover:shadow-primary/30 active:scale-95 transition-all group border-2 border-white/20"
                  >
-                   <span className="flex items-center gap-5">{t('landing.start_button')} <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" /></span>
+                   <span className="flex items-center gap-5">เข้าสู่ระบบเพื่อใช้งาน <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" /></span>
                  </Button>
                  
                  <Button 
@@ -135,7 +137,7 @@ export const LandingPage = () => {
                     className="h-20 px-14 rounded-2xl text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white border-2 border-primary/20 shadow-xl transition-all flex items-center gap-4 group"
                  >
                     <MousePointer2 className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                    Explorer_Protocol
+                    เข้าใช้งานระบบแจ้งซ่อม
                  </Button>
               </motion.div>
            </motion.div>
@@ -143,9 +145,9 @@ export const LandingPage = () => {
            {/* 🧬 Feature Cards - The Digital Dossier */}
            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full mb-64">
               {[
-                { icon: Shield, title: t('landing.feature_1_title'), desc: t('landing.feature_1_desc'), color: "bg-primary/5 border-primary/10 text-primary" },
-                { icon: Zap, title: t('landing.feature_2_title'), desc: t('landing.feature_2_desc'), color: "bg-[#1a1a1a] border-white/10 text-white" },
-                { icon: Lock, title: t('landing.feature_3_title'), desc: t('landing.feature_3_desc'), color: "bg-white border-primary/10 text-[#1a1a1a]" }
+                { icon: Shield, title: "แจ้งซ่อมรวดเร็ว", desc: "แจ้งปัญหาผ่านระบบได้ทันที พร้อมแนบหลักฐานรูปภาพเพื่อความรวดเร็วในการแก้ไข", color: "bg-primary/5 border-primary/10 text-primary" },
+                { icon: Zap, title: "ติดตามสถานะ", desc: "ตรวจสอบความคืบหน้าของงานซ่อมได้แบบเรียลไทม์ พร้อมการแจ้งเตือนเมื่อเสร็จสิ้น", color: "bg-[#1a1a1a] border-white/10 text-white" },
+                { icon: Lock, title: "โปร่งใส ตรวจสอบได้", desc: "ประวัติการซ่อมบำรุงทั้งหมดถูกจัดเก็บไว้อย่างเป็นระบบเพื่อความโปร่งใส", color: "bg-white border-primary/10 text-[#1a1a1a]" }
               ].map((f, i) => (
                 <motion.div 
                    key={i}
@@ -182,10 +184,10 @@ export const LandingPage = () => {
                              <Award className="w-7 h-7" />
                           </div>
                           <div>
-                             <h2 className="text-5xl md:text-8xl font-headline font-black uppercase tracking-tighter italic">{t('landing.credits_title')}</h2>
+                             <h2 className="text-5xl md:text-8xl font-headline font-black uppercase tracking-tighter italic">คณะผู้จัดทำ</h2>
                              <div className="flex items-center gap-3 mt-4">
                                 <Sparkles className="w-4 h-4 text-primary animate-pulse" />
-                                <p className="text-[10px] font-black text-primary uppercase tracking-[0.5em]">SENIOR_SYSTEM_DESIGN_COUNCIL</p>
+                                <p className="text-[10px] font-black text-primary uppercase tracking-[0.5em]">คณะผู้พัฒนาระบบ</p>
                              </div>
                           </div>
                        </div>
@@ -205,14 +207,14 @@ export const LandingPage = () => {
                                 {i + 1}
                              </div>
                              <div>
-                                <p className="text-[8px] font-black text-white/30 uppercase tracking-widest group-hover:text-white/60">ARCHITECT_IDN_{i.toString().padStart(2, '0')}</p>
+                                <p className="text-[8px] font-black text-white/30 uppercase tracking-widest group-hover:text-white/60">รหัสนักพัฒนา_{i.toString().padStart(2, '0')}</p>
                                 <p className="text-xl font-headline font-black uppercase tracking-tight group-hover:italic">{name}</p>
                              </div>
                           </div>
                        </motion.div>
                     ))}
                     <div className="flex flex-col justify-center items-center gap-2 p-10 bg-primary/5 rounded-[2.5rem] border border-dashed border-primary/20 opacity-40">
-                       <p className="text-[9px] font-black uppercase tracking-[0.4em] text-center italic leading-relaxed">INSTITUTIONAL_ACKNOWLEDGEMENT_COLLABORATIVE_MISSION_SSKRU</p>
+                       <p className="text-[9px] font-black uppercase tracking-[0.4em] text-center italic leading-relaxed">บันทึกความร่วมมือทางวิชาการ มหาวิทยาลัยราชภัฏศรีสะเกษ</p>
                     </div>
                  </div>
               </div>
@@ -230,12 +232,12 @@ export const LandingPage = () => {
                         <img src="/sskru-logo.png" alt="University" className="w-full h-full object-contain" />
                      </div>
                      <div>
-                        <h2 className="font-headline font-black text-4xl tracking-tighter uppercase italic text-[#1a1a1a]">SSKRU_REPORT.</h2>
-                        <p className="text-[10px] font-black text-primary uppercase tracking-[0.5em] mt-3 italic opacity-60">REGISTRY_PROTOCOL_CONTROL</p>
+                        <h2 className="font-headline font-black text-4xl tracking-tighter uppercase italic text-[#1a1a1a]">ระบบแจ้งซ่อม SSKRU</h2>
+                        <p className="text-[10px] font-black text-primary uppercase tracking-[0.5em] mt-3 italic opacity-60">ระบบควบคุมส่วนกลาง</p>
                      </div>
                   </div>
                   <p className="text-[10px] font-black text-[#1a1a1a]/30 uppercase tracking-[1em] max-w-sm leading-relaxed text-center lg:text-left">
-                     {t('landing.all_rights')}
+                     ลิขสิทธิ์ระบบรายงานผลการปฏิบัติงาน มหาวิทยาลัยราชภัฏศรีสะเกษ
                   </p>
                </div>
 
@@ -247,13 +249,13 @@ export const LandingPage = () => {
                   </div>
                   <div className="flex items-center gap-4 bg-[#1a1a1a]/5 px-8 py-4 rounded-full border border-[#1a1a1a]/10 backdrop-blur-lg">
                      <div className="w-2 h-2 rounded-full bg-emerald-500 animate-slow-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
-                     <span className="text-[9px] font-black text-[#1a1a1a]/40 uppercase tracking-[0.4em] italic">SECURE_MISSION_DATA_HEARTBEAT</span>
+                     <span className="text-[9px] font-black text-[#1a1a1a]/40 uppercase tracking-[0.4em] italic">สถานะการเชื่อมต่อปลอดภัย</span>
                   </div>
                </div>
             </div>
 
             <div className="pt-20 border-t border-primary/5 text-center opacity-10">
-               <p className="text-[8px] font-black uppercase tracking-[2.5em] text-[#1a1a1a]">ADMINISTRATIVE_PROTOCOL_GEO_REGISTRY_V2.5</p>
+               <p className="text-[8px] font-black uppercase tracking-[2.5em] text-[#1a1a1a]">ระบบบริหารจัดการข้อมูลพื้นฐาน V2.5</p>
             </div>
          </div>
       </footer>

@@ -7,6 +7,8 @@ import technicianRouter from './modules/technician/technicianRouter';
 import reportsRouter from './modules/reports/reportsRouter';
 import ticketingRouter from './modules/ticketing/ticketingRouter';
 import auditlogRouter from './modules/auditlog/auditRouter';
+import uploadRouter from './modules/fileupload/uploadRouter';
+import path from 'path';
 
 const app = express();
 
@@ -22,6 +24,10 @@ app.use('/api/technician', technicianRouter);
 app.use('/api/reports', reportsRouter);
 app.use('/api/tickets', ticketingRouter);
 app.use('/api/audit', auditlogRouter);
+app.use('/api/upload', uploadRouter);
+
+// Static files
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 // Health check
 app.get('/', (req: Request, res: Response) => {

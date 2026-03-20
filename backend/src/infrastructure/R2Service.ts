@@ -19,15 +19,17 @@ export const uploadToR2 = async (file: Express.Multer.File, folder: string = 'up
   const storageMode = process.env.STORAGE_MODE || 'r2';
 
   if (storageMode === 'local') {
-    const uploadDir = path.join(process.cwd(), process.env.UPLOAD_DIR || 'uploads', folder);
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
+    const uploadDir = path.join(process.cwd(), process.env.UPLOAD_DIR || 'uploads');
+    const folderPath = path.join(uploadDir, folder);
+    if (!fs.existsSync(folderPath)) {
+      fs.mkdirSync(folderPath, { recursive: true });
     }
     
-    const filePath = path.join(uploadDir, fileName);
+    const filePath = path.join(folderPath, fileName);
     fs.writeFileSync(filePath, file.buffer);
     
     const backendUrl = process.env.BACKEND_URL || 'http://localhost:3000';
+    // Use URL class to safely join parts if needed, but manual join is fine for now
     return `${backendUrl}/${process.env.UPLOAD_DIR || 'uploads'}/${folder}/${fileName}`;
   }
 

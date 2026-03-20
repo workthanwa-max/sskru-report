@@ -2,11 +2,8 @@ import { Navigate, Outlet, Link } from 'react-router-dom';
 import { Home } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LanguageSwitcher } from '@/components/LanguageSwitcher';
-import { useTranslation } from 'react-i18next';
 
 export const AuthLayout = () => {
-  const { t } = useTranslation();
   const { isAuthenticated, user } = useAuth();
 
   // Redirect to dashboard if already logged in
@@ -16,10 +13,6 @@ export const AuthLayout = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden font-sans">
-      {/* Absolute positioned Language Switcher - Top Right */}
-      <div className="absolute top-6 right-6 z-50">
-        <LanguageSwitcher className="shadow-lg backdrop-blur-md bg-background/50 border-input" />
-      </div>
       {/* Decorative background elements - SSKRU White & Gold aesthetic */}
       <div 
          className="absolute -top-24 -left-20 w-[30rem] h-[30rem] rounded-full mix-blend-soft-light filter blur-[80px] opacity-20 dark:opacity-30 animate-pulse"
@@ -46,10 +39,10 @@ export const AuthLayout = () => {
              <img src="/sskru-logo.png" alt="SSKRU Logo" className="w-full h-full object-contain drop-shadow-md" onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.innerHTML = '<span class="text-primary font-bold text-3xl tracking-tighter">SS</span>'; }} />
           </div>
           <h1 className="text-4xl font-headline font-black tracking-tight text-foreground mb-2 uppercase italic bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
-             {t('auth.portal_title')}
+             ศูนย์รับรองและแจ้งซ่อม
           </h1>
           <div className="h-0.5 w-12 bg-primary mb-4 rounded-full shadow-[0_0_15px_rgba(var(--primary),0.5)]" />
-          <p className="text-sm font-medium text-muted-foreground max-w-[240px] leading-relaxed italic">{t('auth.portal_desc')}</p>
+          <p className="text-sm font-medium text-muted-foreground max-w-[240px] leading-relaxed italic">ระบบบริหารจัดการการแจ้งซ่อมและบำรุงรักษาภายในมหาวิทยาลัย</p>
         </div>
 
         <AnimatePresence mode="wait">
@@ -72,8 +65,8 @@ export const AuthLayout = () => {
              <Home className="w-4 h-4" />
           </div>
           <div>
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-foreground dark:text-white/80">Preview</span>
-             <p className="text-[7px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 mt-0.5">Back_to_Gateway</p>
+             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-foreground dark:text-white/80">ดูตัวอย่างหน้าเว็บ</span>
+             <p className="text-[7px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 mt-0.5">กลับสู่หน้าแรก</p>
           </div>
         </Link>
       </motion.div>

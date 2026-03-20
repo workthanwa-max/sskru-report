@@ -4,12 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { LogOut, User as UserIcon, Home, Map, ClipboardList, Users, Menu as MenuIcon, X, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import theme from '@/theme/theme';
-import { useTranslation } from 'react-i18next';
-import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useState, useEffect } from 'react';
 
 export const DashboardLayout = () => {
-  const { t } = useTranslation();
   const { isAuthenticated, user, logout } = useAuth();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -25,13 +22,13 @@ export const DashboardLayout = () => {
   }
 
   const navItems = [
-    { to: `/dashboard/${user.role.toLowerCase()}`, icon: Home, label: t('nav.dashboard') },
-    { to: '/profile', icon: UserIcon, label: t('nav.profile') },
-    ...(user.role === 'Student' ? [{ to: '/dashboard/facilities', icon: Map, label: t('nav.facilities') }] : []),
-    ...(user.role === 'Admin' || user.role === 'Manager' ? [{ to: '/dashboard/infrastructure', icon: Building2, label: t('common.infrastructure') || 'Infrastructure' }] : []),
+    { to: `/dashboard/${user.role.toLowerCase()}`, icon: Home, label: "แดชบอร์ด" },
+    { to: '/profile', icon: UserIcon, label: "ข้อมูลส่วนตัว" },
+    ...(user.role === 'Student' ? [{ to: '/dashboard/facilities', icon: Map, label: "ค้นหาสถานที่" }] : []),
+    ...(user.role === 'Admin' || user.role === 'Manager' ? [{ to: '/dashboard/infrastructure', icon: Building2, label: "จัดการโครงสร้าง" }] : []),
     ...(user.role === 'Manager' ? [
-      { to: '/dashboard/dispatch', icon: ClipboardList, label: t('nav.dispatch') },
-      { to: '/dashboard/technicians', icon: Users, label: t('nav.members') }
+      { to: '/dashboard/dispatch', icon: ClipboardList, label: "จ่ายหน้าที่งานซ่อม" },
+      { to: '/dashboard/technicians', icon: Users, label: "จัดการช่างเทคนิค" }
     ] : [])
   ];
 
@@ -47,7 +44,7 @@ export const DashboardLayout = () => {
           </div>
           <div className="overflow-hidden">
             <h2 className="font-headline font-black tracking-tighter text-2xl text-foreground dark:text-white uppercase italic leading-none truncate">SSKRU</h2>
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary/60 mt-1 truncate">{t('common.registry_portal')}</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary/60 mt-1 truncate">พอร์ทัลส่วนกลาง</p>
           </div>
         </div>
         <button onClick={() => setIsMobileMenuOpen(false)} className="md:hidden p-2 text-muted-foreground hover:bg-muted dark:hover:bg-white/5 rounded-xl transition-colors">
@@ -56,7 +53,7 @@ export const DashboardLayout = () => {
       </div>
 
       <nav className="flex-1 space-y-1.5 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-primary/10">
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground/30 mb-4 px-4">{t('common.registry_nav')}</p>
+        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground/30 mb-4 px-4">เมนูนำทางระบบ</p>
         {navItems.map((item) => {
           const isActive = location.pathname === item.to;
           return (
@@ -92,7 +89,7 @@ export const DashboardLayout = () => {
             </div>
             <div className="overflow-hidden">
               <p className="text-sm font-black text-foreground dark:text-white truncate leading-none mb-1.5">{user.full_name || user.username}</p>
-              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-primary/60 truncate opacity-80">{user.department || t('common.global_sector')}</p>
+              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-primary/60 truncate opacity-80">{user.department || "หน่วยงานส่วนกลาง"}</p>
             </div>
           </div>
           <Button 
@@ -101,7 +98,7 @@ export const DashboardLayout = () => {
             onClick={() => setIsLogoutConfirmOpen(true)}
           >
             <LogOut className="w-4 h-4 group-hover/btn:-translate-x-1 transition-transform" />
-            {t('nav.logout')}
+            ออกจากระบบ
           </Button>
         </div>
       </div>
@@ -131,9 +128,9 @@ export const DashboardLayout = () => {
                 <LogOut className="w-10 h-10 animate-pulse" />
               </div>
               <div>
-                <h3 className="text-3xl font-headline font-black text-foreground dark:text-white uppercase tracking-tight mb-3">{t('common.logout_title')}</h3>
+                <h3 className="text-3xl font-headline font-black text-foreground dark:text-white uppercase tracking-tight mb-3">ยืนยันการออกจากระบบหรือไม่?</h3>
                 <p className="text-sm text-muted-foreground font-medium italic opacity-60 px-4">
-                  {t('common.logout_desc')}
+                  โปรดยืนยันว่าคุณต้องการตัดการเชื่อมต่อบัญชีผู้ใช้ของคุณออกจากระบบพอร์ทัลส่วนกลาง
                 </p>
               </div>
               <div className="flex flex-col gap-3">
@@ -141,14 +138,14 @@ export const DashboardLayout = () => {
                   onClick={logout}
                   className="w-full h-14 bg-red-500 hover:bg-red-600 text-white font-black text-[10px] uppercase tracking-[0.3em] rounded-2xl shadow-xl shadow-red-500/20 transition-all border-none"
                 >
-                  {t('common.logout_confirm')}
+                  ยืนยันการออกจากระบบ
                 </Button>
                 <Button 
                   variant="ghost"
                   onClick={() => setIsLogoutConfirmOpen(false)}
                   className="w-full h-12 text-muted-foreground hover:text-foreground font-black text-[10px] uppercase tracking-[0.3em]"
                 >
-                  {t('common.logout_remain')}
+                  ใช้งานระบบต่อไป
                 </Button>
               </div>
             </motion.div>
@@ -167,7 +164,7 @@ export const DashboardLayout = () => {
           </button>
           <div className="flex flex-col">
             <span className="text-sm font-black tracking-tighter uppercase italic leading-none text-foreground dark:text-white">SSKRU</span>
-            <span className="text-[8px] font-black uppercase tracking-[0.4em] text-primary/60">{t('common.registry_portal')}</span>
+            <span className="text-[8px] font-black uppercase tracking-[0.4em] text-primary/60">พอร์ทัลส่วนกลาง</span>
           </div>
         </div>
         <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-black text-xs">
@@ -211,10 +208,9 @@ export const DashboardLayout = () => {
         <header className="sticky top-0 z-30 hidden md:flex items-center justify-between px-12 py-6 bg-[#050505]/20 backdrop-blur-md border-b border-white/5">
            <div className="flex items-center gap-3">
               <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40">{t('common.protocol_control')}</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40">ระบบควบคุมชุดคำสั่ง</span>
            </div>
            <div className="flex items-center gap-6">
-              <LanguageSwitcher />
            </div>
         </header>
 

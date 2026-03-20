@@ -2,14 +2,12 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Users, UserPlus, Shield, UserMinus, Loader2, Search, Edit2, Check, X, ShieldCheck, Mail, Briefcase } from 'lucide-react';
 import { authService } from '@/services/authService';
-import { useTranslation } from 'react-i18next';
 
 interface UserListTabProps {
   onUsersUpdate?: () => void;
 }
 
 export const UserListTab = ({ onUsersUpdate }: UserListTabProps) => {
-  const { t } = useTranslation();
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -35,7 +33,7 @@ export const UserListTab = ({ onUsersUpdate }: UserListTabProps) => {
   }, []);
 
   const handleDeleteUser = async (id: number) => {
-    if (!confirm('Are you sure you want to delete this user?')) return;
+    if (!confirm('คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้งานรายนี้?')) return;
     setActionLoading(id);
     try {
       await authService.deleteUser(id);
@@ -75,10 +73,10 @@ export const UserListTab = ({ onUsersUpdate }: UserListTabProps) => {
   );
 
   const stats = [
-    { label: 'Total Users', value: users.length, icon: Users, color: 'text-blue-500' },
-    { label: 'Technicians', value: users.filter(u => u.role === 'Technician').length, icon: Shield, color: 'text-amber-500' },
-    { label: 'Managers', value: users.filter(u => u.role === 'Manager').length, icon: ShieldCheck, color: 'text-emerald-500' },
-    { label: 'Admins', value: users.filter(u => u.role === 'Admin').length, icon: UserPlus, color: 'text-purple-500' },
+    { label: 'ผู้ใช้งานทั้งหมด', value: users.length, icon: Users, color: 'text-blue-500' },
+    { label: 'ช่างเทคนิค', value: users.filter(u => u.role === 'Technician').length, icon: Shield, color: 'text-amber-500' },
+    { label: 'ผู้ดูแลระบบ', value: users.filter(u => u.role === 'Manager').length, icon: ShieldCheck, color: 'text-emerald-500' },
+    { label: 'ผู้ดูแลระบบสูงสุด', value: users.filter(u => u.role === 'Admin').length, icon: UserPlus, color: 'text-purple-500' },
   ];
 
   return (
@@ -108,7 +106,7 @@ export const UserListTab = ({ onUsersUpdate }: UserListTabProps) => {
         <Search className="w-5 h-5 text-muted-foreground/40 ml-2" />
         <input 
           type="text" 
-          placeholder="Search identity matrix..."
+          placeholder="ค้นหาข้อมูลผู้ใช้งาน..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="bg-transparent border-none text-foreground dark:text-white placeholder:text-muted-foreground/30 outline-none w-full py-1 text-sm font-medium"
@@ -121,10 +119,10 @@ export const UserListTab = ({ onUsersUpdate }: UserListTabProps) => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-muted/50 dark:bg-white/5 border-b border-border dark:border-white/10">
-                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">{t('admin.userInfo') || 'Identity'}</th>
-                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">{t('admin.role') || 'Access Level'}</th>
-                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">{t('admin.department') || 'Sector'}</th>
-                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60 text-right">Operations</th>
+                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">ข้อมูลตัวตน</th>
+                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">ระดับการเข้าถึง</th>
+                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">หน่วยงาน/คณะ</th>
+                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60 text-right">การจัดการ</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border dark:divide-white/5">
@@ -167,10 +165,10 @@ export const UserListTab = ({ onUsersUpdate }: UserListTabProps) => {
                           value={editFormData.role}
                           onChange={(e) => setEditFormData({...editFormData, role: e.target.value})}
                         >
-                          <option value="Student">Student</option>
-                          <option value="Technician">Technician</option>
-                          <option value="Manager">Manager</option>
-                          <option value="Admin">Admin</option>
+                          <option value="Student">นักศึกษา</option>
+                          <option value="Technician">ช่างเทคนิค</option>
+                          <option value="Manager">ผู้ดูแลระบบ</option>
+                          <option value="Admin">ผู้ดูแลระบบสูงสุด</option>
                         </select>
                       ) : (
                         <span className={`px-2.5 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-widest border ${
@@ -179,7 +177,7 @@ export const UserListTab = ({ onUsersUpdate }: UserListTabProps) => {
                           u.role === 'Technician' ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20' :
                           'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20'
                         }`}>
-                          {u.role}
+                          {u.role === 'Admin' ? 'ผู้ดูแลระบบสูงสุด' : u.role === 'Manager' ? 'ผู้ดูแลระบบ' : u.role === 'Technician' ? 'ช่างเทคนิค' : 'นักศึกษา'}
                         </span>
                       )}
                     </td>
@@ -193,7 +191,7 @@ export const UserListTab = ({ onUsersUpdate }: UserListTabProps) => {
                        ) : (
                          <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-muted-foreground/60">
                             <Briefcase className="w-3.5 h-3.5 text-muted-foreground/30" />
-                            {u.department || 'GLOBAL_SECTOR'}
+                            {u.department || 'หน่วยงานส่วนกลาง'}
                          </div>
                        )}
                     </td>
@@ -240,7 +238,7 @@ export const UserListTab = ({ onUsersUpdate }: UserListTabProps) => {
               {!loading && filteredUsers.length === 0 && (
                 <tr>
                   <td colSpan={4} className="px-6 py-16 text-center text-muted-foreground/40 font-black uppercase tracking-[0.3em] italic">
-                    Identity not found within current sector
+                    ไม่พบข้อมูลผู้ใช้งานในสถาบัน
                   </td>
                 </tr>
               )}

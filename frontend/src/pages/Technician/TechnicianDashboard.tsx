@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Wrench, CheckCircle2, Clock, MapPin, AlertCircle, Loader2, Send, Eye, X, ShieldCheck, ChevronRight, Activity, Zap, ClipboardCheck } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { Wrench, CheckCircle2, Clock, MapPin, AlertCircle, Loader2, Send, Eye, ShieldCheck, ChevronRight, Activity, Zap, ClipboardCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import * as api from '@/services/technicianService';
 import { TicketDetailDialog } from '@/components/tickets/TicketDetailDialog';
 import { FileUpload } from '@/components/ui/FileUpload';
 
 export const TechnicianDashboard = () => {
-  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'assigned' | 'history'>('assigned');
   const [assignedTickets, setAssignedTickets] = useState<any[]>([]);
   const [historyTickets, setHistoryTickets] = useState<any[]>([]);
@@ -76,7 +74,7 @@ export const TechnicianDashboard = () => {
       fetchData(); // Refetch to get updated lists
     } catch (error) {
       console.error("Error submitting work:", error);
-      setSubmissionError("Protocol error. Verify telemetry connection.");
+      setSubmissionError("เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้ง");
     } finally {
       setActionLoadingId(null);
     }
@@ -109,23 +107,21 @@ export const TechnicianDashboard = () => {
             {ticket.description}
           </h4>
           <p className="text-sm text-muted-foreground font-medium italic opacity-60">
-            System Request by <span className="font-bold uppercase tracking-widest">{ticket.reporter_name}</span>
+            ผู้แจ้งซ่อม: <span className="font-bold uppercase tracking-widest">{ticket.reporter_name}</span>
           </p>
         </div>
         
-        {isHistory && (
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={() => {
-              setSelectedTicket(ticket);
-              setIsDetailOpen(true);
-            }}
-            className="text-muted-foreground/30 hover:text-primary hover:bg-primary/10 rounded-2xl"
-          >
-            <Eye className="w-5 h-5" />
-          </Button>
-        )}
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          onClick={() => {
+            setSelectedTicket(ticket);
+            setIsDetailOpen(true);
+          }}
+          className="text-muted-foreground/30 hover:text-primary hover:bg-primary/10 rounded-2xl"
+        >
+          <Eye className="w-5 h-5" />
+        </Button>
       </div>
 
       <div className="bg-muted dark:bg-black/60 p-5 rounded-[2rem] border border-border dark:border-white/5 flex items-start gap-4 shadow-inner grow">
@@ -134,7 +130,7 @@ export const TechnicianDashboard = () => {
         </div>
         <div className="text-sm leading-relaxed overflow-hidden">
           <p className="font-black text-foreground dark:text-white uppercase tracking-widest truncate">{ticket.building_name}</p>
-          <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60 mt-1">Level {ticket.floor_number} • {ticket.room_name} <span className="opacity-40">(Section {ticket.room_number})</span></p>
+          <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60 mt-1">ชั้น {ticket.floor_number} • {ticket.room_name} <span className="opacity-40">(ห้อง {ticket.room_number})</span></p>
         </div>
       </div>
       
@@ -148,7 +144,7 @@ export const TechnicianDashboard = () => {
             >
               <div className="flex items-center gap-2 text-red-600 dark:text-red-400 font-black text-[10px] uppercase tracking-[0.2em]">
                 <AlertCircle className="w-4 h-4" />
-                Protocol Non-Compliance
+                ไม่ผ่านการตรวจสอบ (ตีกลับ)
               </div>
               <p className="text-xs text-muted-foreground font-medium italic leading-relaxed">
                 "{ticket.latest_note?.replace('REJECTED: ', '') || 'Awaiting further clarification'}"
@@ -174,7 +170,7 @@ export const TechnicianDashboard = () => {
                 className="bg-primary text-primary-foreground font-black text-[10px] uppercase tracking-[0.2em] rounded-xl px-6 h-11 hover:scale-105 transition-all shadow-xl shadow-primary/20 group/btn"
               >
                 {actionLoadingId === ticket.id ? <Loader2 className="w-4 h-4 animate-spin" /> : (
-                  <span className="flex items-center gap-2">Initialize Sequence <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" /></span>
+                  <span className="flex items-center gap-2">เริ่มปฏิบัติงาน <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" /></span>
                 )}
               </Button>
             )}
@@ -185,7 +181,7 @@ export const TechnicianDashboard = () => {
                 onClick={() => setSubmittingTicket(ticket)}
                 className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500 dark:hover:bg-emerald-500 hover:text-white dark:hover:text-black border border-emerald-500/30 font-black text-[10px] uppercase tracking-[0.2em] rounded-xl px-6 h-11 transition-all shadow-lg shadow-emerald-500/10 group/btn"
               >
-                <span className="flex items-center gap-2">Finalize Protocol <CheckCircle2 className="w-4 h-4 group-hover/btn:scale-110 transition-transform" /></span>
+                <span className="flex items-center gap-2">ส่งรายงานงานซ่อม <CheckCircle2 className="w-4 h-4 group-hover/btn:scale-110 transition-transform" /></span>
               </Button>
             )}
           </div>
@@ -216,51 +212,32 @@ export const TechnicianDashboard = () => {
                    <div className="p-3 bg-primary/20 text-primary rounded-2xl border border-primary/20">
                       <Send className="w-8 h-8" />
                    </div>
-                   <div>
-                      <h3 className="text-3xl font-headline font-black text-foreground dark:text-white uppercase tracking-tight leading-none">Execution Report</h3>
-                      <p className="text-[10px] font-black text-primary/60 uppercase tracking-[0.3em] mt-2">Protocol Finalization</p>
-                   </div>
+                    <div>
+                       <h3 className="text-3xl font-headline font-black text-foreground dark:text-white uppercase tracking-tight leading-none">รายงานการปฏิบัติงาน</h3>
+                       <p className="text-[10px] font-black text-primary/60 uppercase tracking-[0.3em] mt-2">สรุปผลการดำเนินการ</p>
+                    </div>
                 </div>
                 <p className="text-lg text-muted-foreground font-medium italic leading-relaxed opacity-60 pt-4 border-t border-border dark:border-white/5">
-                   Finalizing maintenance sequence for: <span className="text-foreground dark:text-white font-black not-italic">"{submittingTicket.description}"</span>
+                   กำลังบันทึกผลการซ่อมบำรุงสำหรับ: <span className="text-foreground dark:text-white font-black not-italic">"{submittingTicket.description}"</span>
                 </p>
               </div>
               
               <div className="space-y-8">
                 <div className="group/textarea">
-                  <label className="block text-[10px] font-black text-muted-foreground/40 uppercase tracking-[0.3em] mb-3 px-2">Compliance Notes</label>
+                   <label className="block text-[10px] font-black text-muted-foreground/40 uppercase tracking-[0.3em] mb-3 px-2">บันทึกการซ่อมบำรุง</label>
                   <textarea 
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder="Document structural modifications and sequence resolution..."
+                     placeholder="ระบุรายละเอียดการแก้ไขปัญหาและผลการดำเนินการ..."
                     className="w-full bg-muted dark:bg-black/60 border border-border dark:border-white/10 rounded-[2rem] p-8 text-foreground dark:text-white focus:ring-1 focus:ring-primary focus:border-primary outline-none min-h-[160px] text-sm font-medium shadow-inner transition-all group-hover/textarea:border-primary/30"
                   />
                 </div>
                 <div className="space-y-4">
-                  <label className="block text-[10px] font-black text-muted-foreground/40 uppercase tracking-[0.3em] mb-3 px-2">Visual Documentation</label>
-                  <FileUpload 
-                    label="Capture Execution Result"
+                   <label className="block text-[10px] font-black text-muted-foreground/40 uppercase tracking-[0.3em] mb-3 px-2">หลักฐานภาพถ่าย</label>
+                   <FileUpload 
+                    label="อัพโหลดรูปภาพหลังซ่อม"
                     onUploadSuccess={(url) => setImageAfter(url)}
                   />
-                  {imageAfter && (
-                    <motion.div 
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="relative aspect-video rounded-[2rem] overflow-hidden border border-border dark:border-white/10 group shadow-2xl"
-                    >
-                      <img src={imageAfter} alt="Upload Preview" className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center backdrop-blur-sm">
-                        <Button 
-                          variant="destructive" 
-                          size="sm" 
-                          onClick={() => setImageAfter('')}
-                          className="h-11 px-6 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-xl"
-                        >
-                          <X className="w-4 h-4 mr-2" /> Discard Documentation
-                        </Button>
-                      </div>
-                    </motion.div>
-                  )}
                 </div>
 
                 {submissionError && (
@@ -277,14 +254,14 @@ export const TechnicianDashboard = () => {
  
               <div className="flex flex-col md:flex-row gap-5 pt-10 border-t border-border dark:border-white/5">
                 <Button variant="ghost" className="md:flex-1 h-14 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] text-muted-foreground hover:bg-muted" onClick={() => setSubmittingTicket(null)}>
-                  Abort Submission
+                   ยกเลิก
                 </Button>
                 <Button 
                   className="md:flex-1 h-14 bg-primary text-primary-foreground font-black text-[10px] uppercase tracking-[0.3em] hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-primary/20 rounded-2xl" 
                   onClick={handleSubmitWork}
                   disabled={actionLoadingId === submittingTicket.id}
                 >
-                  {actionLoadingId === submittingTicket.id ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Log Protocol Data'}
+                   {actionLoadingId === submittingTicket.id ? <Loader2 className="w-5 h-5 animate-spin" /> : 'บันทึกข้อมูล'}
                 </Button>
               </div>
             </motion.div>
@@ -307,14 +284,14 @@ export const TechnicianDashboard = () => {
                 <Wrench className="w-8 h-8" />
               </div>
                   <div>
-                <h1 className="text-4xl md:text-5xl font-headline font-black tracking-tighter text-foreground dark:text-white leading-none">
-                  {t('technician.portal_title')}
+                 <h1 className="text-4xl md:text-5xl font-headline font-black tracking-tighter text-foreground dark:text-white leading-none">
+                  พอร์ทัลช่างเทคนิค
                 </h1>
-                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary/60 mt-2 ml-1">Terminal_Sector_01</p>
+                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary/60 mt-2 ml-1">ศูนย์เทคนิค 01</p>
               </div>
             </div>
             <p className="text-lg text-muted-foreground max-w-xl ml-1 font-medium leading-relaxed italic">
-               {t('technician.portal_desc')}
+               ดูงานซ่อมที่ได้รับมอบหมายและส่งรายงานการทำงาน
             </p>
           </div>
  
@@ -324,7 +301,7 @@ export const TechnicianDashboard = () => {
               className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-500 whitespace-nowrap flex items-center gap-2 ${activeTab === 'assigned' ? 'bg-primary text-primary-foreground shadow-lg scale-[1.02]' : 'text-muted-foreground/40 hover:text-foreground'}`}
             >
               <Zap className="w-4 h-4" />
-              {t('technician.active_jobs')}
+               งานที่มอบหมาย
               <span className="ml-1 bg-black/20 dark:bg-white/10 px-1.5 py-0.5 rounded-md">{assignedTickets.length}</span>
             </button>
             <button
@@ -332,7 +309,7 @@ export const TechnicianDashboard = () => {
               className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-500 whitespace-nowrap flex items-center gap-2 ${activeTab === 'history' ? 'bg-primary text-primary-foreground shadow-lg scale-[1.02]' : 'text-muted-foreground/40 hover:text-foreground'}`}
             >
               <ClipboardCheck className="w-4 h-4" />
-              {t('technician.history')}
+               ประวัติการทำงาน
               <span className="ml-1 bg-black/20 dark:bg-white/10 px-1.5 py-0.5 rounded-md">{historyTickets.length}</span>
             </button>
           </div>
@@ -359,7 +336,7 @@ export const TechnicianDashboard = () => {
                  <div className="p-2 bg-primary/10 text-primary rounded-lg border border-primary/20">
                     <Activity className="w-5 h-5" />
                  </div>
-                 <h3 className="text-xl font-headline font-black text-foreground dark:text-white uppercase tracking-widest underline decoration-primary/30 underline-offset-8">Terminal_Active_Load</h3>
+                 <h3 className="text-xl font-headline font-black text-foreground dark:text-white uppercase tracking-widest underline decoration-primary/30 underline-offset-8">รายการงานปัจจุบัน</h3>
               </div>
 
               {assignedTickets.length === 0 ? (
@@ -371,7 +348,7 @@ export const TechnicianDashboard = () => {
                   <div className="mx-auto w-24 h-24 bg-muted dark:bg-white/5 rounded-3xl flex items-center justify-center mb-8 text-muted-foreground/20 border border-border dark:border-white/5 shadow-inner">
                     <ShieldCheck className="w-12 h-12" />
                   </div>
-                  <p className="text-2xl font-headline font-black text-foreground/40 dark:text-white/20 uppercase tracking-[0.2em]">{t('technician.no_active')}</p>
+                   <p className="text-2xl font-headline font-black text-foreground/40 dark:text-white/20 uppercase tracking-[0.2em]">ไม่มีงานที่ค้างอยู่</p>
                 </motion.div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -395,7 +372,7 @@ export const TechnicianDashboard = () => {
                  <div className="p-2 bg-muted text-muted-foreground rounded-lg border border-border">
                     <ClipboardCheck className="w-5 h-5" />
                  </div>
-                 <h3 className="text-xl font-headline font-black text-foreground/40 dark:text-white/40 uppercase tracking-widest underline decoration-border underline-offset-8">Unit_History_Archive</h3>
+                 <h3 className="text-xl font-headline font-black text-foreground/40 dark:text-white/40 uppercase tracking-widest underline decoration-border underline-offset-8">คลังประวัติงาน</h3>
               </div>
 
               {historyTickets.length === 0 ? (
@@ -404,7 +381,7 @@ export const TechnicianDashboard = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   className="py-32 text-center border-2 border-dashed border-border dark:border-white/10 rounded-[2.5rem] text-muted-foreground bg-card/50 dark:bg-black/10 backdrop-blur-sm"
                 >
-                  <p className="text-lg font-headline font-black text-foreground/20 dark:text-white/10 uppercase tracking-[0.2em]">{t('technician.no_history')}</p>
+                   <p className="text-lg font-headline font-black text-foreground/20 dark:text-white/10 uppercase tracking-[0.2em]">ไม่มีประวัติการทำงาน</p>
                 </motion.div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

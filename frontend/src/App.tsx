@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
 import { AuthLayout } from '@/components/layout/AuthLayout';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
@@ -17,6 +17,7 @@ import { TicketDispatch } from '@/pages/Manager/TicketDispatch';
 import { TechnicianManagement } from '@/pages/Manager/TechnicianManagement';
 import { FacilityExplorer } from '@/pages/Student/FacilityExplorer';
 import { LandingPage } from '@/pages/LandingPage';
+import { NotFound } from '@/pages/NotFound';
 
 export function App() {
   return (
@@ -89,7 +90,7 @@ export function App() {
 
           {/* Default Route Redirect */}
           <Route path="/" element={<LandingPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFound />} />
           
         </Routes>
       </BrowserRouter>
