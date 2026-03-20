@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Shield, Zap, Lock, Award, Heart, Sparkles, ChevronRight, Github, Globe, Users, ArrowRight, MousePointer2 } from 'lucide-react';
+import { Shield, Zap, Lock, Award, Sparkles, Github, Globe, Users, ArrowRight, MousePointer2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useRef } from 'react';

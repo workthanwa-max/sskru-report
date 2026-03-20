@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import db from '../config/db';
 import { hashPassword } from './modules/auth/authService';
 
@@ -121,10 +122,12 @@ async function seedTickets() {
 }
 
 // Mandatory execution when run through CLI
-seedDatabase().then(() => {
-  console.log('--- Seeding execution finalized. ---');
-  process.exit(0);
-}).catch(err => {
-  console.error('--- Seeding execution failed. ---', err);
-  process.exit(1);
-});
+if (require.main === module || (process.argv[1] && process.argv[1].endsWith('seed.ts'))) {
+  seedDatabase().then(() => {
+    console.log('--- Seeding execution finalized. ---');
+    process.exit(0);
+  }).catch(err => {
+    console.error('--- Seeding execution failed. ---', err);
+    process.exit(1);
+  });
+}

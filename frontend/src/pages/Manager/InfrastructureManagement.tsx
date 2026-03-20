@@ -20,7 +20,7 @@ type Room = { id: number; floor_id: number; room_number: string; room_name: stri
 type Category = { id: number; category_name: string };
 
 export const InfrastructureManagement = () => {
-  const { t } = useTranslation();
+  useTranslation();
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<'facilities' | 'categories'>('facilities');
   

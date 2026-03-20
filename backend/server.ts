@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import app from './src/app';
 import './config/db'; // เชื่อมต่อฐานข้อมูลและสร้างตาราง
-import { seedDatabase } from './src/seed';
 
 const PORT = process.env.PORT || 3000;
 
