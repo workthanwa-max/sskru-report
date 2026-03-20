@@ -61,7 +61,7 @@ export function App() {
               </Route>
 
               <Route path="/dashboard/infrastructure" element={
-                <ProtectedRoute allowedRoles={['Manager']} />
+                <ProtectedRoute allowedRoles={['Manager', 'Admin']} />
               }>
                 <Route index element={<InfrastructureManagement />} />
               </Route>

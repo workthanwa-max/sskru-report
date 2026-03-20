@@ -1,7 +1,7 @@
 import { Navigate, Outlet, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LogOut, User as UserIcon, Home, Map, ClipboardList, Users, Menu as MenuIcon, X } from 'lucide-react';
+import { LogOut, User as UserIcon, Home, Map, ClipboardList, Users, Menu as MenuIcon, X, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import theme from '@/theme/theme';
 import { useTranslation } from 'react-i18next';
@@ -28,6 +28,7 @@ export const DashboardLayout = () => {
     { to: `/dashboard/${user.role.toLowerCase()}`, icon: Home, label: t('nav.dashboard') },
     { to: '/profile', icon: UserIcon, label: t('nav.profile') },
     ...(user.role === 'Student' ? [{ to: '/dashboard/facilities', icon: Map, label: t('nav.facilities') }] : []),
+    ...(user.role === 'Admin' || user.role === 'Manager' ? [{ to: '/dashboard/infrastructure', icon: Building2, label: t('common.infrastructure') || 'Infrastructure' }] : []),
     ...(user.role === 'Manager' ? [
       { to: '/dashboard/dispatch', icon: ClipboardList, label: t('nav.dispatch') },
       { to: '/dashboard/technicians', icon: Users, label: t('nav.members') }

@@ -119,3 +119,12 @@ async function seedTickets() {
     console.error('❌ Error seeding tickets:', error);
   }
 }
+
+// Mandatory execution when run through CLI
+seedDatabase().then(() => {
+  console.log('--- Seeding execution finalized. ---');
+  process.exit(0);
+}).catch(err => {
+  console.error('--- Seeding execution failed. ---', err);
+  process.exit(1);
+});

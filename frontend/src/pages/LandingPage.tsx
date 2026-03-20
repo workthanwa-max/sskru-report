@@ -1,230 +1,259 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Shield, Zap, Lock, Award, Heart, Sparkles, ChevronRight, Github, Globe, Users, Database } from 'lucide-react';
+import { Shield, Zap, Lock, Award, Heart, Sparkles, ChevronRight, Github, Globe, Users, ArrowRight, MousePointer2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { useRef } from 'react';
 
 export const LandingPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: containerRef });
+  
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
 
   const architects = t('landing.architects', { returnObjects: true }) as string[];
 
   return (
-    <div className="min-h-screen bg-[#fafaf9] text-slate-900 selection:bg-primary/20 selection:text-primary overflow-x-hidden font-sans">
-      {/* Premium Aesthetic Layers - White & Gold */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-[60rem] h-[60rem] bg-primary/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] left-[-5%] w-[50rem] h-[50rem] bg-amber-200/20 blur-[150px] rounded-full" />
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] opacity-[0.4] pointer-events-none" />
+    <div ref={containerRef} className="min-h-screen bg-[#fdfcfb] text-[#1a1a1a] selection:bg-primary/30 selection:text-primary overflow-x-hidden font-sans antialiased">
+      {/* 💎 Ultra-Premium Aesthetic Layers */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[-20%] right-[-10%] w-[80rem] h-[80rem] bg-primary/10 blur-[180px] rounded-full animate-pulse" />
+        <div className="absolute bottom-[-20%] left-[-10%] w-[70rem] h-[70rem] bg-amber-100/30 blur-[200px] rounded-full" />
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/linen.png')] opacity-[0.1] mix-blend-multiply" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/10" />
       </div>
 
-      {/* Navigation - High-Fidelity Institutional Header */}
-      <nav className="fixed top-0 left-0 w-full z-50 px-8 py-6 md:px-16 md:py-8 flex justify-between items-center backdrop-blur-2xl bg-white/70 border-b border-primary/20 shadow-[0_15px_50px_rgba(0,0,0,0.03)] focus:outline-none">
+      {/* 🧭 Sophisticated Institutional Navigation */}
+      <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 md:px-12 md:py-6 flex justify-between items-center transition-all duration-700 bg-white/40 backdrop-blur-3xl border-b border-primary/10 shadow-[0_10px_40px_rgba(0,0,0,0.02)]">
         <motion.div 
-          initial={{ opacity: 0, x: -20 }}
+          initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-center gap-6 group cursor-pointer"
+          className="flex items-center gap-5 group cursor-pointer"
           onClick={() => navigate('/')}
         >
-          <div className="relative group">
-             <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-             <div className="relative w-16 h-16 md:w-20 md:h-20 bg-white rounded-[1.5rem] border-2 border-primary/10 p-2 shadow-2xl transform transition-all duration-700 group-hover:scale-110 group-hover:-rotate-3">
-                <img src="/sskru-logo.png" alt="University Logo" className="w-full h-full object-contain" />
+          <div className="relative">
+             <div className="absolute inset-0 bg-primary/30 blur-2xl rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+             <div className="relative w-14 h-14 md:w-16 md:h-16 bg-white rounded-2xl border border-primary/15 p-2.5 shadow-xl transform transition-all duration-700 group-hover:rotate-[360deg] group-hover:scale-110">
+                <img src="/sskru-logo.png" alt="SSKRU" className="w-full h-full object-contain" />
              </div>
           </div>
-          <div>
-             <h1 className="font-headline font-black text-2xl md:text-3xl uppercase tracking-tighter leading-none text-slate-900">{t('landing.title')}</h1>
-             <p className="text-[10px] font-black text-primary uppercase tracking-[0.5em] mt-1.5 opacity-80 italic">SSKRU_Systems_Registry</p>
+          <div className="flex flex-col">
+             <h1 className="font-headline font-black text-xl md:text-2xl uppercase tracking-[-0.03em] leading-none text-[#1a1a1a]">{t('landing.title')}</h1>
+             <div className="flex items-center gap-2 mt-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                <p className="text-[9px] font-black text-primary uppercase tracking-[0.5em] italic opacity-70">REGISTRY_PROTOCOL_ACTIVE</p>
+             </div>
           </div>
         </motion.div>
 
         <motion.div 
-          initial={{ opacity: 0, x: 20 }}
+          initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-center gap-10"
+          className="flex items-center gap-8"
         >
-          <LanguageSwitcher className="bg-white/50 border-primary/10 shadow-sm" />
-          <Button 
-            onClick={() => navigate('/login')}
-            className="hidden lg:flex bg-slate-900 text-white hover:bg-primary font-black text-[10px] uppercase tracking-[0.3em] px-12 rounded-2xl h-14 transition-all shadow-xl shadow-slate-900/10 border-2 border-white"
-          >
-            {t('landing.start_button')}
-          </Button>
+          <div className="hidden lg:flex gap-10">
+             {['Platform', 'Sectors', 'Architecture', 'Integrations'].map((link) => (
+                <a key={link} href="#" className="text-[10px] font-black uppercase tracking-[0.3em] text-[#1a1a1a]/40 hover:text-primary transition-colors">{link}</a>
+             ))}
+          </div>
+          <div className="flex items-center gap-6 pl-6 border-l border-primary/10">
+             <LanguageSwitcher />
+             <Button 
+               onClick={() => navigate('/login')}
+               className="bg-[#1a1a1a] text-white hover:bg-primary font-black text-[10px] uppercase tracking-[0.3em] px-8 rounded-xl h-12 transition-all shadow-2xl hover:-translate-y-1 active:scale-95 border border-white/10"
+             >
+               {t('landing.start_button')}
+             </Button>
+          </div>
         </motion.div>
       </nav>
 
-      <main className="relative pt-64 pb-48 px-8 md:px-16 container mx-auto">
-        {/* Hero Section */}
-        <section className="flex flex-col items-center text-center space-y-16 mb-64">
+      {/* 🚀 Hero Section - The Mission Gateway */}
+      <main className="relative z-10 pt-64 pb-32">
+        <section className="container mx-auto px-6 md:px-12 flex flex-col items-center text-center">
            <motion.div 
-             initial={{ opacity: 0, scale: 0.9 }}
-             animate={{ opacity: 1, scale: 1 }}
-             className="px-10 py-3.5 bg-primary/5 border border-primary/20 rounded-full text-[11px] font-black text-primary uppercase tracking-[0.6em] shadow-sm flex items-center gap-4 hover:bg-primary/10 transition-colors"
+             style={{ opacity, scale }}
+             className="flex flex-col items-center space-y-12 mb-40"
            >
-              <div className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(var(--primary),0.5)]" />
-              SSKRU_UNIT_READY
-           </motion.div>
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="px-8 py-3 bg-white border border-primary/20 rounded-full shadow-lg flex items-center gap-4 group hover:border-primary transition-all duration-500 cursor-default"
+              >
+                 <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+                 <span className="text-[10px] font-black text-primary uppercase tracking-[0.5em] group-hover:tracking-[0.6em] transition-all">SYSTEM_READY_FOR_DISPATCH</span>
+              </motion.div>
 
-           <div className="space-y-8 max-w-7xl">
-              <motion.h1 
+              <div className="relative space-y-4">
+                 <motion.h1 
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 1 }}
+                    className="text-[4.5rem] md:text-[11rem] font-headline font-black text-[#1a1a1a] tracking-[-0.05em] leading-[0.85] uppercase italic"
+                 >
+                    Unified<br/>
+                    <span className="text-primary not-italic relative">
+                       Support.
+                       <motion.div 
+                         initial={{ width: 0 }}
+                         animate={{ width: '100%' }}
+                         transition={{ delay: 1, duration: 1.5 }}
+                         className="absolute -bottom-4 left-0 h-3 bg-primary/20 rounded-full" 
+                        />
+                    </span>
+                 </motion.h1>
+              </div>
+
+              <motion.p 
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="text-[4rem] md:text-[9.5rem] font-headline font-black text-slate-900 tracking-[-0.04em] leading-[0.8] uppercase italic"
+                transition={{ delay: 0.4 }}
+                className="text-xl md:text-3xl text-[#1a1a1a]/60 max-w-4xl leading-tight font-medium italic border-l-4 border-primary/20 pl-10 text-left md:text-center mt-12 bg-white/30 backdrop-blur-sm p-6 rounded-3xl"
               >
-                 Unified<br/><span className="text-primary not-italic">Support.</span>
-              </motion.h1>
-           </div>
+                 {t('landing.desc')}
+              </motion.p>
 
-           <motion.p 
-             initial={{ opacity: 0, y: 30 }}
-             animate={{ opacity: 1, y: 0 }}
-             transition={{ delay: 0.4 }}
-             className="text-xl md:text-3xl text-slate-500/70 max-w-5xl leading-tight font-medium italic border-l-8 border-primary/10 pl-12 mt-10 text-left md:text-center"
-           >
-              {t('landing.desc')}
-           </motion.p>
-           
-           <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="pt-10"
-           >
-              <Button 
-                onClick={() => navigate('/login')}
-                className="h-24 px-16 rounded-[2.5rem] bg-slate-900 text-white font-black text-sm uppercase tracking-[0.3em] hover:bg-primary hover:scale-105 active:scale-95 transition-all shadow-2xl group border-4 border-white"
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.6 }}
+                className="flex flex-col md:flex-row gap-6 pt-12"
               >
-                <span className="flex items-center gap-6">{t('landing.start_button')} <ChevronRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" /></span>
-              </Button>
+                 <Button 
+                   onClick={() => navigate('/login')}
+                   className="h-20 px-14 rounded-2xl bg-[#1a1a1a] text-white font-black text-xs uppercase tracking-[0.4em] hover:bg-primary shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] hover:shadow-primary/30 active:scale-95 transition-all group border-2 border-white/20"
+                 >
+                   <span className="flex items-center gap-5">{t('landing.start_button')} <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" /></span>
+                 </Button>
+                 
+                 <Button 
+                    variant="ghost"
+                    className="h-20 px-14 rounded-2xl text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white border-2 border-primary/20 shadow-xl transition-all flex items-center gap-4 group"
+                 >
+                    <MousePointer2 className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                    Explorer_Protocol
+                 </Button>
+              </motion.div>
            </motion.div>
-        </section>
 
-        {/* Feature Grid - Simplified Labels */}
-        <section className="mb-72">
-           <div className="flex items-center gap-6 mb-24 opacity-60">
-              <div className="w-16 h-[2.5px] bg-primary" />
-              <h2 className="text-[10px] font-black uppercase tracking-[1em] text-slate-400 font-sans italic">{t('landing.features_title')}</h2>
-              <div className="flex-1 h-[1px] bg-slate-200" />
-           </div>
-
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-14">
+           {/* 🧬 Feature Cards - The Digital Dossier */}
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full mb-64">
               {[
-                { icon: Shield, title: t('landing.feature_1_title'), desc: t('landing.feature_1_desc'), color: "text-primary bg-primary/5 border-primary/10" },
-                { icon: Zap, title: t('landing.feature_2_title'), desc: t('landing.feature_2_desc'), color: "text-slate-800 bg-slate-50 border-slate-200" },
-                { icon: Lock, title: t('landing.feature_3_title'), desc: t('landing.feature_3_desc'), color: "text-primary bg-primary/5 border-primary/10" }
-              ].map((feature, i) => (
+                { icon: Shield, title: t('landing.feature_1_title'), desc: t('landing.feature_1_desc'), color: "bg-primary/5 border-primary/10 text-primary" },
+                { icon: Zap, title: t('landing.feature_2_title'), desc: t('landing.feature_2_desc'), color: "bg-[#1a1a1a] border-white/10 text-white" },
+                { icon: Lock, title: t('landing.feature_3_title'), desc: t('landing.feature_3_desc'), color: "bg-white border-primary/10 text-[#1a1a1a]" }
+              ].map((f, i) => (
                 <motion.div 
-                  key={i}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 1 }}
-                  className="bg-white p-16 rounded-[4.5rem] group hover:shadow-[0_60px_120px_rgba(0,0,0,0.08)] transition-all duration-1000 border border-slate-100 flex flex-col items-center text-center shadow-sm"
+                   key={i}
+                   initial={{ opacity: 0, y: 60 }}
+                   whileInView={{ opacity: 1, y: 0 }}
+                   viewport={{ once: true }}
+                   transition={{ delay: i * 0.1, duration: 0.8 }}
+                   className={`p-12 md:p-16 rounded-[4rem] border group hover:-translate-y-4 transition-all duration-700 shadow-2xl relative overflow-hidden ${f.color}`}
                 >
-                   <div className={`w-24 h-24 rounded-[2rem] flex items-center justify-center mb-12 border-2 ${feature.color} shadow-inner transition-all group-hover:scale-110 group-hover:rotate-6`}>
-                      <feature.icon className="w-10 h-10" />
+                   <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-20 h-20 rounded-2xl bg-white/10 backdrop-blur-3xl flex items-center justify-center mb-10 border border-white/20 shadow-inner group-hover:scale-110 group-hover:rotate-6 transition-all">
+                         <f.icon className="w-8 h-8" />
+                      </div>
+                      <h3 className="text-3xl font-headline font-black uppercase tracking-tighter mb-6 leading-none">{f.title}</h3>
+                      <p className="font-medium italic opacity-60 text-sm leading-relaxed max-w-[240px]">{f.desc}</p>
                    </div>
-                   <h3 className="text-3xl font-headline font-black uppercase tracking-tighter mb-8 text-slate-900 leading-none">{feature.title}</h3>
-                   <p className="text-slate-400 font-medium italic leading-relaxed text-sm max-w-[220px]">{feature.desc}</p>
+                   <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/5 blur-3xl rounded-full" />
                 </motion.div>
               ))}
            </div>
-        </section>
 
-        {/* The Architects Section */}
-        <section className="relative overflow-hidden rounded-[5.5rem] bg-white border-2 border-primary/5 shadow-2xl p-16 md:p-32">
-           <div className="absolute top-0 right-0 p-24 opacity-5 pointer-events-none">
-              <Award className="w-96 h-96 text-primary rotate-12" />
-           </div>
-           <div className="absolute -bottom-20 -left-20 w-[40rem] h-[40rem] bg-primary/5 blur-[150px] rounded-full pointer-events-none" />
+           {/* ✍️ The Architects Section - Premium Dossier Style */}
+           <section className="relative w-full rounded-[4.5rem] bg-[#1a1a1a] shadow-[0_60px_120px_-30px_rgba(0,0,0,0.6)] p-12 md:p-24 overflow-hidden text-white border border-white/5">
+              <div className="absolute top-0 right-0 p-24 opacity-5">
+                 <Award className="w-96 h-96 rotate-12" />
+              </div>
+              <div className="absolute -bottom-40 -left-40 w-[60rem] h-[60rem] bg-primary/20 blur-[180px] rounded-full pointer-events-none" />
 
-           <div className="relative z-10 space-y-20">
-              <div className="flex flex-col md:flex-row justify-between items-end gap-12 border-b border-primary/10 pb-16">
-                 <div className="space-y-6 max-w-4xl">
-                    <div className="flex items-center gap-5">
-                       <div className="p-4 bg-primary/10 text-primary rounded-2xl border border-primary/10 shadow-xl">
-                          <Award className="w-10 h-10" />
-                       </div>
-                       <div>
-                          <h2 className="text-5xl md:text-7xl font-headline font-black uppercase tracking-tighter text-slate-900 italic">{t('landing.credits_title')}</h2>
-                          <div className="flex items-center gap-3 mt-4">
-                             <Sparkles className="w-4 h-4 text-primary animate-pulse" />
-                             <p className="text-[11px] font-black text-primary uppercase tracking-[0.5em]">Senior_System_Design_Council</p>
+              <div className="relative z-10 space-y-16">
+                 <div className="flex flex-col md:flex-row justify-between items-end gap-10 border-b border-white/10 pb-16">
+                    <div className="space-y-6">
+                       <div className="flex items-center gap-5">
+                          <div className="w-14 h-14 bg-primary text-white rounded-2xl flex items-center justify-center shadow-2xl border border-white/20">
+                             <Award className="w-7 h-7" />
+                          </div>
+                          <div>
+                             <h2 className="text-5xl md:text-8xl font-headline font-black uppercase tracking-tighter italic">{t('landing.credits_title')}</h2>
+                             <div className="flex items-center gap-3 mt-4">
+                                <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+                                <p className="text-[10px] font-black text-primary uppercase tracking-[0.5em]">SENIOR_SYSTEM_DESIGN_COUNCIL</p>
+                             </div>
                           </div>
                        </div>
                     </div>
-                    <p className="text-2xl text-slate-500/80 leading-snug font-medium italic mt-10">
-                       {t('landing.inspiration_note')}
-                    </p>
                  </div>
-              </div>
 
-              {/* Architects Registry List */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                 {Array.isArray(architects) && architects.map((name, i) => (
-                    <motion.div 
-                       key={i}
-                       initial={{ opacity: 0, x: -20 }}
-                       whileInView={{ opacity: 1, x: 0 }}
-                       transition={{ delay: i * 0.1 }}
-                       className="group flex items-center gap-8 bg-slate-50/50 p-10 rounded-[2.5rem] border border-slate-100 hover:bg-white hover:shadow-xl transition-all duration-700 cursor-default"
-                    >
-                       <div className="w-16 h-16 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-xl font-black text-primary shadow-sm group-hover:border-primary/40 transition-colors">
-                          {i + 1}
-                       </div>
-                       <div className="space-y-1">
-                          <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.4em]">Architect_IDN_{i.toString().padStart(2, '0')}</p>
-                          <p className="text-xl font-headline font-black text-slate-900 uppercase tracking-tighter leading-none">{name}</p>
-                       </div>
-                    </motion.div>
-                 ))}
-                 
-                 <div className="group flex flex-col justify-center items-center gap-4 bg-primary/[0.02] p-10 rounded-[2.5rem] border border-dashed border-primary/20 opacity-60">
-                    <Heart className="w-6 h-6 text-primary mb-2" />
-                    <p className="text-[10px] font-black uppercase tracking-widest text-primary/60 text-center">Institutional Acknowledgement for Collaborative Excellence</p>
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {architects.map((name, i) => (
+                       <motion.div 
+                          key={i}
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          className="group p-10 bg-white/5 rounded-[2.5rem] border border-white/10 hover:bg-primary transition-all duration-700 hover:scale-105"
+                       >
+                          <div className="flex items-center gap-6">
+                             <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-xl font-black group-hover:bg-white group-hover:text-primary transition-all">
+                                {i + 1}
+                             </div>
+                             <div>
+                                <p className="text-[8px] font-black text-white/30 uppercase tracking-widest group-hover:text-white/60">ARCHITECT_IDN_{i.toString().padStart(2, '0')}</p>
+                                <p className="text-xl font-headline font-black uppercase tracking-tight group-hover:italic">{name}</p>
+                             </div>
+                          </div>
+                       </motion.div>
+                    ))}
+                    <div className="flex flex-col justify-center items-center gap-2 p-10 bg-primary/5 rounded-[2.5rem] border border-dashed border-primary/20 opacity-40">
+                       <p className="text-[9px] font-black uppercase tracking-[0.4em] text-center italic leading-relaxed">INSTITUTIONAL_ACKNOWLEDGEMENT_COLLABORATIVE_MISSION_SSKRU</p>
+                    </div>
                  </div>
               </div>
-           </div>
+           </section>
         </section>
       </main>
 
-      {/* Institutional Footer */}
-      <footer className="relative pt-48 pb-20 px-8 md:px-16 bg-[#ffffff] border-t-8 border-primary/5 overflow-hidden">
-         <div className="max-w-7xl mx-auto space-y-24 text-center lg:text-left">
+      {/* 🏛️ Institutional Footer */}
+      <footer className="relative pt-48 pb-20 px-8 bg-white border-t-8 border-primary/10">
+         <div className="max-w-7xl mx-auto space-y-24">
             <div className="flex flex-col lg:flex-row justify-between items-center gap-20">
-               <div className="flex flex-col items-center lg:items-start gap-10">
-                  <div className="flex items-center gap-8">
-                     <div className="w-24 h-24 bg-white rounded-3xl border shadow-2xl p-3 transform -rotate-6">
-                        <img src="/sskru-logo.png" alt="University Logo" className="w-full h-full object-contain" />
+               <div className="flex flex-col items-center lg:items-start space-y-10">
+                  <div className="flex items-center gap-8 group">
+                     <div className="w-20 h-20 bg-white rounded-3xl border border-primary/10 shadow-2xl p-3 transform transition-transform group-hover:-rotate-12 duration-500">
+                        <img src="/sskru-logo.png" alt="University" className="w-full h-full object-contain" />
                      </div>
                      <div>
-                        <h2 className="font-headline font-black text-4xl tracking-tighter uppercase italic text-slate-900 leading-none">SSKRU_REPORT.</h2>
-                        <p className="text-[11px] font-black text-primary uppercase tracking-[0.6em] mt-3 italic">Administrative_Systems_Registry</p>
+                        <h2 className="font-headline font-black text-4xl tracking-tighter uppercase italic text-[#1a1a1a]">SSKRU_REPORT.</h2>
+                        <p className="text-[10px] font-black text-primary uppercase tracking-[0.5em] mt-3 italic opacity-60">REGISTRY_PROTOCOL_CONTROL</p>
                      </div>
                   </div>
-                  <p className="text-[11px] font-black text-slate-400 uppercase tracking-[1em] max-w-sm leading-relaxed mx-auto lg:mx-0">
+                  <p className="text-[10px] font-black text-[#1a1a1a]/30 uppercase tracking-[1em] max-w-sm leading-relaxed text-center lg:text-left">
                      {t('landing.all_rights')}
                   </p>
                </div>
 
-               <div className="flex flex-col items-center lg:items-end gap-10">
-                  <div className="flex gap-14 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-1000">
-                     <Github className="w-7 h-7" />
-                     <Globe className="w-7 h-7" />
-                     <Users className="w-7 h-7" />
+               <div className="flex flex-col items-center lg:items-end space-y-12">
+                  <div className="flex gap-12 text-[#1a1a1a]/20">
+                     <Github className="w-6 h-6 hover:text-primary cursor-pointer transition-colors" />
+                     <Globe className="w-6 h-6 hover:text-primary cursor-pointer transition-colors" />
+                     <Users className="w-6 h-6 hover:text-primary cursor-pointer transition-colors" />
                   </div>
-                  <div className="bg-slate-50 px-10 py-5 rounded-full border border-slate-100 flex items-center gap-5 shadow-inner">
-                     <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
-                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] italic leading-none">DATA_PROTOCOL_HEARTBEAT_SECURE</span>
+                  <div className="flex items-center gap-4 bg-[#1a1a1a]/5 px-8 py-4 rounded-full border border-[#1a1a1a]/10 backdrop-blur-lg">
+                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-slow-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                     <span className="text-[9px] font-black text-[#1a1a1a]/40 uppercase tracking-[0.4em] italic">SECURE_MISSION_DATA_HEARTBEAT</span>
                   </div>
                </div>
             </div>
 
-            <div className="pt-20 border-t border-slate-100 text-center opacity-10">
-               <p className="text-[9px] font-black uppercase tracking-[2em] text-slate-400">ADMINISTRATIVE_GEO_REGISTRY_PROTOCOLS_V2.5</p>
+            <div className="pt-20 border-t border-primary/5 text-center opacity-10">
+               <p className="text-[8px] font-black uppercase tracking-[2.5em] text-[#1a1a1a]">ADMINISTRATIVE_PROTOCOL_GEO_REGISTRY_V2.5</p>
             </div>
          </div>
       </footer>

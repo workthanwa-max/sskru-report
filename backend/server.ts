@@ -5,9 +5,7 @@ import { seedDatabase } from './src/seed';
 
 const PORT = process.env.PORT || 3000;
 
-// Auto-seed if needed
-seedDatabase().catch(err => console.error('Auto-seeding failed:', err));
-
+// Server entry - No auto-seeding to ensure registry integrity
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

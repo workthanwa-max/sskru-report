@@ -44,17 +44,20 @@ This system was envisioned and engineered by the following **1st-Year Software E
 
 ---
 
-## 🚦 System Initialization
+## 🚦 System Initialization (Mission-Critical Sequence)
+> [!IMPORTANT]
+> You **MUST** execute the Registry Seeding protocol BEFORE activating the server to ensure institutional structural integrity.
 
 ### 📥 Prerequisite: Repository Deployment
-1.  Ensure **Bun** is installed on your system.
+1.  Ensure **Bun** or **Node.js** is installed.
 2.  Clone the institutional repository.
 
-### ⚙️ Registry Activation (Backend)
+### ⚙️ Registry Activation & Seeding (Backend)
 ```bash
 cd backend
-bun install
-bun run dev
+npm install
+npm run seed     # CRITICAL: Prepare structural data first
+npm run dev      # Start operational server
 ```
 
 ### 🖥️ Interface Linkage (Frontend)
